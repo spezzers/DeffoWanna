@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+}
+
+body .overlay {
+  position: fixed;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+body .texture {
+  background: url("../images/carpetTexture1080.png");
+  background-repeat: repeat;
+  background-size: 500px 500px;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.04;
+}
+
+body .vignette {
+  width: 100vmax;
+  height: 100vmax;
+  background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
+}
+
+body .bosh {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 0 solid;
+  border-color: rgba(255, 255, 255, 0);
+  background-color: white;
+  position: absolute;
+  -webkit-transition-property: background-color, border, width, height, margin;
+  transition-property: background-color, border, width, height, margin;
+  -webkit-transition-duration: 0.4s;
+          transition-duration: 0.4s;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+}
+
+body .bosh:hover {
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  border: 100vmax solid;
+  border-color: white;
+  height: 60vmax;
+  width: 60vmax;
+  margin-left: -130vmax;
+  margin-top: -130vmax;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+body .bosh.pnlm-info {
+  background-position: 0 -104px;
+  background-color: red;
+}
+
+body .bosh.pnlm-scene {
+  background-position: 0 -130px;
+}
+/*# sourceMappingURL=style.css.map */

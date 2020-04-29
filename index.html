@@ -29,6 +29,7 @@
         const fov = () => {
             return (window.innerWidth / (window.innerHeight / 60 ))
         }
+        
         pannellum.viewer('panorama', {
             "type": "equirectangular",
             "autoLoad": true,
@@ -40,25 +41,24 @@
             "panorama": "/images/Sample_1_45.jpg",
             "minHfov": 55,
             "maxHfov": 80,
-            "friction": 0.4,
+            "hfov": fov(),
+            "friction": 0.2,
+            "backgroundColor": [178, 178, 178],
+            "hotSpotDebug": false,
             "hotSpots": [
                 {
-                "pitch": -40,
-                "yaw": 40,
+                "pitch": 0.0579,
+                "yaw": 11.9742,
                 "type": "info",
                 "id": 1,
-                "targetYaw": 80,
-                "targetPitch": 80,
-                "cssClass": "bosh tang"
+                "cssClass": "bosh"
                 },
                 {
                 "pitch": 5,
                 "yaw": 80,
                 "type": "info",
                 "id": 2,
-                "targetYaw": 80,
-                "targetPitch": 80,
-                "cssClass": "bosh tang"
+                "cssClass": "bosh"
                 }
         ]
         });

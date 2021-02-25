@@ -8,7 +8,6 @@ const CenterFlex = styled.div`
 	height: 100vh;
 	width: 100vw;
 	flex-direction: column;
-	align-content: center;
 	justify-content: center;
 	align-items: center;
 
@@ -23,6 +22,7 @@ const LandingSplash = () => {
 		<CenterFlex>
 			<img id="logo" src={logo} alt="animated logo"/>
 			<h2>Design & Web Development</h2>
+			<p>(website coming soon!)</p>
 		</CenterFlex>
 	)
 }

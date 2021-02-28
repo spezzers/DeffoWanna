@@ -1,1 +1,0 @@
-img.src = "images/logos/Deffo-Wanna-Logo-Animation.gif"+"?a="+Math.random();

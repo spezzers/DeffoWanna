@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: "deffowanna",
+    siteUrl: "https://deffowanna.design"
   },
   plugins: [
     "gatsby-plugin-styled-components",

@@ -9,13 +9,18 @@ const Wrap = styled.div`
 	justify-content: center;
 	width: 100vw;
 	height: 100vh;
+	background-color: #191821;
 `
 
 const LogoTest = () => {
 	return (
 		<Layout>
 			<Wrap>
-				<Logo color='#52a' highlightColor='#cfd' />
+				<Logo
+					color='#65a7ed'
+					glareColor='#fce353' 
+					shadeColor='#ba2ea0'
+				/>
 			</Wrap>
 		</Layout>
 	)

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useSpring, animated, config } from 'react-spring'
-import styled from 'styled-components'
+import styled, {ThemeContext} from 'styled-components'
 import {logoPath} from './logoPath'
 
 const BaseLogo = styled(animated.svg)`
@@ -13,10 +13,11 @@ const BaseLogo = styled(animated.svg)`
 `
 
 const Logo = props => {
+	const theme = useContext(ThemeContext)
 	const defaultProps = {
-		color: props.color || '#999999',
-		shadeColor: props.shadeColor || '#000000',
-		glareColor: props.glareColor || '#ffffff',
+		color: props.color || theme.name === 'light' ? theme.purple2 : theme.purple1 || '#999999',
+		shadeColor: props.shadeColor || theme.teal1 || '#000000',
+		glareColor: props.glareColor || theme.light || '#ffffff',
 		path: logoPath.normal,
 		weight: 5,
 		glareAmount: 0,
@@ -38,8 +39,8 @@ const Logo = props => {
 		{
 			...defaultProps,
 			path: logoPath.baloon,
-			weight: 23,
-			glareAmount: 6,
+			weight: 20,
+			glareAmount: 5,
 			glareTransform: 'translate(3 -6.5)',
 			shadeAmount: 35,
 			shadeTransform: 'translate(1.8 -3.2)',
@@ -82,7 +83,7 @@ const Logo = props => {
 			</filter>
 
 			<filter id='shadeBlur'>
-				<feGaussianBlur stdDeviation='3.5' />
+				<feGaussianBlur stdDeviation='3.2' />
 			</filter>
 
 			<animated.path

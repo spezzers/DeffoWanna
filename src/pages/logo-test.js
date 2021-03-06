@@ -7,9 +7,9 @@ const Wrap = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100vw;
+	width: 100%;
 	height: 100vh;
-	background-color: #191821;
+	background-color: ${props => props.theme.bg};
 `
 
 const LogoTest = () => {
@@ -17,9 +17,9 @@ const LogoTest = () => {
 		<Layout>
 			<Wrap>
 				<Logo
-					color='#65a7ed'
-					glareColor='#fce353' 
-					shadeColor='#ba2ea0'
+					// color='#65a7ed'
+					// glareColor='#fce353' 
+					// shadeColor='#ba2ea0'
 				/>
 			</Wrap>
 		</Layout>

@@ -1,7 +1,7 @@
-import React, {useContext} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
-import styled, {ThemeContext} from 'styled-components'
-import {logoPath} from './logoPath'
+import styled, { ThemeContext } from 'styled-components'
+import { logoPath } from './logoPath'
 
 const BaseLogo = styled(animated.svg)`
 	height: 10rem;
@@ -15,7 +15,10 @@ const BaseLogo = styled(animated.svg)`
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 	const defaultProps = {
-		color: props.color || theme.name === 'light' ? theme.purple2 : theme.purple1 || '#999999',
+		color:
+			props.color || theme.name === 'dark'
+				? theme.purple2
+				: theme.purple1 || '#999999',
 		shadeColor: props.shadeColor || theme.teal1 || '#000000',
 		glareColor: props.glareColor || theme.light || '#ffffff',
 		path: logoPath.normal,
@@ -24,9 +27,9 @@ const Logo = props => {
 		glareTransform: 'translate(0 0)',
 		shadeAmount: 0,
 		shadeTransform: 'translate(0 0)',
-		filter: '',
+		filter: ''
 	}
-	
+
 	const [normal, heavy, baloon] = [
 		{
 			...defaultProps
@@ -48,10 +51,23 @@ const Logo = props => {
 		}
 	]
 
-	const [{ path, weight, glareAmount, glareTransform, color, shadeAmount, shadeTransform, filter, shadeColor, glareColor }, set] = useSpring(() => ({
+	const [logoProps, set] = useSpring(() => ({
 		...normal,
 		from: heavy
 	}))
+
+	useEffect(() => {
+		set({
+			color: defaultProps.color,
+			shadeColor: defaultProps.shadeColor,
+			glareColor: defaultProps.glareColor
+		})
+	}, [
+		set,
+		defaultProps.color,
+		defaultProps.glareColor,
+		defaultProps.shadeColor
+	])
 
 	return (
 		<BaseLogo
@@ -61,7 +77,7 @@ const Logo = props => {
 			strokeLinecap='round'
 			strokeLinejoin='round'
 			strokeMiterlimit={1.414}
-			onMouseEnter={() =>
+			onMouseEnter={() => {
 				set({
 					...baloon,
 					config: {
@@ -70,7 +86,7 @@ const Logo = props => {
 						friction: 10
 					}
 				})
-			}
+			}}
 			onMouseLeave={() =>
 				set({
 					...normal,
@@ -87,29 +103,29 @@ const Logo = props => {
 			</filter>
 
 			<animated.path
-				d={path}
+				d={logoProps.path}
 				fill='none'
-				stroke={shadeColor}
-				strokeWidth={shadeAmount}
+				stroke={logoProps.shadeColor}
+				strokeWidth={logoProps.shadeAmount}
 			/>
 
 			<animated.path
-				d={path}
+				d={logoProps.path}
 				fill='none'
-				stroke={color}
-				filter={filter}
-				strokeWidth={weight}
-				transform={shadeTransform}
+				stroke={logoProps.color}
+				filter={logoProps.filter}
+				strokeWidth={logoProps.weight}
+				transform={logoProps.shadeTransform}
 			/>
 
 			<animated.path
-				d={path}
+				d={logoProps.path}
 				fill='none'
-				strokeWidth={glareAmount}
+				strokeWidth={logoProps.glareAmount}
 				filter='url(#glareBlur)'
-				transform={glareTransform}
-				stroke={glareColor}
-			/>			
+				transform={logoProps.glareTransform}
+				stroke={logoProps.glareColor}
+			/>
 		</BaseLogo>
 	)
 }

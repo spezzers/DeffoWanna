@@ -2,7 +2,6 @@ import React from 'react'
 import logo from '../images/Deffo-Wanna-Logo-Animation.gif'
 import styled, {keyframes} from 'styled-components'
 
-
 const fadeIn = keyframes`
 	from {
 		opacity: 0;
@@ -25,6 +24,8 @@ const CenterFlex = styled.div`
 		height: 6rem;
 		width: 100%;
 		background-image: url(${logo});
+		mix-blend-mode: multiply;
+		/* filter: invert(1); */
 		background-position: center;
 		background-size: contain;
 		background-repeat: no-repeat;

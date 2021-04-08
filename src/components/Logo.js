@@ -3,8 +3,8 @@ import { useSpring, animated, config } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPath } from './logoPath'
 
-const BaseLogo = styled(animated.svg)`
-	height: 10rem;
+const StyledLogo = styled(animated.svg)`
+	height: ${props => `${props.rem * 2.2}rem` || '2rem'};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -14,7 +14,8 @@ const BaseLogo = styled(animated.svg)`
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
-	const defaultProps = {
+
+	const normal = {
 		color:
 			props.color || theme.name === 'dark'
 				? theme.purple2
@@ -29,27 +30,21 @@ const Logo = props => {
 		shadeTransform: 'translate(0 0)',
 		filter: ''
 	}
-
-	const [normal, heavy, baloon] = [
-		{
-			...defaultProps
-		},
-		{
-			...defaultProps,
-			path: logoPath.heavy,
-			weight: 25
-		},
-		{
-			...defaultProps,
-			path: logoPath.baloon,
-			weight: 20,
-			glareAmount: 5,
-			glareTransform: 'translate(3 -6.5)',
-			shadeAmount: 35,
-			shadeTransform: 'translate(1.8 -3.2)',
-			filter: 'url(#shadeBlur)'
-		}
-	]
+	const heavy = {
+		...normal,
+		path: logoPath.heavy,
+		weight: 25
+	}
+	const baloon = {
+		...normal,
+		path: logoPath.baloon,
+		weight: 20,
+		glareAmount: 5,
+		glareTransform: 'translate(3 -6.5)',
+		shadeAmount: 35,
+		shadeTransform: 'translate(1.8 -3.2)',
+		filter: 'url(#shadeBlur)'
+	}
 
 	const [logoProps, set] = useSpring(() => ({
 		...normal,
@@ -58,19 +53,15 @@ const Logo = props => {
 
 	useEffect(() => {
 		set({
-			color: defaultProps.color,
-			shadeColor: defaultProps.shadeColor,
-			glareColor: defaultProps.glareColor
+			color: normal.color,
+			shadeColor: normal.shadeColor,
+			glareColor: normal.glareColor
 		})
-	}, [
-		set,
-		defaultProps.color,
-		defaultProps.glareColor,
-		defaultProps.shadeColor
-	])
+	}, [set, normal.color, normal.glareColor, normal.shadeColor])
 
 	return (
-		<BaseLogo
+		<StyledLogo
+			rem={props.rem}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'
@@ -103,6 +94,7 @@ const Logo = props => {
 			</filter>
 
 			<animated.path
+				className='base'
 				d={logoProps.path}
 				fill='none'
 				stroke={logoProps.shadeColor}
@@ -126,7 +118,7 @@ const Logo = props => {
 				transform={logoProps.glareTransform}
 				stroke={logoProps.glareColor}
 			/>
-		</BaseLogo>
+		</StyledLogo>
 	)
 }
 

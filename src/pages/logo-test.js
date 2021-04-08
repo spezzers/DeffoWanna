@@ -17,6 +17,7 @@ const LogoTest = () => {
 		<Layout>
 			{/* <Wrap> */}
 				<Logo
+					rem={4}
 					// color='#65a7ed'
 					// glareColor='#fce353' 
 					// shadeColor='#ba2ea0'

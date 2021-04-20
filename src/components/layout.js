@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import {light, dark} from './themes'
+import ToggleDarkMode from '../components/ToggleDarkMode'
 import './layout.css'
 
 const Main = styled.div`
@@ -27,7 +28,7 @@ const Layout = ({ children }) => {
 		<ThemeProvider theme={theme}>
 			<Main>
 				{children}
-				<button onClick={toggleTheme}>Toggle Theme</button>
+				<ToggleDarkMode onClick={toggleTheme}/>
 			</Main>
 		</ThemeProvider>
 	)

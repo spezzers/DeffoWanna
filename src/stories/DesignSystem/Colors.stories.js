@@ -1,5 +1,5 @@
 import React from 'react'
-import { light, dark } from '../components/themes'
+import { light, dark } from '../../components/themes'
 import styled from 'styled-components'
 
 const Color = props => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import {light, dark} from './themes'
-import ToggleDarkMode from '../components/ToggleDarkMode'
+import { light, dark } from './themes'
+import ToggleDarkMode from './ToggleDarkMode'
 import './layout.css'
 
 const Main = styled.div`
@@ -9,14 +9,14 @@ const Main = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	background-color: ${props => props.theme.bg};
 `
 
-const Layout = ({ children }) => {
-	const [darkTheme, setDarkTheme] = useState(false)
+const Layout = ({ children, isDarkTheme }) => {
+	const [darkTheme, setDarkTheme] = useState( isDarkTheme || false)
 
-	const theme = darkTheme ? dark : light
+	const theme = isDarkTheme ? isDarkTheme : darkTheme ? dark : light
 
 	useEffect(() => {
 		document.body.style.backgroundColor = theme.bg
@@ -26,10 +26,8 @@ const Layout = ({ children }) => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Main>
 				{children}
-				<ToggleDarkMode onClick={toggleTheme}/>
-			</Main>
+				<ToggleDarkMode onClick={toggleTheme} />
 		</ThemeProvider>
 	)
 }

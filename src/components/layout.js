@@ -14,7 +14,7 @@ const Main = styled.div`
 `
 
 const Layout = ({ children, isDarkTheme }) => {
-	const [darkTheme, setDarkTheme] = useState( isDarkTheme || false)
+	const [darkTheme, setDarkTheme] = useState(isDarkTheme || false)
 
 	const theme = isDarkTheme ? isDarkTheme : darkTheme ? dark : light
 
@@ -26,8 +26,10 @@ const Layout = ({ children, isDarkTheme }) => {
 
 	return (
 		<ThemeProvider theme={theme}>
+			<Main>
 				{children}
 				<ToggleDarkMode onClick={toggleTheme} />
+			</Main>
 		</ThemeProvider>
 	)
 }

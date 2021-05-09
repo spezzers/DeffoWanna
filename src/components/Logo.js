@@ -17,11 +17,9 @@ const Logo = props => {
 
 	const normal = {
 		color:
-			props.color || theme.name === 'dark'
-				? theme.purple2
-				: theme.purple1 || '#999999',
-		shadeColor: props.shadeColor || theme.teal1 || '#000000',
-		glareColor: props.glareColor || theme.light || '#ffffff',
+			props.color || theme?.purpleText || '#777777',
+		shadeColor: props.shadeColor || theme?.teal1 || '#000000',
+		glareColor: props.glareColor || theme?.light || '#ffffff',
 		path: logoPath.normal,
 		weight: 5,
 		glareAmount: 0,
@@ -37,6 +35,7 @@ const Logo = props => {
 	}
 	const baloon = {
 		...normal,
+		color: theme?.purple2,
 		path: logoPath.baloon,
 		weight: 20,
 		glareAmount: 5,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { light, dark } from './themes'
+import themes from './themes'
 import ToggleDarkMode from './ToggleDarkMode'
 import './layout.css'
 
@@ -16,7 +16,7 @@ const Main = styled.div`
 const Layout = ({ children, isDarkTheme }) => {
 	const [darkTheme, setDarkTheme] = useState(isDarkTheme || false)
 
-	const theme = isDarkTheme ? isDarkTheme : darkTheme ? dark : light
+	const theme = isDarkTheme ? isDarkTheme : darkTheme ? themes.dark : themes.light
 
 	useEffect(() => {
 		document.body.style.backgroundColor = theme.bg

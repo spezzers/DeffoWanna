@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import themes from './themes'
 import ToggleDarkMode from './ToggleDarkMode'
 import './layout.css'
+import { useSpring, animated } from 'react-spring'
 
-const Main = styled.div`
+const Main = styled(animated.div)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -13,19 +14,24 @@ const Main = styled.div`
 	background-color: ${props => props.theme.bg};
 `
 
-const Layout = ({ children, isDarkTheme }) => {
-	const [darkTheme, setDarkTheme] = useState(isDarkTheme || false)
+const Layout = ({ children }) => {
+	const [styles, set] = useSpring(() => ({
+		// loop: true,
+		to: themes.dark,
+		from: themes.light,
+		onChange: x => document.body.style.backgroundColor = x.value.bg
+	}))
 
-	const theme = isDarkTheme ? isDarkTheme : darkTheme ? themes.dark : themes.light
-
-	useEffect(() => {
-		document.body.style.backgroundColor = theme.bg
-	}, [darkTheme, theme.bg])
-
-	const toggleTheme = () => setDarkTheme(!darkTheme)
+	const toggleTheme = () => {
+		const currentTheme = styles.name.get()
+		const newTheme = currentTheme === 'dark' ? themes.light : themes.dark
+		set({
+			to: newTheme
+		})
+	}
 
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={styles}>
 			<Main>
 				{children}
 				<ToggleDarkMode onClick={toggleTheme} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { light, dark } from '../../components/themes'
+import themes from '../../components/themes'
 import styled from 'styled-components'
 
 const Color = props => {
@@ -52,5 +52,5 @@ export default {
 	component: Colors
 }
 
-export const Light = () => <Colors theme={light} />
-export const Dark = () => <Colors theme={dark} />
+export const Light = () => <Colors theme={themes.light} />
+export const Dark = () => <Colors theme={themes.dark} />

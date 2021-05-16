@@ -1,23 +1,32 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import themes from './themes'
 import ToggleDarkMode from './ToggleDarkMode'
 import './layout.css'
-import { useSpring, animated } from 'react-spring'
+import { useSpring } from 'react-spring'
+import useResponsive from '../hooks/useResponsive'
 
+const PageWrapper = styled.div`
+	margin: 0;
+	padding: 5px 10px;
+	///// temporay style for testing 
+	pre {
+		color: red;
+	}
+	///////////////////////////////
+`
 
-const Layout = ({children, themeToggle}) => {
+const Layout = ({ children, themeToggle }) => {
+	const responsive = useResponsive()
 	const [theme, set] = useSpring(() => ({
 		to: themes.dark,
 		from: themes.light,
-		onChange: x => document.body.style.backgroundColor = x.value.bg
+		onChange: x => (document.body.style.backgroundColor = x.value.bg)
 	}))
 
 	const toggleTheme = () => () => {
 		const currentTheme = theme.name.get()
-		const newTheme = currentTheme === 'dark' 
-			? themes.light
-			: themes.dark
+		const newTheme = currentTheme === 'dark' ? themes.light : themes.dark
 		set({
 			to: newTheme
 		})
@@ -25,8 +34,14 @@ const Layout = ({children, themeToggle}) => {
 
 	return (
 		<ThemeProvider theme={theme}>
+			<PageWrapper>
+				<pre>
+					width: {responsive.windowSize.width} height:{' '}
+					{responsive.windowSize.height}
+				</pre>
 				{children}
 				<ToggleDarkMode onClick={themeToggle ? themeToggle : toggleTheme()} />
+			</PageWrapper>
 		</ThemeProvider>
 	)
 }

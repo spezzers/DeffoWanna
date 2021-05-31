@@ -18,8 +18,8 @@ const Logo = props => {
 	const normal = {
 		color:
 			props.color || theme?.purpleText || '#777777',
-		shadeColor: props.shadeColor || theme?.teal1 || '#000000',
-		glareColor: props.glareColor || theme?.light || '#ffffff',
+		shadeColor: props.shadeColor || theme?.black || '#000000',
+		glareColor: props.glareColor || theme?.white || '#ffffff',
 		path: logoPath.normal,
 		weight: 5,
 		glareAmount: 0,
@@ -35,7 +35,7 @@ const Logo = props => {
 	}
 	const baloon = {
 		...normal,
-		color: theme?.purple2,
+		color: theme.purple,
 		path: logoPath.baloon,
 		weight: 20,
 		glareAmount: 5,
@@ -85,7 +85,7 @@ const Logo = props => {
 			}
 		>
 			<filter id='glareBlur'>
-				<feGaussianBlur stdDeviation='4' />
+				<feGaussianBlur stdDeviation='3' />
 			</filter>
 
 			<filter id='shadeBlur'>

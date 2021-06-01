@@ -16,8 +16,7 @@ const Logo = props => {
 	const theme = useContext(ThemeContext)
 
 	const normal = {
-		color:
-			props.color || theme?.purpleText || '#777777',
+		color: props.color || theme?.purpleText || '#777777',
 		shadeColor: props.shadeColor || theme?.black || '#000000',
 		glareColor: props.glareColor || theme?.white || '#ffffff',
 		path: logoPath.normal,
@@ -35,14 +34,13 @@ const Logo = props => {
 	}
 	const baloon = {
 		...normal,
-		color: theme.purple,
 		path: logoPath.baloon,
 		weight: 20,
 		glareAmount: 5,
 		glareTransform: 'translate(3 -6.5)',
 		shadeAmount: 35,
 		shadeTransform: 'translate(1.8 -3.2)',
-		filter: 'url(#shadeBlur)'
+		filter: 'url(#colorSoften)'
 	}
 
 	const [logoProps, set] = useSpring(() => ({
@@ -85,10 +83,10 @@ const Logo = props => {
 			}
 		>
 			<filter id='glareBlur'>
-				<feGaussianBlur stdDeviation='3' />
+				<feGaussianBlur stdDeviation='3.5' />
 			</filter>
 
-			<filter id='shadeBlur'>
+			<filter id='colorSoften'>
 				<feGaussianBlur stdDeviation='3.2' />
 			</filter>
 

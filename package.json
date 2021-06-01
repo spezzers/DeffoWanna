@@ -2,12 +2,13 @@
   "name": "deffowanna",
   "version": "1.0.0",
   "private": true,
-  "description": "deffowanna",
-  "author": "spezzers",
+  "description": "personal website - deffowanna.design",
+  "author": "Ben Morton-Sperry",
   "keywords": [
     "gatsby"
   ],
   "scripts": {
+    "figma-tokens": "node FigmaTokens/importFigmaTokens.mjs",
     "develop": "gatsby develop -H 0.0.0.0",
     "start": "gatsby develop",
     "build": "gatsby build",

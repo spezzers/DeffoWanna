@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import themes from './themes'
+import themes from '../styles/themes'
 import ToggleDarkMode from './ToggleDarkMode'
 import './layout.css'
 import { useSpring } from 'react-spring'
@@ -21,7 +21,7 @@ const Layout = ({ children, themeToggle }) => {
 	const [theme, set] = useSpring(() => ({
 		to: themes.dark,
 		from: themes.light,
-		onChange: x => (document.body.style.backgroundColor = x.value.bg)
+		onChange: x => (document.body.style.backgroundColor = x.value.background)
 	}))
 
 	const toggleTheme = () => () => {

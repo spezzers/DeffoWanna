@@ -1,9 +1,12 @@
 import { readFile, writeFile } from 'fs/promises'
+
 console.log('IMPORT >> Figma Tokens ~ started...')
+
+const dataFile = './tokens.json'
 
 try {
 	const data = JSON.parse(
-		await readFile(new URL('./tokens.json', import.meta.url))
+		await readFile(new URL(dataFile, import.meta.url))
 	)
 
 	let light = {}
@@ -40,7 +43,11 @@ try {
 
 export default themes`
 	)
-	console.log(`sucessfully imported Figma Color Tokens to 'themes.js'`)
+	console.log('\x1b[32m', `sucessfully imported Figma Color Tokens to 'themes.js'`)
 } catch (error) {
-	console.log(error)
+	if (error.errno === -4058) {
+		console.log('\x1b[31m%s\x1b[0m', 'error', `can't find ${dataFile}`)
+	} else {
+		console.log('\x1b[31m%s\x1b[0m', 'error', error.message)
+	}
 }

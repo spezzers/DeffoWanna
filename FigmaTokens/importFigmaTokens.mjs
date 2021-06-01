@@ -35,15 +35,15 @@ try {
 		dark: Object.fromEntries(darkColorsArray)
 	}
 
-	// console.log(`const themes = ${JSON.stringify(themes, null, 2)}`)
+	const outputFile = 'src/styles/themes.js'
 
 	await writeFile(
-		'src/styles/themes.js',
+		outputFile,
 		`const themes = ${JSON.stringify(themes, null, 2)}
 
 export default themes`
 	)
-	console.log('\x1b[32m', `sucessfully imported Figma Color Tokens to 'themes.js'`)
+	console.log('\x1b[32m%s\x1b[0m', 'success', `imported Figma Color Tokens to ${outputFile}`)
 } catch (error) {
 	if (error.errno === -4058) {
 		console.log('\x1b[31m%s\x1b[0m', 'error', `can't find ${dataFile}`)

@@ -18,7 +18,7 @@ const PageWrapper = styled.div`
 
 const Layout = ({ children, themeToggle }) => {
 	const responsive = useResponsive()
-	const [theme, set] = useSpring(() => ({
+	const [theme, api] = useSpring(() => ({
 		to: themes.dark,
 		from: themes.light,
 		onChange: x => (document.body.style.backgroundColor = x.value.background)
@@ -27,7 +27,7 @@ const Layout = ({ children, themeToggle }) => {
 	const toggleTheme = () => () => {
 		const currentTheme = theme.name.get()
 		const newTheme = currentTheme === 'dark' ? themes.light : themes.dark
-		set({
+		api.start({
 			to: newTheme
 		})
 	}

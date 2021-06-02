@@ -43,18 +43,18 @@ const Logo = props => {
 		filter: 'url(#colorSoften)'
 	}
 
-	const [logoProps, set] = useSpring(() => ({
+	const [logoProps, api] = useSpring(() => ({
 		...normal,
 		from: heavy
 	}))
 
 	useEffect(() => {
-		set({
+		api.start({
 			color: normal.color,
 			shadeColor: normal.shadeColor,
 			glareColor: normal.glareColor
 		})
-	}, [set, normal.color, normal.glareColor, normal.shadeColor])
+	}, [api, normal.color, normal.glareColor, normal.shadeColor])
 
 	return (
 		<StyledLogo
@@ -66,7 +66,7 @@ const Logo = props => {
 			strokeLinejoin='round'
 			strokeMiterlimit={1.414}
 			onMouseEnter={() => {
-				set({
+				api.start({
 					...baloon,
 					config: {
 						mass: 1,
@@ -76,7 +76,7 @@ const Logo = props => {
 				})
 			}}
 			onMouseLeave={() =>
-				set({
+				api.start({
 					...normal,
 					config: config.default
 				})

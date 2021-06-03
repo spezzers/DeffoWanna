@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPath } from './logoPath'
+import useTouch from '../hooks/useTouch'
 
 const StyledLogo = styled(animated.svg)`
 	height: ${props => `${props.rem * 2.2}rem` || '2rem'};
@@ -14,6 +15,7 @@ const StyledLogo = styled(animated.svg)`
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
+	const touch = useTouch()
 
 	const normal = {
 		color: props.color || theme?.purpleText || '#777777',
@@ -45,7 +47,8 @@ const Logo = props => {
 
 	const [logoProps, api] = useSpring(() => ({
 		...normal,
-		from: heavy
+		from: heavy,
+		delay: 500
 	}))
 
 	useEffect(() => {
@@ -56,8 +59,10 @@ const Logo = props => {
 		})
 	}, [api, normal.color, normal.glareColor, normal.shadeColor])
 
+
 	return (
 		<StyledLogo
+			id='logo'
 			rem={props.rem}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
@@ -65,6 +70,7 @@ const Logo = props => {
 			strokeLinecap='round'
 			strokeLinejoin='round'
 			strokeMiterlimit={1.414}
+			{...touch.attributes()}
 			onMouseEnter={() => {
 				api.start({
 					...baloon,

@@ -50,26 +50,6 @@ const Logo = props => {
 		delay: 500
 	}))
 
-	const touch = useTouch({
-		onTap: () => {
-			if (touch.activated) {
-				api.start({
-					...normal,
-					config: config.default
-				})
-			} else {
-				api.start({
-					...baloon,
-					config: {
-						mass: 1,
-						tension: 280,
-						friction: 10
-					}
-				})
-			}
-		}
-	})
-
 	useEffect(() => {
 		api.start({
 			color: normal.color,
@@ -77,6 +57,38 @@ const Logo = props => {
 			glareColor: normal.glareColor
 		})
 	}, [api, normal.color, normal.glareColor, normal.shadeColor])
+
+	const deactivate = () =>
+		api.start({
+			...normal,
+			config: config.default
+		})
+
+	const activate = () =>
+		api.start({
+			...baloon,
+			config: {
+				mass: 1,
+				tension: 280,
+				friction: 10
+			}
+		})
+	const hover = () => {
+		api.start({
+			...heavy,
+			config: {
+				mass: 1,
+				tension: 300,
+				friction: 18
+			}
+		})
+	}
+
+	const touch = useTouch({
+		activate,
+		deactivate,
+		hover
+	})
 
 	return (
 		<StyledLogo
@@ -89,22 +101,6 @@ const Logo = props => {
 			strokeLinejoin='round'
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
-			// onMouseEnter={() => {
-			// 	api.start({
-			// 		...baloon,
-			// 		config: {
-			// 			mass: 1,
-			// 			tension: 280,
-			// 			friction: 10
-			// 		}
-			// 	})
-			// }}
-			// onMouseLeave={() =>
-			// 	api.start({
-			// 		...normal,
-			// 		config: config.default
-			// 	})
-			// }
 		>
 			<filter id='glareBlur'>
 				<feGaussianBlur stdDeviation='3.5' />

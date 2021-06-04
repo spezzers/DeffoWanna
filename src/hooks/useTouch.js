@@ -1,28 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
-const useTouch = attr => {
+const useTouch = props => {
 	const [touches, setTouches] = useState([])
 	const [activated, setActivated] = useState(false)
-	const tap = () => (attr?.onTap ? attr.onTap() : console.log('tapped'))
-	const drag = () => (attr?.onDrag ? attr.onDrag() : console.log('dragged'))
-	
-	
+	const [hovering, setHovering] = useState(false)
+
+	const deactivate = useCallback(() => {
+		if (props?.deactivate) {
+			props.deactivate()
+		} else {
+			console.log('deactivate')
+		}
+		setActivated(false)
+	}, [props])
+
+	const hover = useCallback(() => {
+		if (props?.hover) {
+			props.hover()
+		} else {
+			console.log('hover')
+		}
+	}, [props])
+
 	useEffect(() => {
-		console.log('touches', touches, 'activated', activated)
-		if (touches.length > 0) {
-			if (touches.includes('touchend')) {
-				if (touches.includes('touchmove')) {
-					drag()
-				}
-				setTouches([])
+		if (!activated) {
+			if (touches[0] === 'touchstart' && touches[1] === 'touchend') {
+				deactivate()
+			} else {
+				hovering ? hover() : deactivate()
 			}
 		}
-	}, [touches])
+	}, [hovering, deactivate, activated, hover, touches])
 
+	const activate = () => {
+		if (props?.activate) {
+			props.activate()
+		} else {
+			console.log('activate')
+		}
+		setActivated(true)
+	}
 
 	const handleTouch = event => {
 		const type = event.type
-		console.log(type)
+
 		if (type === 'touchstart') {
 			setTouches([type])
 		}
@@ -36,10 +57,16 @@ const useTouch = attr => {
 			setTouches([])
 		}
 		if (type === 'click') {
-			event.preventDefault()
-			console.log(touches)
-			tap()
-			setActivated(!activated)
+			activated ? deactivate() : activate()
+		}
+		if (type === 'mouseleave') {
+			deactivate()
+			setTouches([])
+			setHovering(false)
+		}
+		if (type === 'mouseenter') {
+			setHovering(true)
+			hover()
 		}
 	}
 

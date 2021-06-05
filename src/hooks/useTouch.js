@@ -6,20 +6,13 @@ const useTouch = props => {
 	const [hovering, setHovering] = useState(false)
 
 	const deactivate = useCallback(() => {
-		if (props?.deactivate) {
-			props.deactivate()
-		} else {
-			console.log('deactivate')
-		}
+		props?.deactivate ? props.deactivate() : console.log('deactivate')
 		setActivated(false)
 	}, [props])
 
 	const hover = useCallback(() => {
-		if (props?.hover) {
-			props.hover()
-		} else {
-			console.log('hover')
-		}
+		props?.hover ? props.hover() : console.log('hover')
+		
 	}, [props])
 
 	useEffect(() => {
@@ -33,40 +26,43 @@ const useTouch = props => {
 	}, [hovering, deactivate, activated, hover, touches])
 
 	const activate = () => {
-		if (props?.activate) {
-			props.activate()
-		} else {
-			console.log('activate')
-		}
+		props?.activate ? props.activate() : console.log('activate')
 		setActivated(true)
 	}
 
 	const handleTouch = event => {
 		const type = event.type
-
-		if (type === 'touchstart') {
-			setTouches([type])
-		}
-		if (type === 'touchmove' && touches[touches.length - 1] !== 'touchmove') {
-			setTouches([...touches, type])
-		}
-		if (type === 'touchend') {
-			setTouches([...touches, type])
-		}
-		if (type === 'touchcancel') {
-			setTouches([])
-		}
-		if (type === 'click') {
-			activated ? deactivate() : activate()
-		}
-		if (type === 'mouseleave') {
-			deactivate()
-			setTouches([])
-			setHovering(false)
-		}
-		if (type === 'mouseenter') {
-			setHovering(true)
-			hover()
+		switch (type) {
+			case 'touchstart':
+				setTouches([type])
+				break
+			case 'touchmove':
+				if (touches[touches.length - 1] !== 'touchmove') {
+					setTouches([...touches, type])
+				}
+				break
+			case 'touchend':
+				setTouches([...touches, type])
+				break
+			case 'touchcancel':
+				setTouches([])
+				break
+			case 'click':
+				activated ? deactivate() : activate()
+				break
+			case 'mouseleave':
+				deactivate()
+				setHovering(false)
+				setTouches([])
+				break
+			case 'mouseenter':
+				if (touches.length === 0) {
+					setHovering(true)
+				}
+				break
+			default:
+				console.log(type)
+				break
 		}
 	}
 
@@ -82,9 +78,7 @@ const useTouch = props => {
 		}
 	}
 	return {
-		touches,
 		attributes,
-		activated
 	}
 }
 

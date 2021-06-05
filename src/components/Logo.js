@@ -28,10 +28,17 @@ const Logo = props => {
 		shadeTransform: 'translate(0 0)',
 		filter: ''
 	}
+	const fuzzy = {
+		...normal,
+		path: logoPath.heavy,
+		weight: 28,
+		filter: 'url(#displacementFilter)' 
+	}
 	const heavy = {
 		...normal,
 		path: logoPath.heavy,
-		weight: 25
+		weight: 22,
+		filter: '' 
 	}
 	const baloon = {
 		...normal,
@@ -75,11 +82,11 @@ const Logo = props => {
 		})
 	const hover = () => {
 		api.start({
-			...heavy,
+			...fuzzy,
 			config: {
 				mass: 1,
-				tension: 300,
-				friction: 18
+				tension: 500,
+				friction: 22
 			}
 		})
 	}
@@ -102,13 +109,30 @@ const Logo = props => {
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
 		>
-			<filter id='glareBlur'>
-				<feGaussianBlur stdDeviation='3.5' />
-			</filter>
+			<defs>
+				<filter id='glareBlur'>
+					<feGaussianBlur stdDeviation='3.5' />
+				</filter>
 
-			<filter id='colorSoften'>
-				<feGaussianBlur stdDeviation='3.2' />
-			</filter>
+				<filter id='colorSoften'>
+					<feGaussianBlur stdDeviation='3.2' />
+				</filter>
+				<filter id='displacementFilter'>
+					<feTurbulence
+						type='turbulence'
+						baseFrequency='0.2'
+						numOctaves='2'
+						result='turbulence'
+					/>
+					<feDisplacementMap
+						in2='turbulence'
+						in='SourceGraphic'
+						scale='10'
+						xChannelSelector='R'
+						yChannelSelector='G'
+					/>
+				</filter>
+			</defs>
 
 			<animated.path
 				className='base'

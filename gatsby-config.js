@@ -5,11 +5,11 @@ module.exports = {
   },
   plugins: [
     "gatsby-plugin-styled-components",
-    // "gatsby-plugin-sharp",
+    "gatsby-plugin-sharp",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-mdx",
-    // "gatsby-transformer-sharp",
+    "gatsby-transformer-sharp",
     {
       resolve: "gatsby-source-filesystem",
       options: {

@@ -23,10 +23,12 @@ const Logo = props => {
 		path: logoPath.normal,
 		weight: 5,
 		glareAmount: 0,
-		glareTransform: 'translate(0 0)',
+		glareDirection: 'translate(0 0)',
 		shadeAmount: 0,
-		shadeTransform: 'translate(0 0)',
-		filter: ''
+		colorDirection: 'translate(0 0)',
+		filter: '',
+		glareOpacity: 0,
+		shadeOpacity: 0
 	}
 	const fuzzy = {
 		...normal,
@@ -43,12 +45,14 @@ const Logo = props => {
 	const baloon = {
 		...normal,
 		path: logoPath.baloon,
-		weight: 20,
-		glareAmount: 5,
-		glareTransform: 'translate(3 -6.5)',
-		shadeAmount: 35,
-		shadeTransform: 'translate(1.8 -3.2)',
-		filter: 'url(#colorSoften)'
+		weight: 26,
+		glareAmount: 4.5,
+		glareTransform: 'translate(3.2 -6.7)',
+		shadeAmount: 32,
+		colorDirection: 'translate(1.4 -2.8)',
+		filter: 'url(#colorSoften)',
+		glareOpacity: 1,
+		shadeOpacity: 1
 	}
 
 	const [logoProps, api] = useSpring(() => ({
@@ -111,11 +115,11 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='glareBlur'>
-					<feGaussianBlur stdDeviation='3.5' />
+					<feGaussianBlur stdDeviation='3.3' />
 				</filter>
 
 				<filter id='colorSoften'>
-					<feGaussianBlur stdDeviation='3.2' />
+					<feGaussianBlur stdDeviation='2' />
 				</filter>
 				<filter id='displacementFilter'>
 					<feTurbulence
@@ -135,10 +139,10 @@ const Logo = props => {
 			</defs>
 
 			<animated.path
-				className='base'
 				d={logoProps.path}
 				fill='none'
 				stroke={logoProps.shadeColor}
+				opacity={logoProps.shadeOpacity}
 				strokeWidth={logoProps.shadeAmount}
 			/>
 
@@ -148,13 +152,14 @@ const Logo = props => {
 				stroke={logoProps.color}
 				filter={logoProps.filter}
 				strokeWidth={logoProps.weight}
-				transform={logoProps.shadeTransform}
+				transform={logoProps.colorDirection}
 			/>
 
 			<animated.path
 				d={logoProps.path}
 				fill='none'
 				strokeWidth={logoProps.glareAmount}
+				opacity={logoProps.glareOpacity}
 				filter='url(#glareBlur)'
 				transform={logoProps.glareTransform}
 				stroke={logoProps.glareColor}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useSpring, animated, config } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPath } from './logoPath'
@@ -34,13 +34,13 @@ const Logo = props => {
 		...normal,
 		path: logoPath.heavy,
 		weight: 28,
-		filter: 'url(#displacementFilter)' 
+		filter: 'url(#displacementFilter)'
 	}
 	const heavy = {
 		...normal,
 		path: logoPath.heavy,
 		weight: 22,
-		filter: '' 
+		filter: ''
 	}
 	const baloon = {
 		...normal,
@@ -60,14 +60,6 @@ const Logo = props => {
 		from: heavy,
 		delay: 500
 	}))
-
-	useEffect(() => {
-		api.start({
-			color: normal.color,
-			shadeColor: normal.shadeColor,
-			glareColor: normal.glareColor
-		})
-	}, [api, normal.color, normal.glareColor, normal.shadeColor])
 
 	const deactivate = () =>
 		api.start({

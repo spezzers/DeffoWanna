@@ -26,5 +26,13 @@ module.exports = {
       },
       __key: "pages",
     },
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Raleway:900', 'IBM Plex Sans', 'IBM Plex Mono']
+        }
+      }
+    }
   ],
 };

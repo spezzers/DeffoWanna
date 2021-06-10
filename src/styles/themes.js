@@ -34,6 +34,7 @@ const themes = {
     errorText: "#a8000e",
     confirm: "#449c6d",
     confirmText: "#075f36",
+    callToAction: "#8300bf",
   },
   dark: {
     name: "dark",
@@ -70,6 +71,7 @@ const themes = {
     errorText: "#fa8280",
     confirm: "#55af7f",
     confirmText: "#41b97d",
+    callToAction: "#ce85ff",
   },
 };
 

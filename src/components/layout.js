@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
-import themes from '../styles/themes'
-import ToggleDarkMode from './ToggleDarkMode'
+import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
 
 const GlobalStyle = createGlobalStyle`
@@ -35,20 +34,12 @@ body {
 }
 `
 
-const Layout = ({ children, themeToggle }) => {
-	const themePrefs = typeof window !== 'undefined' ? window.localStorage.getItem('theme') || 'light' : 'light'
-	const [theme, setTheme] = useState(themes[themePrefs])
-
-	const toggleTheme = () => {
-		const newTheme = theme.name === 'dark' ? themes.light : themes.dark
-		window.localStorage.setItem('theme', newTheme.name)
-		setTheme(newTheme)
-	}
-
+const Layout = ({ children }) => {
+	const theme = useTheme()
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={theme.current}>
 			{children}
-			<ToggleDarkMode onClick={themeToggle ? themeToggle : toggleTheme} />
+			{theme.toggleButton}
 			<GlobalStyle />
 		</ThemeProvider>
 	)

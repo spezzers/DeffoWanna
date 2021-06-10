@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import themes from '../styles/themes'
 import ToggleDarkMode from './ToggleDarkMode'
-import './layout.css'
+import '../styles/layout.css'
 
 const GlobalStyle = createGlobalStyle`
 * {

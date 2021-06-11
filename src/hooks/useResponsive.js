@@ -1,19 +1,28 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 const useResponsive = () => {
 	const [windowSize, setWindowSize] = useState({
-		width: window.innerWidth || 1200,
-		height: window.innerHeight || 800
+		width: 1200,
+		height: 800,
+		default: true
 	})
 
 	useEffect(() => {
+		if (windowSize.default) {
+			setWindowSize({
+				width: window.innerWidth,
+				height: window.innerHeight,
+				default: false
+			})
+		}
 		window.addEventListener('resize', () => {
 			setWindowSize({
 				width: window.innerWidth,
-				height: window.innerHeight
+				height: window.innerHeight,
+				default: false
 			})
 		})
-	}, [])
+	}, [windowSize.default])
 	return {
 		windowSize
 	}

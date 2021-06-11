@@ -1,10 +1,11 @@
 # 🌐 [deffowanna.design](https://deffowanna.design)
 ## Design & Web Development Portfolio
 
-A place to showcase my work and web experiments.
+A place to showcase my work and web experiments.  
+...*Currently under development.*
 
 ### Documentation
-This site was built with the help of the following...
+This site was built (or should I say: 'is being built') with the help of the following...
 - [React.js](https://reactjs.org/docs/getting-started.html)
 - [Gatsby](https://www.gatsbyjs.com/docs/)
 - [Storybook](https://storybook.js.org/docs/react/get-started/introduction)

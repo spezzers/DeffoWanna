@@ -16,26 +16,26 @@ const useTheme = () => {
 		cx0: 12.68,
 		cy0: 12.68,
 		r0: 11.18,
-		stroke: current.purpleTextSubtle,
+		stroke: current.purpleText,
 		strokeWidth: 3,
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
 		r1: 7.68,
-		fill: current.purpleTextSubtle
+		fill: current.purpleText
 	}
 	const darkIconProps = {
 		name: 'dark',
 		cx0: 13.0405,
 		cy0: 12.6802,
 		r0: 9.417,
-		stroke: current.purpleTextSubtle,
+		stroke: current.purpleText,
 		strokeWidth: 2.527,
-		strokeDasharray: '6.5 0',
+		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
 		r1: 6.68,
-		fill: current.purpleTextSubtle
+		fill: current.purpleText
 	}
 
 	const [spring, api] = useSpring(() =>

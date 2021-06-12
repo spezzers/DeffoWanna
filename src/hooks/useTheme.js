@@ -16,36 +16,36 @@ const useTheme = () => {
 		cx0: 12.68,
 		cy0: 12.68,
 		r0: 11.18,
-		stroke: current.purpleText,
+		stroke: themes.light.purpleText,
 		strokeWidth: 3,
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
 		r1: 7.68,
-		fill: current.purpleText
+		fill: themes.light.purpleText
 	}
 	const darkIconProps = {
 		name: 'dark',
 		cx0: 13.0405,
 		cy0: 12.6802,
 		r0: 9.417,
-		stroke: current.purpleText,
+		stroke: themes.dark.purpleText,
 		strokeWidth: 2.527,
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
 		r1: 6.68,
-		fill: current.purpleText
+		fill: themes.dark.purpleText
 	}
 
-	const [spring, api] = useSpring(() =>
+	const [themeButtonProps, api] = useSpring(() =>
 		current.name === 'dark' ? darkIconProps : lightIconProps
 	)
 
 	const toggleTheme = () => {
 		const newTheme = current.name === 'dark' ? themes.light : themes.dark
 		const newIcon =
-			spring.name.get() === 'light' ? darkIconProps : lightIconProps
+			themeButtonProps.name.get() === 'light' ? darkIconProps : lightIconProps
 		window.localStorage.setItem('theme', newTheme.name)
 		api.start({ to: newIcon })
 		console.log('toggle', '\ntheme', newTheme, '\nicon', newIcon)
@@ -61,18 +61,18 @@ const useTheme = () => {
 			onClick={toggleTheme}
 		>
 			<animated.circle
-				cx={spring.cx0}
-				cy={spring.cy0}
-				r={spring.r0}
-				stroke={spring.stroke}
-				strokeWidth={spring.strokeWidth}
-				strokeDasharray={spring.strokeDasharray}
+				cx={themeButtonProps.cx0}
+				cy={themeButtonProps.cy0}
+				r={themeButtonProps.r0}
+				stroke={themeButtonProps.stroke}
+				strokeWidth={themeButtonProps.strokeWidth}
+				strokeDasharray={themeButtonProps.strokeDasharray}
 			/>
 			<animated.circle
-				cx={spring.cx1}
-				cy={spring.cy1}
-				r={spring.r1}
-				fill={spring.fill}
+				cx={themeButtonProps.cx1}
+				cy={themeButtonProps.cy1}
+				r={themeButtonProps.r1}
+				fill={themeButtonProps.fill}
 			/>
 		</animated.svg>
 	)

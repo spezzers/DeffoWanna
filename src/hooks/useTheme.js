@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import themes from '../styles/themes'
-import { useSpring, animated } from 'react-spring'
+import { useSpring, animated, config } from 'react-spring'
 
 const useTheme = () => {
 	console.log(window.matchMedia('(prefers-color-scheme: dark)'))
@@ -11,36 +11,68 @@ const useTheme = () => {
 
 	const [current, setCurrent] = useState(themes[themePrefs])
 
+	const themeIconProps = {
+		color: themes.light.purpleText,
+		config: config.default
+	}
+
 	const lightIconProps = {
+		...themeIconProps,
 		name: 'light',
 		cx0: 12.68,
 		cy0: 12.68,
 		r0: 11.18,
-		stroke: themes.light.purpleText,
 		strokeWidth: 3,
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
-		r1: 7.68,
-		fill: themes.light.purpleText
+		r1: 7.68
 	}
 	const darkIconProps = {
+		...themeIconProps,
 		name: 'dark',
 		cx0: 13.0405,
 		cy0: 12.6802,
 		r0: 9.417,
-		stroke: themes.dark.purpleText,
 		strokeWidth: 2.527,
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
-		r1: 6.68,
-		fill: themes.dark.purpleText
+		r1: 6.68
+	}
+
+	const themeIconMouseEnterProps = {
+		...current,
+		color: current.teal,
+		strokeWidth: 2.8,
+		config: {
+			mass: 1,
+			tension: 300,
+			friction: 15
+		}
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>
 		current.name === 'dark' ? darkIconProps : lightIconProps
 	)
+
+	const themeIconMouseEvent = e => {
+		switch (e.type) {
+			case 'mouseenter':
+				api.start(themeIconMouseEnterProps)
+				break
+			case 'mouseleave':
+				api.start({
+					to: current.name === 'light' ? lightIconProps : darkIconProps
+				})
+				break
+			case 'click':
+				toggleTheme()
+				break
+			default:
+				console.log('unhandled mouse event:', e.type)
+		}
+	}
 
 	const toggleTheme = () => {
 		const newTheme = current.name === 'dark' ? themes.light : themes.dark
@@ -48,33 +80,36 @@ const useTheme = () => {
 			themeButtonProps.name.get() === 'light' ? darkIconProps : lightIconProps
 		window.localStorage.setItem('theme', newTheme.name)
 		api.start({ to: newIcon })
-		console.log('toggle', '\ntheme', newTheme, '\nicon', newIcon)
 		setCurrent(newTheme)
 	}
 
 	const ToggleButton = () => (
-		<animated.svg
-			xmlns='http://www.w3.org/2000/svg'
-			width={26}
-			height={26}
-			fill='none'
-			onClick={toggleTheme}
-		>
-			<animated.circle
-				cx={themeButtonProps.cx0}
-				cy={themeButtonProps.cy0}
-				r={themeButtonProps.r0}
-				stroke={themeButtonProps.stroke}
-				strokeWidth={themeButtonProps.strokeWidth}
-				strokeDasharray={themeButtonProps.strokeDasharray}
-			/>
-			<animated.circle
-				cx={themeButtonProps.cx1}
-				cy={themeButtonProps.cy1}
-				r={themeButtonProps.r1}
-				fill={themeButtonProps.fill}
-			/>
-		</animated.svg>
+		<a href='#0'>
+			<animated.svg
+				xmlns='http://www.w3.org/2000/svg'
+				width={26}
+				height={26}
+				fill='none'
+				onClick={e => themeIconMouseEvent(e)}
+				onMouseEnter={e => themeIconMouseEvent(e)}
+				onMouseLeave={e => themeIconMouseEvent(e)}
+			>
+				<animated.circle
+					cx={themeButtonProps.cx0}
+					cy={themeButtonProps.cy0}
+					r={themeButtonProps.r0}
+					stroke={themeButtonProps.color}
+					strokeWidth={themeButtonProps.strokeWidth}
+					strokeDasharray={themeButtonProps.strokeDasharray}
+				/>
+				<animated.circle
+					cx={themeButtonProps.cx1}
+					cy={themeButtonProps.cy1}
+					r={themeButtonProps.r1}
+					fill={themeButtonProps.color}
+				/>
+			</animated.svg>
+		</a>
 	)
 
 	return {

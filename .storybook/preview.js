@@ -1,4 +1,4 @@
-import themes from '../src/components/themes'
+import themes from '../src/styles/themes'
 import { ThemeProvider } from 'styled-components'
 
 export const parameters = {

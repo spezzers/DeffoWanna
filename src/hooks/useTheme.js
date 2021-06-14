@@ -3,7 +3,7 @@ import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
-const NonNavigatingButton = styled.div`
+const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {

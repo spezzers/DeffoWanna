@@ -19,7 +19,8 @@ const useTheme = () => {
 
 	const themeIconProps = useMemo(
 		() => ({
-			color: hovering ? current.teal : current.purpleText,
+			color: hovering ? current.purpleTextStrong : current.purpleText,
+			rotation: `rotate(${hovering ? 60 : 25})`,
 			config: config.default
 		}),
 		[hovering, current]
@@ -35,7 +36,7 @@ const useTheme = () => {
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
-		r1: 7.68
+		r1: 7.68,
 	}
 	const darkIconProps = {
 		...themeIconProps,
@@ -47,7 +48,7 @@ const useTheme = () => {
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
-		r1: 6.68
+		r1: 6.68,
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>
@@ -60,7 +61,7 @@ const useTheme = () => {
 			config: {
 				mass: 1,
 				tension: 400,
-				friction: 25
+				friction: 15
 			}
 		})
 	}, [api, themeIconProps])
@@ -101,6 +102,7 @@ const useTheme = () => {
 				width={26}
 				height={26}
 				fill='none'
+				transform={themeButtonProps.rotation}
 			>
 				<animated.circle
 					cx={themeButtonProps.cx0}

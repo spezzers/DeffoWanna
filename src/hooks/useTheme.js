@@ -1,20 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import themes from '../styles/themes'
+import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
+const NonNavigatingButton = styled.span`
+	cursor: pointer;
+`
 const useTheme = () => {
 	console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+
 	const themePrefs =
 		typeof window !== 'undefined'
 			? window.localStorage.getItem('theme') || 'light'
 			: 'light'
 
 	const [current, setCurrent] = useState(themes[themePrefs])
+	const [hovering, setHovering] = useState(false)
 
-	const themeIconProps = {
-		color: themes.light.purpleText,
-		config: config.default
-	}
+	const themeIconProps = useMemo(
+		() => ({
+			color: hovering ? current.purpleTextStrong : current.purpleText,
+			rotation: `rotate(${hovering ? 60 : 25})`,
+			config: config.default
+		}),
+		[hovering, current]
+	)
 
 	const lightIconProps = {
 		...themeIconProps,
@@ -26,7 +36,7 @@ const useTheme = () => {
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
-		r1: 7.68
+		r1: 7.68,
 	}
 	const darkIconProps = {
 		...themeIconProps,
@@ -38,41 +48,23 @@ const useTheme = () => {
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
-		r1: 6.68
-	}
-
-	const themeIconMouseEnterProps = {
-		...current,
-		color: current.teal,
-		strokeWidth: 2.8,
-		config: {
-			mass: 1,
-			tension: 300,
-			friction: 15
-		}
+		r1: 6.68,
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>
 		current.name === 'dark' ? darkIconProps : lightIconProps
 	)
 
-	const themeIconMouseEvent = e => {
-		switch (e.type) {
-			case 'mouseenter':
-				api.start(themeIconMouseEnterProps)
-				break
-			case 'mouseleave':
-				api.start({
-					to: current.name === 'light' ? lightIconProps : darkIconProps
-				})
-				break
-			case 'click':
-				toggleTheme()
-				break
-			default:
-				console.log('unhandled mouse event:', e.type)
-		}
-	}
+	useEffect(() => {
+		api.start({
+			...themeIconProps,
+			config: {
+				mass: 1,
+				tension: 400,
+				friction: 15
+			}
+		})
+	}, [api, themeIconProps])
 
 	const toggleTheme = () => {
 		const newTheme = current.name === 'dark' ? themes.light : themes.dark
@@ -83,16 +75,34 @@ const useTheme = () => {
 		setCurrent(newTheme)
 	}
 
+	const themeIconMouseEvent = e => {
+		switch (e.type) {
+			case 'mouseenter':
+				setHovering(true)
+				break
+			case 'mouseleave':
+				setHovering(false)
+				break
+			case 'click':
+				toggleTheme()
+				break
+			default:
+				console.log('unhandled mouse event:', e.type)
+		}
+	}
+
 	const ToggleButton = () => (
-		<a href='#0'>
+		<NonNavigatingButton
+			onClick={e => themeIconMouseEvent(e)}
+			onMouseLeave={e => themeIconMouseEvent(e)}
+			onMouseEnter={e => themeIconMouseEvent(e)}
+		>
 			<animated.svg
 				xmlns='http://www.w3.org/2000/svg'
 				width={26}
 				height={26}
 				fill='none'
-				onClick={e => themeIconMouseEvent(e)}
-				onMouseEnter={e => themeIconMouseEvent(e)}
-				onMouseLeave={e => themeIconMouseEvent(e)}
+				transform={themeButtonProps.rotation}
 			>
 				<animated.circle
 					cx={themeButtonProps.cx0}
@@ -109,7 +119,7 @@ const useTheme = () => {
 					fill={themeButtonProps.color}
 				/>
 			</animated.svg>
-		</a>
+		</NonNavigatingButton>
 	)
 
 	return {

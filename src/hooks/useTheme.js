@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
@@ -8,17 +8,22 @@ const NonNavigatingButton = styled.span`
 `
 const useTheme = () => {
 	console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+
 	const themePrefs =
 		typeof window !== 'undefined'
 			? window.localStorage.getItem('theme') || 'light'
 			: 'light'
 
 	const [current, setCurrent] = useState(themes[themePrefs])
+	const [hovering, setHovering] = useState(false)
 
-	const themeIconProps = {
-		color: themes.light.purpleText,
-		config: config.default
-	}
+	const themeIconProps = useMemo(
+		() => ({
+			color: hovering ? current.teal : current.purpleText,
+			config: config.default
+		}),
+		[hovering, current]
+	)
 
 	const lightIconProps = {
 		...themeIconProps,
@@ -45,41 +50,20 @@ const useTheme = () => {
 		r1: 6.68
 	}
 
-	const themeIconMouseEnterProps = {
-		...current,
-		color: current.teal,
-		strokeWidth: 2.8,
-		config: {
-			mass: 1,
-			tension: 400,
-			friction: 25
-		}
-	}
-
 	const [themeButtonProps, api] = useSpring(() =>
 		current.name === 'dark' ? darkIconProps : lightIconProps
 	)
 
-	const themeIconMouseEvent = e => {
-		switch (e.type) {
-			case 'mouseenter':
-				api.start(themeIconMouseEnterProps)
-				break
-			case 'hover':
-				api.start(themeIconMouseEnterProps)
-				break
-			case 'mouseleave':
-				api.start({
-					to: current.name === 'light' ? lightIconProps : darkIconProps
-				})
-				break
-			case 'click':
-				toggleTheme()
-				break
-			default:
-				console.log('unhandled mouse event:', e.type)
-		}
-	}
+	useEffect(() => {
+		api.start({
+			...themeIconProps,
+			config: {
+				mass: 1,
+				tension: 400,
+				friction: 25
+			}
+		})
+	}, [api, themeIconProps])
 
 	const toggleTheme = () => {
 		const newTheme = current.name === 'dark' ? themes.light : themes.dark
@@ -88,6 +72,22 @@ const useTheme = () => {
 		window.localStorage.setItem('theme', newTheme.name)
 		api.start({ to: newIcon })
 		setCurrent(newTheme)
+	}
+
+	const themeIconMouseEvent = e => {
+		switch (e.type) {
+			case 'mouseenter':
+				setHovering(true)
+				break
+			case 'mouseleave':
+				setHovering(false)
+				break
+			case 'click':
+				toggleTheme()
+				break
+			default:
+				console.log('unhandled mouse event:', e.type)
+		}
 	}
 
 	const ToggleButton = () => (

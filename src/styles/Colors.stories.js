@@ -1,5 +1,5 @@
 import React from 'react'
-import themes from '../../styles/themes'
+import themes from './themes'
 import styled from 'styled-components'
 
 const Color = props => {

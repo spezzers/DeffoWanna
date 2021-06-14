@@ -12,7 +12,8 @@ export const parameters = {
 	backgrounds: {
 		disable: true
 	},
-	controls: { expanded: true }
+	controls: { expanded: true },
+	layout: 'centered'
 }
 
 export const globalTypes = {

@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import themes from '../styles/themes'
+import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
+const NonNavigatingButton = styled.div`
+	cursor: pointer;
+`
 const useTheme = () => {
 	console.log(window.matchMedia('(prefers-color-scheme: dark)'))
 	const themePrefs =
@@ -47,8 +51,8 @@ const useTheme = () => {
 		strokeWidth: 2.8,
 		config: {
 			mass: 1,
-			tension: 300,
-			friction: 15
+			tension: 400,
+			friction: 25
 		}
 	}
 
@@ -59,6 +63,9 @@ const useTheme = () => {
 	const themeIconMouseEvent = e => {
 		switch (e.type) {
 			case 'mouseenter':
+				api.start(themeIconMouseEnterProps)
+				break
+			case 'hover':
 				api.start(themeIconMouseEnterProps)
 				break
 			case 'mouseleave':
@@ -84,15 +91,16 @@ const useTheme = () => {
 	}
 
 	const ToggleButton = () => (
-		<a href='#0'>
+		<NonNavigatingButton
+			onClick={e => themeIconMouseEvent(e)}
+			onMouseLeave={e => themeIconMouseEvent(e)}
+			onMouseEnter={e => themeIconMouseEvent(e)}
+		>
 			<animated.svg
 				xmlns='http://www.w3.org/2000/svg'
 				width={26}
 				height={26}
 				fill='none'
-				onClick={e => themeIconMouseEvent(e)}
-				onMouseEnter={e => themeIconMouseEvent(e)}
-				onMouseLeave={e => themeIconMouseEvent(e)}
 			>
 				<animated.circle
 					cx={themeButtonProps.cx0}
@@ -109,7 +117,7 @@ const useTheme = () => {
 					fill={themeButtonProps.color}
 				/>
 			</animated.svg>
-		</a>
+		</NonNavigatingButton>
 	)
 
 	return {

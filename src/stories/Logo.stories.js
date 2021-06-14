@@ -4,8 +4,7 @@ import Logo from '../components/Logo'
 
 export default {
 	title: 'Components/Logo',
-	component: Logo,
-	decorators: [(Story) => <Layout><Story/></Layout>]
+	component: Logo
 }
 
 

@@ -124,7 +124,8 @@ const useTheme = () => {
 
 	return {
 		current,
-		ToggleButton
+		ToggleButton,
+		toggleTheme
 	}
 }
 

@@ -1,39 +1,61 @@
-import themes from '../src/components/themes'
-import { ThemeProvider } from 'styled-components'
+import themes from '../src/styles/themes'
+import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import '@storybook/addon-console'
+
+const GlobalStyle = createGlobalStyle`
+	body { 
+		background-color: ${props => props.theme.background};
+		color: red;
+	}
+`
 
 export const parameters = {
 	backgrounds: {
-		default: 'light',
-		values: [
-			{
-				name: 'light',
-				value: themes.light.bg
-			},
-			{
-				name: 'dark',
-				value: themes.dark.bg
-			}
-		]
-	}
+		disable: true
+	},
+	controls: { expanded: true },
+	layout: 'centered'
 }
 
 export const globalTypes = {
 	theme: {
 		name: 'Theme',
 		description: 'Global theme for components',
-		defaultValue: 'light',
+		default: 'light',
 		toolbar: {
-			icon: 'circlehollow',
+			icon: 'mirror',
 			items: [
 				{
 					title: 'light',
-					value: 'light'
+					value: themes.light
 				},
 				{
 					title: 'dark',
-					value: 'dark'
+					value: themes.dark
 				}
 			]
 		}
 	}
 }
+
+const getTheme = themeName => {
+	if (typeof themeName === 'undefined') {
+		return themes.light
+	} else if (typeof themeName === 'string') {
+		return themes[themeName]
+	} else {
+		return themeName
+	}
+}
+
+const withThemeProvider = (Story, context) => {
+	const theme = getTheme(context.globals.theme)
+	return (
+		<ThemeProvider theme={theme}>
+			<Story {...context} />
+			<GlobalStyle theme={theme} />
+		</ThemeProvider>
+	)
+}
+
+export const decorators = [withThemeProvider]

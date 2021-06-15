@@ -116,8 +116,8 @@ const Logo = props => {
 				<filter id='displacementFilter'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency='0.2'
-						numOctaves='2'
+						baseFrequency='0.15'
+						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap

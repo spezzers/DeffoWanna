@@ -1,5 +1,6 @@
 import themes from '../src/styles/themes'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import '@storybook/addon-console'
 
 const GlobalStyle = createGlobalStyle`
 	body { 
@@ -20,6 +21,7 @@ export const globalTypes = {
 	theme: {
 		name: 'Theme',
 		description: 'Global theme for components',
+		default: 'light',
 		toolbar: {
 			icon: 'mirror',
 			items: [
@@ -36,14 +38,12 @@ export const globalTypes = {
 	}
 }
 
-
 const getTheme = themeName => {
-	// for some reason 'context.globals.theme' (themeName) 
-	// inconsistently returns either a string or an object
-	if (typeof themeName === 'string') {
+	if (typeof themeName === 'undefined') {
+		return themes.light
+	} else if (typeof themeName === 'string') {
 		return themes[themeName]
-	}
-	else {
+	} else {
 		return themeName
 	}
 }

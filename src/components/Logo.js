@@ -18,23 +18,21 @@ const Logo = props => {
 
 	const normal = {
 		color: props.color || theme?.purpleText || '#777777',
-		shadeColor: props.shadeColor || theme?.black || '#000000',
-		glareColor: props.glareColor || theme?.white || '#ffffff',
 		path: logoPath.normal,
 		weight: 5,
-		glareAmount: 0,
-		glareDirection: 'translate(0 0)',
-		shadeAmount: 0,
-		colorDirection: 'translate(0 0)',
 		filter: '',
-		glareOpacity: 0,
-		shadeOpacity: 0
+		config: config.default
 	}
 	const fuzzy = {
 		...normal,
 		path: logoPath.heavy,
 		weight: 28,
-		filter: 'url(#displacementFilter)'
+		filter: 'url(#displacementFilter)',
+		config: {
+			mass: 1,
+			tension: 500,
+			friction: 22
+		}
 	}
 	const heavy = {
 		...normal,
@@ -45,14 +43,15 @@ const Logo = props => {
 	const baloon = {
 		...normal,
 		path: logoPath.baloon,
-		weight: 26,
-		glareAmount: 4.5,
-		glareTransform: 'translate(3.2 -6.7)',
-		shadeAmount: 32,
-		colorDirection: 'translate(1.4 -2.8)',
-		filter: 'url(#colorSoften)',
-		glareOpacity: 1,
-		shadeOpacity: 1
+		weight: 28,
+		filter: 'url(#lightSource)',
+		k1: 1,
+		k2: 0.5,
+		config: {
+			mass: 1,
+			tension: 280,
+			friction: 10
+		}
 	}
 
 	const [logoProps, api] = useSpring(() => ({
@@ -63,27 +62,16 @@ const Logo = props => {
 
 	const deactivate = () =>
 		api.start({
-			...normal,
-			config: config.default
+			...normal
 		})
 
 	const activate = () =>
 		api.start({
-			...baloon,
-			config: {
-				mass: 1,
-				tension: 280,
-				friction: 10
-			}
+			...baloon
 		})
 	const hover = () => {
 		api.start({
-			...fuzzy,
-			config: {
-				mass: 1,
-				tension: 500,
-				friction: 22
-			}
+			...fuzzy
 		})
 	}
 
@@ -105,13 +93,40 @@ const Logo = props => {
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
 		>
-			<defs>
+			<animated.defs>
 				<filter id='glareBlur'>
-					<feGaussianBlur stdDeviation='3.3' />
+					<feGaussianBlur stdDeviation='10' />
 				</filter>
 
-				<filter id='colorSoften'>
-					<feGaussianBlur stdDeviation='2' />
+				<filter id='lightSource'>
+					<feMorphology  operator='erode' radius='3' in='SourceGraphic' result='light0'/>
+
+					<feGaussianBlur
+						in='light0'
+						result='light1'
+						stdDeviation='4.5'
+					/>
+
+					<feDiffuseLighting
+						in='light1'
+						result='light2'
+						lightingColor={theme.white}
+						diffuseConstant='18'
+					>
+						<fePointLight x='700' y='-60' z='10' />
+					</feDiffuseLighting>
+
+					<feGaussianBlur in='light2' result='light3' stdDeviation='4' />
+
+					<feComposite
+						in='SourceGraphic'
+						in2='light3'
+						operator='arithmetic'
+						k1='0.9'
+						k2='0.5'
+						k3='0'
+						k4='0'
+					/>
 				</filter>
 				<filter id='displacementFilter'>
 					<feTurbulence
@@ -128,15 +143,7 @@ const Logo = props => {
 						yChannelSelector='G'
 					/>
 				</filter>
-			</defs>
-
-			<animated.path
-				d={logoProps.path}
-				fill='none'
-				stroke={logoProps.shadeColor}
-				opacity={logoProps.shadeOpacity}
-				strokeWidth={logoProps.shadeAmount}
-			/>
+			</animated.defs>
 
 			<animated.path
 				d={logoProps.path}
@@ -145,16 +152,6 @@ const Logo = props => {
 				filter={logoProps.filter}
 				strokeWidth={logoProps.weight}
 				transform={logoProps.colorDirection}
-			/>
-
-			<animated.path
-				d={logoProps.path}
-				fill='none'
-				strokeWidth={logoProps.glareAmount}
-				opacity={logoProps.glareOpacity}
-				filter='url(#glareBlur)'
-				transform={logoProps.glareTransform}
-				stroke={logoProps.glareColor}
 			/>
 		</StyledLogo>
 	)

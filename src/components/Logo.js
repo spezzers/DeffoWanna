@@ -43,14 +43,14 @@ const Logo = props => {
 	const baloon = {
 		...normal,
 		path: logoPath.baloon,
-		weight: 28,
+		weight: 27,
 		filter: 'url(#lightSource)',
 		k1: 1,
 		k2: 0.5,
 		config: {
 			mass: 1,
-			tension: 280,
-			friction: 10
+			tension: 450,
+			friction: 8
 		}
 	}
 
@@ -65,10 +65,12 @@ const Logo = props => {
 			...normal
 		})
 
-	const activate = () =>
+	const activate = () => {
 		api.start({
 			...baloon
 		})
+		console.log(document.getElementById('logo').getBoundingClientRect())
+	}
 	const hover = () => {
 		api.start({
 			...fuzzy
@@ -94,29 +96,19 @@ const Logo = props => {
 			{...touch.attributes()}
 		>
 			<animated.defs>
-				<filter id='glareBlur'>
-					<feGaussianBlur stdDeviation='10' />
-				</filter>
-
 				<filter id='lightSource'>
-					<feMorphology  operator='erode' radius='3' in='SourceGraphic' result='light0'/>
-
-					<feGaussianBlur
-						in='light0'
-						result='light1'
-						stdDeviation='4.5'
-					/>
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation='4.4' />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={theme.white}
-						diffuseConstant='18'
+						diffuseConstant='17'
 					>
 						<fePointLight x='700' y='-60' z='10' />
 					</feDiffuseLighting>
 
-					<feGaussianBlur in='light2' result='light3' stdDeviation='4' />
+					<feGaussianBlur in='light2' result='light3' stdDeviation='2' />
 
 					<feComposite
 						in='SourceGraphic'

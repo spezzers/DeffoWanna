@@ -36,8 +36,8 @@ const Logo = props => {
 		color: props.color || theme?.purpleText || '#777777',
 		weight: 5,
 		filter: '',
-		fuzz: 0,
-		spherical: 0,
+		lightX: 0,
+		lightY: 0,
 		config: {
 			mass: 1,
 			tension: 450,
@@ -53,7 +53,6 @@ const Logo = props => {
 	const fuzzy = {
 		...heavy,
 		weight: 28,
-		fuzz: 1,
 		filter: 'url(#fuzzyWuzzy)',
 		config: {
 			mass: 1,
@@ -64,7 +63,8 @@ const Logo = props => {
 	const baloon = {
 		...normal,
 		...getPaths('baloon'),
-		spherical: 1,
+		lightX: 800,
+		lightY: -20,
 		weight: 27,
 		filter: 'url(#lightSource)',
 		config: {
@@ -80,25 +80,42 @@ const Logo = props => {
 		delay: 500
 	}))
 
-	const deactivate = () => api.start(normal)
+	const deactivate = () => {
+		api.start(normal)
+	}
 
 	const activate = () => {
 		api.start(baloon)
-		console.log(document.getElementById('logo').getBoundingClientRect().x)
 	}
-	const hover = () => {
+	const hoverInactive = () => {
 		api.start(fuzzy)
+	}
+	const activeMouseMove = cursorPos => {
+		const elToppo = document.getElementById('logo').getBoundingClientRect().top
+		const elLeft = document.getElementById('logo').getBoundingClientRect().left
+		const offsetX = cursorPos.x - elLeft
+		const offsetY = cursorPos.y - elToppo
+		const to = {
+			...baloon,
+			lightX: offsetX,
+			lightY: offsetY
+		}
+		api.stop()
+		console.log({ ...baloon })
+		api.start(to)
 	}
 
 	const touch = useTouch({
 		activate,
 		deactivate,
-		hover
+		hoverInactive,
+		activeMouseMove
 	})
 
 	return (
 		<StyledLogo
 			id='logo'
+			style={logoProps}
 			rem={props.rem}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
@@ -110,11 +127,7 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur
-						in='SourceGraphic'
-						result='light1'
-						stdDeviation='1.2'
-					/>
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation='1' />
 
 					<feDiffuseLighting
 						in='light1'
@@ -122,7 +135,12 @@ const Logo = props => {
 						lightingColor={theme.white}
 						diffuseConstant='20'
 					>
-						<fePointLight x='700' y='-60' z='10' />
+						{console.log(logoProps.lightX.get())}
+						<fePointLight
+							x={() => logoProps.lightX.get()}
+							y={() => logoProps.lightY.get()}
+							z='10'
+						/>
 					</feDiffuseLighting>
 
 					<feComposite
@@ -130,8 +148,8 @@ const Logo = props => {
 						in2='light2'
 						result='bosh'
 						operator='arithmetic'
-						k1='1.5'
-						k2='0.4'
+						k1='1'
+						k2='0.3'
 						k3='0'
 						k4='0'
 					/>
@@ -160,7 +178,6 @@ const Logo = props => {
 				</filter>
 			</defs>
 			<animated.g
-				filter={logoProps.filter}
 				fill='none'
 				stroke={logoProps.color}
 				strokeWidth={logoProps.weight}

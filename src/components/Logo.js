@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useSpring, animated, config } from 'react-spring'
+import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
@@ -16,11 +16,16 @@ const StyledLogo = styled(animated.svg)`
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 
+	let pathNames = []
+
 	const getPaths = type => {
 		const objs = Object.entries(logoPaths[type])
 		const result = objs.reduce((acc, cur) => {
 			const key = cur[0]
 			const value = cur[1]
+			if (!pathNames.includes(cur[0])) {
+				pathNames = [...pathNames, cur[0]]
+			}
 			return (acc = { ...acc, [key]: value })
 		}, {})
 		return result
@@ -33,7 +38,11 @@ const Logo = props => {
 		filter: '',
 		fuzz: 0,
 		spherical: 0,
-		config: config.default
+		config: {
+			mass: 1,
+			tension: 450,
+			friction: 60
+		}
 	}
 	const heavy = {
 		...normal,
@@ -59,9 +68,9 @@ const Logo = props => {
 		weight: 27,
 		filter: 'url(#lightSource)',
 		config: {
-			mass: 1,
-			tension: 450,
-			friction: 8
+			mass: 4,
+			tension: 900,
+			friction: 40
 		}
 	}
 
@@ -71,36 +80,14 @@ const Logo = props => {
 		delay: 500
 	}))
 
-	const drawPaths = () => {
-		const { color, weight, filter, config, ...paths } = logoProps
-		return Object.entries(paths).map(path => (
-			<animated.path
-				key={path[0]}
-				d={logoProps[path[0]]}
-				fill='none'
-				stroke={logoProps.color}
-				strokeWidth={logoProps.weight}
-			/>
-		))
-	}
-
-	drawPaths()
-
-	const deactivate = () =>
-		api.start({
-			...normal
-		})
+	const deactivate = () => api.start(normal)
 
 	const activate = () => {
-		api.start({
-			...baloon
-		})
-		console.log(document.getElementById('logo').getBoundingClientRect())
+		api.start(baloon)
+		console.log(document.getElementById('logo').getBoundingClientRect().x)
 	}
 	const hover = () => {
-		api.start({
-			...fuzzy
-		})
+		api.start(fuzzy)
 	}
 
 	const touch = useTouch({
@@ -123,27 +110,37 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation='2.4' />
+					<feGaussianBlur
+						in='SourceGraphic'
+						result='light1'
+						stdDeviation='1.2'
+					/>
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={theme.white}
-						diffuseConstant='17'
+						diffuseConstant='20'
 					>
 						<fePointLight x='700' y='-60' z='10' />
 					</feDiffuseLighting>
 
-					<feGaussianBlur in='light2' result='light3' stdDeviation='4' />
-
 					<feComposite
 						in='SourceGraphic'
-						in2='light3'
+						in2='light2'
+						result='bosh'
 						operator='arithmetic'
-						k1='1'
-						k2='0.5'
+						k1='1.5'
+						k2='0.4'
 						k3='0'
 						k4='0'
+					/>
+					<feDropShadow
+						dx='-4'
+						dy='3'
+						stdDeviation='1.5'
+						floodColor={theme.black}
+						floodOpacity='0.2'
 					/>
 				</filter>
 				<filter id='fuzzyWuzzy'>
@@ -169,15 +166,9 @@ const Logo = props => {
 				strokeWidth={logoProps.weight}
 			>
 				<rect width='534' height='305' fill='none' stroke='none' />
-				<animated.path d={logoProps.dw} />
-				<animated.path d={logoProps.e} />
-				<animated.path d={logoProps.f1} />
-				<animated.path d={logoProps.f2} />
-				<animated.path d={logoProps.o} />
-				<animated.path d={logoProps.a1} />
-				<animated.path d={logoProps.n1} />
-				<animated.path d={logoProps.n2} />
-				<animated.path d={logoProps.a2} />
+				{pathNames.map(pathName => (
+					<animated.path key={pathName} d={logoProps[pathName]} />
+				))}
 			</animated.g>
 		</StyledLogo>
 	)

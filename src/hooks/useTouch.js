@@ -26,13 +26,13 @@ const useTouch = props => {
 		}
 	}, [hovering, deactivate, activated, hoverInactive, touches])
 
-	const activate = () => {
-		props?.activate ? props.activate() : console.log('activate')
+	const activate = (e) => {
+		props?.activate ? props.activate({x: e.clientX, y: e.clientY}) : console.log('activate')
 		setActivated(true)
 	}
 
-	const handleTouch = event => {
-		const type = event.type
+	const handleTouch = e => {
+		const type = e.type
 		console.log(type, touches)
 		switch (type) {
 			case 'touchstart':
@@ -50,8 +50,8 @@ const useTouch = props => {
 				setTouches([])
 				break
 			case 'click':
-				event.preventDefault()
-				activated ? deactivate() : activate()
+				e.preventDefault()
+				activated ? deactivate() : activate(e)
 				break
 			case 'mouseleave':
 				deactivate()

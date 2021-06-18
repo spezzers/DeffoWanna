@@ -81,7 +81,17 @@ const Logo = props => {
 		api.start(normal)
 	}
 
-	const activate = () => {
+	const getLightPoint = (cursorPos) => {
+		const logo = document.getElementById('logo')
+		const logoBox = logo.getBoundingClientRect()
+		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
+		const offsetY = (cursorPos.y - logoBox.top) * window.devicePixelRatio
+		return { x: offsetX, y: offsetY }
+	}
+
+	const activate = (cursorPos) => {
+		const result = getLightPoint(cursorPos)
+		setLightPos(result)
 		api.start(baloon)
 	}
 	const hoverInactive = () => {
@@ -89,12 +99,8 @@ const Logo = props => {
 	}
 
 	const activeMouseMove = cursorPos => {
-		const logo = document.getElementById('logo')
-		const logoBox = logo.getBoundingClientRect()
-		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
-
-		const offsetY = (cursorPos.y - logoBox.top) * window.devicePixelRatio
-		setLightPos({ x: offsetX, y: offsetY })
+		const result = getLightPoint(cursorPos)
+		setLightPos(result)
 	}
 
 	const touch = useTouch({

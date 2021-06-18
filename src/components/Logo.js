@@ -5,7 +5,7 @@ import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
 
 const StyledLogo = styled(animated.svg)`
-	height: ${props => `${props.rem * 2.2}rem` || '2rem'};
+	height: ${props => `${props.size * 2.2}rem`};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -15,8 +15,11 @@ const StyledLogo = styled(animated.svg)`
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
-	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
+	const size = props.size ? props.size : 4
 
+	//NOTE: This state seems like a performance drain 
+	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
+	
 	let pathNames = []
 
 	const getPaths = type => {
@@ -114,7 +117,7 @@ const Logo = props => {
 		<StyledLogo
 			id='logo'
 			style={logoProps}
-			rem={props.rem}
+			size={size}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'
@@ -125,13 +128,13 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={0.4 * props.rem} />
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={0.4 * size} />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={theme.white}
-						diffuseConstant={3 * props.rem}
+						diffuseConstant={3 * size}
 					>
 						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />
 					</feDiffuseLighting>
@@ -148,7 +151,7 @@ const Logo = props => {
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation={0.8 * props.rem}
+						stdDeviation={0.8 * size}
 						floodColor={theme.black}
 						floodOpacity='0.1'
 					/>

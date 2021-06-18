@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPaths } from './logoPaths'
@@ -15,6 +15,7 @@ const StyledLogo = styled(animated.svg)`
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
+	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
 
 	let pathNames = []
 
@@ -36,8 +37,6 @@ const Logo = props => {
 		color: props.color || theme?.purpleText || '#777777',
 		weight: 5,
 		filter: '',
-		lightX: 0,
-		lightY: 0,
 		config: {
 			mass: 1,
 			tension: 450,
@@ -63,8 +62,6 @@ const Logo = props => {
 	const baloon = {
 		...normal,
 		...getPaths('baloon'),
-		lightX: 800,
-		lightY: -20,
 		weight: 27,
 		filter: 'url(#lightSource)',
 		config: {
@@ -90,19 +87,14 @@ const Logo = props => {
 	const hoverInactive = () => {
 		api.start(fuzzy)
 	}
+
 	const activeMouseMove = cursorPos => {
-		const elToppo = document.getElementById('logo').getBoundingClientRect().top
-		const elLeft = document.getElementById('logo').getBoundingClientRect().left
-		const offsetX = cursorPos.x - elLeft
-		const offsetY = cursorPos.y - elToppo
-		const to = {
-			...baloon,
-			lightX: offsetX,
-			lightY: offsetY
-		}
-		api.stop()
-		console.log({ ...baloon })
-		api.start(to)
+		const logo = document.getElementById('logo')
+		const logoBox = logo.getBoundingClientRect()
+		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
+
+		const offsetY = (cursorPos.y - logoBox.top) * window.devicePixelRatio
+		setLightPos({ x: offsetX, y: offsetY })
 	}
 
 	const touch = useTouch({
@@ -127,38 +119,32 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation='1' />
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={0.4 * props.rem} />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={theme.white}
-						diffuseConstant='20'
+						diffuseConstant={3 * props.rem}
 					>
-						{console.log(logoProps.lightX.get())}
-						<fePointLight
-							x={() => logoProps.lightX.get()}
-							y={() => logoProps.lightY.get()}
-							z='10'
-						/>
+						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />
 					</feDiffuseLighting>
 
 					<feComposite
 						in='SourceGraphic'
 						in2='light2'
-						result='bosh'
 						operator='arithmetic'
-						k1='1'
-						k2='0.3'
+						k1={theme.name === 'light' ? 0.8 : 1}
+						k2={theme.name === 'light' ? 0.45 : 0.6}
 						k3='0'
 						k4='0'
 					/>
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation='1.5'
+						stdDeviation={0.8 * props.rem}
 						floodColor={theme.black}
-						floodOpacity='0.2'
+						floodOpacity='0.1'
 					/>
 				</filter>
 				<filter id='fuzzyWuzzy'>

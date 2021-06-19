@@ -92,8 +92,8 @@ const Logo = props => {
 		const logo = document.getElementById('logo')
 		const logoBox = logo.getBoundingClientRect()
 		const scale = 524 / logoBox.width
-		const offsetX = cursorPos.x * scale
-		const offsetY = cursorPos.y * scale
+		const offsetX = (cursorPos.x - logoBox.left) * scale
+		const offsetY = (cursorPos.y - logoBox.top) * scale
 		return { x: offsetX, y: offsetY }
 	}
 

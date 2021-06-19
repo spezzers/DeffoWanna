@@ -103,7 +103,7 @@ const Logo = props => {
 		api.start(baloon)
 	}
 	const hoverInactive = () => {
-		api.start(heavy)
+		api.start(fuzzy)
 	}
 
 	const activeMouseMove = cursorPos => {

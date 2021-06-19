@@ -15,9 +15,12 @@ const StyledLogo = styled(animated.svg)`
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
+
 	const size = props.size ? props.size : 4
 
-	//NOTE: This state seems like a performance drain 
+	// OPTIMIZE State for fePointLight filter
+	// This is updated by the lightPos state below which
+	// fires at every onHover event on the activated logo
 	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
 	
 	let pathNames = []
@@ -84,7 +87,7 @@ const Logo = props => {
 		api.start(normal)
 	}
 
-	const getLightPoint = (cursorPos) => {
+	const getLightPoint = cursorPos => {
 		const logo = document.getElementById('logo')
 		const logoBox = logo.getBoundingClientRect()
 		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
@@ -92,7 +95,7 @@ const Logo = props => {
 		return { x: offsetX, y: offsetY }
 	}
 
-	const activate = (cursorPos) => {
+	const activate = cursorPos => {
 		const result = getLightPoint(cursorPos)
 		setLightPos(result)
 		api.start(baloon)
@@ -116,7 +119,9 @@ const Logo = props => {
 	return (
 		<StyledLogo
 			id='logo'
-			style={logoProps}
+			style={logoProps} // DEBUG Filter render issues on mobile
+			// Should this be declared so high up?
+			// I suspect the spring props are too broadly applied and creating more processing work
 			size={size}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
@@ -128,7 +133,11 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={0.4 * size} />
+					<feGaussianBlur
+						in='SourceGraphic'
+						result='light1'
+						stdDeviation={0.4 * size}
+					/>
 
 					<feDiffuseLighting
 						in='light1'

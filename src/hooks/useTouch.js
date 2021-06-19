@@ -10,28 +10,30 @@ const useTouch = props => {
 		setActivated(false)
 	}, [props])
 
-	const hover = useCallback(() => {
-		props?.hover ? props.hover() : console.log('hover')
-		
+	const hoverInactive = useCallback(() => {
+		props?.hoverInactive
+			? props.hoverInactive()
+			: console.log('hover unactivated element')
 	}, [props])
 
 	useEffect(() => {
 		if (!activated) {
 			if (touches[0] === 'touchstart' && touches[1] === 'touchend') {
-				deactivate()
+				return deactivate()
 			} else {
-				hovering ? hover() : deactivate()
+				return hovering ? hoverInactive() : deactivate()
 			}
 		}
-	}, [hovering, deactivate, activated, hover, touches])
+	}, [hovering, deactivate, activated, hoverInactive, touches])
 
-	const activate = () => {
-		props?.activate ? props.activate() : console.log('activate')
+	const activate = (e) => {
+		props?.activate ? props.activate({x: e.clientX, y: e.clientY}) : console.log('activate')
 		setActivated(true)
 	}
 
-	const handleTouch = event => {
-		const type = event.type
+	const handleTouch = e => {
+		const type = e.type
+		console.log(type, touches)
 		switch (type) {
 			case 'touchstart':
 				setTouches([type])
@@ -48,7 +50,8 @@ const useTouch = props => {
 				setTouches([])
 				break
 			case 'click':
-				activated ? deactivate() : activate()
+				e.preventDefault()
+				activated ? deactivate() : activate(e)
 				break
 			case 'mouseleave':
 				deactivate()
@@ -66,8 +69,21 @@ const useTouch = props => {
 		}
 	}
 
+	const activeMouseMove = () => {
+		if (activated) {
+			return {
+				onMouseMove: e => {
+					if (props.activeMouseMove !== undefined) {
+						return props.activeMouseMove({ x: e.clientX, y: e.clientY })
+					}
+				}
+			}
+		}
+	}
+
 	const attributes = () => {
 		return {
+			...activeMouseMove(),
 			onTouchStart: event => handleTouch(event),
 			onTouchEnd: event => handleTouch(event),
 			onTouchMove: event => handleTouch(event),
@@ -79,6 +95,8 @@ const useTouch = props => {
 	}
 	return {
 		attributes,
+		activated,
+		hovering
 	}
 }
 

@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
-import { useSpring, animated, config } from 'react-spring'
+import React, { useState, useContext } from 'react'
+import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
-import { logoPath } from './logoPath'
+import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
 
 const StyledLogo = styled(animated.svg)`
-	height: ${props => `${props.rem * 2.2}rem` || '2rem'};
+	height: ${props => `${props.size * 2.2}rem`};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -16,43 +16,65 @@ const StyledLogo = styled(animated.svg)`
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 
-	const normal = {
-		color: props.color || theme?.purpleText || '#777777',
-		shadeColor: props.shadeColor || theme?.black || '#000000',
-		glareColor: props.glareColor || theme?.white || '#ffffff',
-		path: logoPath.normal,
-		weight: 5,
-		glareAmount: 0,
-		glareDirection: 'translate(0 0)',
-		shadeAmount: 0,
-		colorDirection: 'translate(0 0)',
-		filter: '',
-		glareOpacity: 0,
-		shadeOpacity: 0
+	const size = props.size ? props.size : 4
+
+	// OPTIMIZE State for fePointLight filter
+	// This is updated by the lightPos state below which
+	// fires at every onHover event on the activated logo
+	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
+	
+	let pathNames = []
+
+	const getPaths = type => {
+		const objs = Object.entries(logoPaths[type])
+		const result = objs.reduce((acc, cur) => {
+			const key = cur[0]
+			const value = cur[1]
+			if (!pathNames.includes(cur[0])) {
+				pathNames = [...pathNames, cur[0]]
+			}
+			return (acc = { ...acc, [key]: value })
+		}, {})
+		return result
 	}
-	const fuzzy = {
-		...normal,
-		path: logoPath.heavy,
-		weight: 28,
-		filter: 'url(#displacementFilter)'
+
+	const normal = {
+		...getPaths('normal'),
+		color: props.color || theme?.purpleText || '#777777',
+		weight: 5,
+		filter: '',
+		config: {
+			mass: 1,
+			tension: 450,
+			friction: 60
+		}
 	}
 	const heavy = {
 		...normal,
-		path: logoPath.heavy,
+		...getPaths('heavy'),
 		weight: 22,
 		filter: ''
 	}
+	const fuzzy = {
+		...heavy,
+		weight: 28,
+		filter: 'url(#fuzzyWuzzy)',
+		config: {
+			mass: 1,
+			tension: 500,
+			friction: 22
+		}
+	}
 	const baloon = {
 		...normal,
-		path: logoPath.baloon,
-		weight: 26,
-		glareAmount: 4.5,
-		glareTransform: 'translate(3.2 -6.7)',
-		shadeAmount: 32,
-		colorDirection: 'translate(1.4 -2.8)',
-		filter: 'url(#colorSoften)',
-		glareOpacity: 1,
-		shadeOpacity: 1
+		...getPaths('baloon'),
+		weight: 27,
+		filter: 'url(#lightSource)',
+		config: {
+			mass: 4,
+			tension: 900,
+			friction: 40
+		}
 	}
 
 	const [logoProps, api] = useSpring(() => ({
@@ -61,42 +83,46 @@ const Logo = props => {
 		delay: 500
 	}))
 
-	const deactivate = () =>
-		api.start({
-			...normal,
-			config: config.default
-		})
+	const deactivate = () => {
+		api.start(normal)
+	}
 
-	const activate = () =>
-		api.start({
-			...baloon,
-			config: {
-				mass: 1,
-				tension: 280,
-				friction: 10
-			}
-		})
-	const hover = () => {
-		api.start({
-			...fuzzy,
-			config: {
-				mass: 1,
-				tension: 500,
-				friction: 22
-			}
-		})
+	const getLightPoint = cursorPos => {
+		const logo = document.getElementById('logo')
+		const logoBox = logo.getBoundingClientRect()
+		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
+		const offsetY = (cursorPos.y - logoBox.top) * window.devicePixelRatio
+		return { x: offsetX, y: offsetY }
+	}
+
+	const activate = cursorPos => {
+		const result = getLightPoint(cursorPos)
+		setLightPos(result)
+		api.start(baloon)
+	}
+	const hoverInactive = () => {
+		api.start(fuzzy)
+	}
+
+	const activeMouseMove = cursorPos => {
+		const result = getLightPoint(cursorPos)
+		setLightPos(result)
 	}
 
 	const touch = useTouch({
 		activate,
 		deactivate,
-		hover
+		hoverInactive,
+		activeMouseMove
 	})
 
 	return (
 		<StyledLogo
 			id='logo'
-			rem={props.rem}
+			style={logoProps} // DEBUG Filter render issues on mobile
+			// Should this be declared so high up?
+			// I suspect the spring props are too broadly applied and creating more processing work
+			size={size}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'
@@ -106,14 +132,40 @@ const Logo = props => {
 			{...touch.attributes()}
 		>
 			<defs>
-				<filter id='glareBlur'>
-					<feGaussianBlur stdDeviation='3.3' />
-				</filter>
+				<filter id='lightSource'>
+					<feGaussianBlur
+						in='SourceGraphic'
+						result='light1'
+						stdDeviation={0.4 * size}
+					/>
 
-				<filter id='colorSoften'>
-					<feGaussianBlur stdDeviation='2' />
+					<feDiffuseLighting
+						in='light1'
+						result='light2'
+						lightingColor={theme.white}
+						diffuseConstant={3 * size}
+					>
+						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />
+					</feDiffuseLighting>
+
+					<feComposite
+						in='SourceGraphic'
+						in2='light2'
+						operator='arithmetic'
+						k1={theme.name === 'light' ? 0.8 : 1}
+						k2={theme.name === 'light' ? 0.45 : 0.6}
+						k3='0'
+						k4='0'
+					/>
+					<feDropShadow
+						dx='-4'
+						dy='3'
+						stdDeviation={0.8 * size}
+						floodColor={theme.black}
+						floodOpacity='0.1'
+					/>
 				</filter>
-				<filter id='displacementFilter'>
+				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
 						baseFrequency='0.15'
@@ -129,33 +181,16 @@ const Logo = props => {
 					/>
 				</filter>
 			</defs>
-
-			<animated.path
-				d={logoProps.path}
-				fill='none'
-				stroke={logoProps.shadeColor}
-				opacity={logoProps.shadeOpacity}
-				strokeWidth={logoProps.shadeAmount}
-			/>
-
-			<animated.path
-				d={logoProps.path}
+			<animated.g
 				fill='none'
 				stroke={logoProps.color}
-				filter={logoProps.filter}
 				strokeWidth={logoProps.weight}
-				transform={logoProps.colorDirection}
-			/>
-
-			<animated.path
-				d={logoProps.path}
-				fill='none'
-				strokeWidth={logoProps.glareAmount}
-				opacity={logoProps.glareOpacity}
-				filter='url(#glareBlur)'
-				transform={logoProps.glareTransform}
-				stroke={logoProps.glareColor}
-			/>
+			>
+				<rect width='534' height='305' fill='none' stroke='none' />
+				{pathNames.map(pathName => (
+					<animated.path key={pathName} d={logoProps[pathName]} />
+				))}
+			</animated.g>
 		</StyledLogo>
 	)
 }

@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import Logo from './Logo.js'
+
+<Meta title='Components/Logo' component={Logo} />
+
+# Logo
+
+An interactive logo with a uniquie hover and click states.
+
+export const Template = args => <Logo {...args} />
+
+<Canvas>
+	<Story
+		name='Primary'
+		args={{
+			size: 5
+		}}
+	>
+		{Template.bind({})}
+	</Story>
+</Canvas>
+
+

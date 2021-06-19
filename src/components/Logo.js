@@ -22,7 +22,7 @@ const Logo = props => {
 	// This is updated by the lightPos state below which
 	// fires at every onHover event on the activated logo
 	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
-	
+
 	let pathNames = []
 
 	const getPaths = type => {
@@ -55,6 +55,7 @@ const Logo = props => {
 		weight: 22,
 		filter: ''
 	}
+
 	const fuzzy = {
 		...heavy,
 		weight: 28,
@@ -90,8 +91,9 @@ const Logo = props => {
 	const getLightPoint = cursorPos => {
 		const logo = document.getElementById('logo')
 		const logoBox = logo.getBoundingClientRect()
-		const offsetX = (cursorPos.x - logoBox.left) * window.devicePixelRatio
-		const offsetY = (cursorPos.y - logoBox.top) * window.devicePixelRatio
+		const scale = 524 / logoBox.width
+		const offsetX = cursorPos.x * scale
+		const offsetY = cursorPos.y * scale
 		return { x: offsetX, y: offsetY }
 	}
 
@@ -101,7 +103,7 @@ const Logo = props => {
 		api.start(baloon)
 	}
 	const hoverInactive = () => {
-		api.start(fuzzy)
+		api.start(heavy)
 	}
 
 	const activeMouseMove = cursorPos => {
@@ -119,9 +121,6 @@ const Logo = props => {
 	return (
 		<StyledLogo
 			id='logo'
-			style={logoProps} // DEBUG Filter render issues on mobile
-			// Should this be declared so high up?
-			// I suspect the spring props are too broadly applied and creating more processing work
 			size={size}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
@@ -132,6 +131,9 @@ const Logo = props => {
 			{...touch.attributes()}
 		>
 			<defs>
+				{/* OPTIMIZE check animation perforamce at higher zoom levels
+				 - perhaps using window.devicePixelRatio might help
+				 - SVG's with Filter Effects applied require more processing*/}
 				<filter id='lightSource'>
 					<feGaussianBlur
 						in='SourceGraphic'
@@ -168,27 +170,36 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency='0.15'
+						baseFrequency={0.015 * size}
 						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale='10'
+						scale={2.2 * size}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>
 				</filter>
 			</defs>
 			<animated.g
+				filter={logoProps.filter}
 				fill='none'
 				stroke={logoProps.color}
 				strokeWidth={logoProps.weight}
 			>
-				<rect width='534' height='305' fill='none' stroke='none' />
+				<rect
+					x='0'
+					y='0'
+					width='534'
+					height='305'
+					fill='none'
+					stroke='none'
+					filter=''
+				/>
 				{pathNames.map(pathName => (
-					<animated.path key={pathName} d={logoProps[pathName]} />
+					<animated.path key={pathName} d={logoProps[pathName]} filter='' />
 				))}
 			</animated.g>
 		</StyledLogo>

@@ -138,7 +138,7 @@ const Logo = props => {
 					<feGaussianBlur
 						in='SourceGraphic'
 						result='light1'
-						stdDeviation={0.4 * size}
+						stdDeviation={size}
 					/>
 
 					<feDiffuseLighting

@@ -138,14 +138,14 @@ const Logo = props => {
 					<feGaussianBlur
 						in='SourceGraphic'
 						result='light1'
-						stdDeviation={size}
+						stdDeviation={4}
 					/>
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={theme.white}
-						diffuseConstant={3 * size}
+						diffuseConstant={12}
 					>
 						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />
 					</feDiffuseLighting>
@@ -162,7 +162,7 @@ const Logo = props => {
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation={0.8 * size}
+						stdDeviation={0.8}
 						floodColor={theme.black}
 						floodOpacity='0.1'
 					/>
@@ -170,14 +170,14 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency={0.015 * size}
+						baseFrequency={0.06}
 						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale={2.2 * size}
+						scale={9}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>

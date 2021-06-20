@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPaths } from './logoPaths'
@@ -13,16 +13,22 @@ const StyledLogo = styled(animated.svg)`
 	}
 `
 
+const AnimFePointLight = animated('fePointLight')
+
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 
 	const size = props.size ? props.size : 4
-	const lightColor = props.lightColor || theme.white || 'white'
 
-	// OPTIMIZE State for fePointLight filter
-	// This is updated by the lightPos state below which
-	// fires at every onHover event on the activated logo
-	const [lightPos, setLightPos] = useState({ x: 700, y: -20 })
+	const [lightPos, setLightPos] = useSpring(() => ({
+		x: 700,
+		y: -20,
+		config: {
+			mass: 1,
+			tension: 800,
+			friction: 45
+		}
+	}))
 
 	let pathNames = []
 
@@ -100,7 +106,7 @@ const Logo = props => {
 
 	const activate = cursorPos => {
 		const result = getLightPoint(cursorPos)
-		setLightPos(result)
+		setLightPos.start(result)
 		api.start(baloon)
 	}
 	const hoverInactive = () => {
@@ -109,7 +115,7 @@ const Logo = props => {
 
 	const activeMouseMove = cursorPos => {
 		const result = getLightPoint(cursorPos)
-		setLightPos(result)
+		setLightPos.start(result)
 	}
 
 	const touch = useTouch({
@@ -132,23 +138,19 @@ const Logo = props => {
 			{...touch.attributes()}
 		>
 			<defs>
-				{/* OPTIMIZE check animation perforamce at higher zoom levels
+				{/* OPTIMIZE check animation perforamce at higher zoom levels on slower devices
 				 - perhaps using window.devicePixelRatio might help
 				 - SVG's with Filter Effects applied require more processing*/}
 				<filter id='lightSource'>
-					<feGaussianBlur
-						in='SourceGraphic'
-						result='light1'
-						stdDeviation={4}
-					/>
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={4} />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
-						lightingColor={lightColor}
-						diffuseConstant={12}
+						lightingColor={theme.white}
+						diffuseConstant={3 * size}
 					>
-						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />
+						<AnimFePointLight x={lightPos.x} y={lightPos.y} z='5' />
 					</feDiffuseLighting>
 
 					<feComposite
@@ -163,7 +165,7 @@ const Logo = props => {
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation={0.8}
+						stdDeviation={0.8 * size}
 						floodColor={theme.black}
 						floodOpacity='0.1'
 					/>
@@ -171,14 +173,14 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency={0.06}
+						baseFrequency={0.015 * size}
 						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale={9}
+						scale={2.2 * size}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>

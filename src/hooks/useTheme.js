@@ -7,7 +7,7 @@ const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {
-	console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+	//console.log(window.matchMedia('(prefers-color-scheme: dark)'))
 
 	const themePrefs =
 		typeof window !== 'undefined'

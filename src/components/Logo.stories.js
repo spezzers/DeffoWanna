@@ -6,7 +6,7 @@ export default {
 	component: Logo,
 	argTypes: {
 		size: {
-			name: 'Size',
+			name: 'size',
 			description: 'Font size of the logo',
 			control: 'number',
 			table: {
@@ -20,11 +20,21 @@ export default {
 			}
 		},
 		color: {
-			name: 'Color',
+			name: 'color',
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: '#ff99344'
+					summary: '#777777'
+				}
+			}
+		},
+		lightColor: {
+			name: 'lightColor',
+			description: 'Color of light source when activated',
+			control: 'color',
+			table: {
+				defaultValue: {
+					summary: 'white'
 				}
 			}
 		}

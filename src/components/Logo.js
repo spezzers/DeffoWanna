@@ -17,6 +17,7 @@ const Logo = props => {
 	const theme = useContext(ThemeContext)
 
 	const size = props.size ? props.size : 4
+	const lightColor = props.lightColor || theme.white || 'white'
 
 	// OPTIMIZE State for fePointLight filter
 	// This is updated by the lightPos state below which
@@ -144,7 +145,7 @@ const Logo = props => {
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
-						lightingColor={theme.white}
+						lightingColor={lightColor}
 						diffuseConstant={12}
 					>
 						<fePointLight x={lightPos.x} y={lightPos.y} z='5' />

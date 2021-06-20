@@ -24,7 +24,7 @@ export default {
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: '#777777'
+					summary: 'ThemeContext.purple|#777777'
 				}
 			}
 		},
@@ -34,7 +34,7 @@ export default {
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: 'white'
+					summary: 'ThemeContext.white | white',
 				}
 			}
 		}

@@ -14,7 +14,11 @@ export const parameters = {
 		disable: true
 	},
 	controls: { expanded: true },
-	layout: 'centered'
+	layout: 'centered',
+	matchers: {
+		color: /(background|color)$/i,
+		date: /Date$/,
+	  }
 }
 
 export const globalTypes = {

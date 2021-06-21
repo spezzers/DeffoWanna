@@ -7,8 +7,11 @@ const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {
-	//console.log(window.matchMedia('(prefers-color-scheme: dark)'))
 
+	// TODO detect user theme preference with mediaQuery
+	if (typeof window !== 'undefined') {
+		console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+	}
 	const themePrefs =
 		typeof window !== 'undefined'
 			? window.localStorage.getItem('theme') || 'light'

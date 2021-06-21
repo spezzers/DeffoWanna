@@ -19,7 +19,7 @@ const Logo = props => {
 	const theme = useContext(ThemeContext)
 
 	const size = props.size || 4
-	const lightColor = props.lightColor || theme.white || white
+	const lightColor = props.lightColor || theme.white || 'white'
 
 	const [lightPos, setLightPos] = useSpring(() => ({
 		x: 700,

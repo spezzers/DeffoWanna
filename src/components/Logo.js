@@ -18,7 +18,8 @@ const AnimFePointLight = animated('fePointLight')
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 
-	const size = props.size ? props.size : 4
+	const size = props.size || 4
+	const lightColor = props.lightColor || theme.white || white
 
 	const [lightPos, setLightPos] = useSpring(() => ({
 		x: 700,
@@ -138,16 +139,13 @@ const Logo = props => {
 			{...touch.attributes()}
 		>
 			<defs>
-				{/* OPTIMIZE check animation perforamce at higher zoom levels on slower devices
-				 - perhaps using window.devicePixelRatio might help
-				 - SVG's with Filter Effects applied require more processing*/}
 				<filter id='lightSource'>
 					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={4} />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
-						lightingColor={theme.white}
+						lightingColor={lightColor}
 						diffuseConstant={3 * size}
 					>
 						<AnimFePointLight x={lightPos.x} y={lightPos.y} z='5' />
@@ -188,7 +186,6 @@ const Logo = props => {
 			</defs>
 			<animated.g
 				filter={logoProps.filter}
-				fill='none'
 				stroke={logoProps.color}
 				strokeWidth={logoProps.weight}
 			>

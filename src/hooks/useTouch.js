@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
+import {devLogger} from '../helpers/loggers'
+
 
 const useTouch = props => {
 	const [touches, setTouches] = useState([])
@@ -6,14 +8,14 @@ const useTouch = props => {
 	const [hovering, setHovering] = useState(false)
 
 	const deactivate = useCallback(() => {
-		props?.deactivate ? props.deactivate() : console.log('deactivate')
+		props?.deactivate ? props.deactivate() : devLogger('deactivate')
 		setActivated(false)
 	}, [props])
 
 	const hoverInactive = useCallback(() => {
 		props?.hoverInactive
 			? props.hoverInactive()
-			: console.log('hover unactivated element')
+			: devLogger('hover unactivated element')
 	}, [props])
 
 	useEffect(() => {
@@ -27,13 +29,13 @@ const useTouch = props => {
 	}, [hovering, deactivate, activated, hoverInactive, touches])
 
 	const activate = (e) => {
-		props?.activate ? props.activate({x: e.clientX, y: e.clientY}) : console.log('activate')
+		props?.activate ? props.activate({x: e.clientX, y: e.clientY}) : devLogger('activate')
 		setActivated(true)
 	}
 
 	const handleTouch = e => {
 		const type = e.type
-		console.log(type, touches)
+		devLogger(type, touches)
 		switch (type) {
 			case 'touchstart':
 				setTouches([type])
@@ -64,7 +66,7 @@ const useTouch = props => {
 				}
 				break
 			default:
-				console.log(type)
+				devLogger(type)
 				break
 		}
 	}

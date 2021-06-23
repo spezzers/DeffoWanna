@@ -11,7 +11,7 @@ This is exciting because it will allow me to use more complex animations in the 
 - These SVG filter effects:
   - `feColorMatrix`
   - `feComponentTransfer`
-  - `feFlood`
+  - `feFlood` seems to work but support is considered 'unknown'
   - *...and probably a few more I haven't tried using*
 
 **Takeaway:** I should have checked '[Can I Use](https:caniuse.com)' more thoroughly before spending so long on this.

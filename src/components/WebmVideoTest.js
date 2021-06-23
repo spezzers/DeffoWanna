@@ -10,15 +10,17 @@ const SvgVid = () => {
 				height='0'
 			>
 					<filter id='vidFilter'>
-						<feColorMatrix // FIX iOS doesn't support this!
+						{/* FIX iOS doesn't support this! */}
+						<feColorMatrix 
 							in='SourceGraphic'
 							result='alpha'
 							type='matrix'
-							values=' 1  0  0  0  0 
-								0  1  0  0  0 
-								0  0  1  0  0 
-								-10 -10 -10  1  0'
+							values='1  0  0  0  0 
+									0  1  0  0  0 
+									0  0  1  0  0 
+									-10 -10 -10  1  0'
 						/>
+						{/* FIX iOS doesn't support this! */}
 						<feFlood result='fill' floodColor='red' />
 
 						<feComposite in2='alpha' in='fill' operator='in' />
@@ -28,8 +30,6 @@ const SvgVid = () => {
 			<video
 				className='vid'
 				playsInline
-				width='100%'
-				height='100%'
 				autoPlay
 				loop
 				muted

@@ -1,11 +1,13 @@
 import React from 'react'
 import Layout from '../components/layout'
 import Logo from '../components/Logo'
+import WebmVideoTest from '../components/WebmVideoTest'
 
 const LogoTest = () => {
 	return (
 		<Layout>
 			<Logo />
+			<WebmVideoTest />
 			<h1>
 				Design and
 				<br />

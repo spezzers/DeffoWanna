@@ -1,19 +1,16 @@
 import React from 'react'
 import LogoAnimation from '../assets/logoAnimation.webm'
 import LogoAnimationMP4 from '../assets/logoAnimation.mp4'
+import styled from 'styled-components'
 
 const SvgVid = () => {
 	return (
-		<>
+		<div>
 			<svg
-				viewBox='0 0 1080 540'
-				height='8rem'
-				preserveAspectRatio='xMinYMin'
-				xmlns='http://www.w3.org/2000/svg'
+				height='0'
 			>
-				<defs>
-					<filter id='vidfilter'>
-						<feColorMatrix
+					<filter id='vidFilter'>
+						<feColorMatrix // FIX iOS doesn't support this!
 							in='SourceGraphic'
 							result='alpha'
 							type='matrix'
@@ -26,33 +23,39 @@ const SvgVid = () => {
 
 						<feComposite in2='alpha' in='fill' operator='in' />
 					</filter>
-				</defs>
-				<foreignObject
-					id='vid'
-					width='100%'
-					height='100%'
-					filter='url(#vidfilter)'
-				>
-					<style>filter='invert(100%)'</style>
-					<video width='100%' height='100%' autoPlay playsInline loop muted>
-						{/* FIX Dang! WebM not working on iOS */}
-						{/* BUG Firefox only plays video on mouseEvents - very weird! */}
-						<source src={LogoAnimation} type='video/mp4' />
-						<source src={LogoAnimationMP4} type='video/mp4' />
-					</video>
-				</foreignObject>
 			</svg>
-			<video playsInline width='100%' height='100%' autoPlay loop muted>
-				{/* NOTE check if ios has issue with file format */}
+
+			<video
+				className='vid'
+				playsInline
+				width='100%'
+				height='100%'
+				autoPlay
+				loop
+				muted
+				// filter='url(#vidFilter)'
+				style={{filter: 'url(#vidFilter)'}}
+			>
 				<source src={LogoAnimation} type='video/webm' />
 				<source src={LogoAnimationMP4} type='video/mp4' />
 			</video>
-		</>
+		</div>
 	)
 }
 
+
+const Wrap = styled.div`
+	.vid {
+		filter: url(#{vidFilter});
+	}
+`
+
 const WebmVideoTest = () => {
-	return <SvgVid />
+	return (
+		<Wrap>
+			<SvgVid />
+		</Wrap>
+	)
 }
 // TODO rename this component and update references
 export default WebmVideoTest

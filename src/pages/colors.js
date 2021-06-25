@@ -24,7 +24,14 @@ const Wrap = styled.div`
 	}
 	.dark {
 		background-color: ${themes.dark.background};
-		img {
+		.swatch {
+			width: 200px;
+			height: 100px;
+			background-color: ${themes.dark.background};
+		}
+		// NOTE Dark mode filter
+		img,
+		.swatch {
 			filter: brightness(88%) saturate(95%) contrast(111%);
 		}
 	}
@@ -34,6 +41,8 @@ const colors = () => {
 	return (
 		<Wrap>
 			<div className='dark left'>
+				<div className='swatch'>Background filtered</div>
+
 				<img src={colorPalette} alt='color palette dark' />
 			</div>
 			<div className='light right'>

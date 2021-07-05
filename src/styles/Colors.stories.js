@@ -1,6 +1,5 @@
-import React from 'react'
-import themes from './themes'
-import styled from 'styled-components'
+import React, {useContext} from 'react'
+import styled, {ThemeContext} from 'styled-components'
 
 const Color = props => {
 	return (
@@ -33,7 +32,9 @@ const ColorsList = styled.div`
 	}
 `
 
-const Colors = ({ theme }) => {
+const Colors = () => {
+	const theme = useContext(ThemeContext)
+	console.log(theme)
 	return (
 		<ColorsList>
 			{Object.entries(theme).map(entry => {
@@ -52,5 +53,4 @@ export default {
 	component: Colors
 }
 
-export const Light = () => <Colors theme={themes.light} />
-export const Dark = () => <Colors theme={themes.dark} />
+export const Theme = () => <Colors/>

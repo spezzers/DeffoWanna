@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 const StyledDeck = styled.div`
 	--width: ${props => props.width || '80px'};
-	--height: ${props => props.height || '320px'};
+	--length: ${props => props.height || '320px'};
+	--thickness: ${props => props.thickness || '5px'};
 	--radius: calc(var(--width) / 2);
 	--lat-flip: ${props => (props.latFlip ? `${props.latFlip}deg` : '0deg')};
 	--long-flip: ${props => (props.longFlip ? `${props.longFlip}deg` : '0deg')};
@@ -11,12 +12,11 @@ const StyledDeck = styled.div`
 	--rotate-x: ${props => (props.rotateX ? `${props.rotateX}deg` : '0deg')};
 	--rotate-y: ${props => (props.rotateY ? `${props.rotateY}deg` : '0deg')};
 	transform-style: preserve-3d;
-	perspective: calc(2.5 * var(--height));
+	perspective: calc(2.5 * var(--length));
 	perspective-origin: center;
 
 	.orientation {
-	transform: rotateX(var(--rotate-x)) rotateZ(var(--rotate-y));
-
+		transform: rotateX(var(--rotate-x)) rotateZ(var(--rotate-y));
 	}
 
 	* {
@@ -24,12 +24,14 @@ const StyledDeck = styled.div`
 	}
 	.deck,
 	.graphic,
-	.griptape {
+	.griptape,
+	.board {
 		width: var(--width);
-		height: var(--height);
+		height: var(--length);
 	}
 	.griptape,
-	.graphic {
+	.graphic,
+	.board {
 		border-radius: calc(var(--width) / 2);
 		flex-direction: column;
 		justify-content: center;
@@ -38,12 +40,22 @@ const StyledDeck = styled.div`
 		transform-style: preserve-3d;
 	}
 	.griptape {
-		transform: translateZ(-1px);
+		transform: translateZ(calc(var(--thickness) / -2));
 		.mid,
 		.nose,
 		.tail {
-			background-color: red;
+			background-color: black;
 		}
+	}
+	.board {
+		.mid,
+		.nose,
+		.tail {
+			background-color: orange;
+		}
+	}
+	.graphic {
+		transform: translateZ(calc(var(--thickness) /2));
 	}
 	.flip {
 		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip));
@@ -85,6 +97,11 @@ const Skateboard = props => {
 					<div className='flip'>
 						<div className='deck'>
 							<div className='griptape'>
+								<div className='nose'></div>
+								<div className='mid'></div>
+								<div className='tail'></div>
+							</div>
+							<div className='board'>
 								<div className='nose'></div>
 								<div className='mid'></div>
 								<div className='tail'></div>

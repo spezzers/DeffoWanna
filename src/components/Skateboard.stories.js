@@ -5,6 +5,48 @@ export default {
 	title: 'Components/Image Frames/Skateboard',
 	component: Skateboard,
 	argTypes: {
+		width: {
+			name: 'width',
+			description: 'Width of deck',
+			control: 'number',
+			table: {
+				defaultValue: {
+					summary: 80
+				},
+				type: {
+					summary: 'px',
+					detail: 'pixels'
+				}
+			}
+		},
+		length: {
+			name: 'length',
+			description: 'Length of deck',
+			control: 'number',
+			table: {
+				defaultValue: {
+					summary: 320
+				},
+				type: {
+					summary: 'px',
+					detail: 'pixels'
+				}
+			}
+		},
+		depth: {
+			name: 'depth',
+			description: 'Depth of deck',
+			control: 'number',
+			table: {
+				defaultValue: {
+					summary: 5
+				},
+				type: {
+					summary: 'px',
+					detail: 'pixels'
+				}
+			}
+		},
 		rotateX: {
 			name: 'rotate-x',
 			description: 'Overall deck rotation on X axis',

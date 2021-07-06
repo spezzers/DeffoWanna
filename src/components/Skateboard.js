@@ -1,10 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledDeck = styled.div`
-	--width: ${props => props.width || '80px'};
-	--length: ${props => props.height || '320px'};
-	--thickness: ${props => props.thickness || '5px'};
+const StyledDeck = styled.div.attrs(props => {
+	let size = {
+		length: '320px',
+		width: '80px',
+		thickness: '5px'
+	}
+	if (props.length) {
+		size.length = `${props.length}px`
+		size.width = props.width ? `${props.width}px` : `${props.length / (32/8)}px`
+		size.thickness = props.thickness ? `${props.thickness}px` : `${props.length / (32/0.5)}px`
+	} else if (props.width) {
+		size.width = `${props.width}px`
+		size.length = `${props.width * (32/8)}px`
+		size.thickness = props.thickness ? props.thickness : `${props.width / (8 / 0.5)}`
+	} else if (props.thickness) {
+		size.thickness = props.thickness
+	}
+	return size
+
+})`
+	--length: ${props => props.length};
+	--width: ${props => props.width};
+	--thickness: ${props => props.thickness};
 	--radius: calc(var(--width) / 2);
 	--lat-flip: ${props => (props.latFlip ? `${props.latFlip}deg` : '0deg')};
 	--long-flip: ${props => (props.longFlip ? `${props.longFlip}deg` : '0deg')};
@@ -55,7 +74,7 @@ const StyledDeck = styled.div`
 		}
 	}
 	.graphic {
-		transform: translateZ(calc(var(--thickness) /2));
+		transform: translateZ(calc(var(--thickness) / 2));
 	}
 	.flip {
 		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip));

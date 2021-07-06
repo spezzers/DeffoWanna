@@ -11,31 +11,42 @@ const StyledDeck = styled.div`
 	--rotate-x: ${props => (props.rotateX ? `${props.rotateX}deg` : '0deg')};
 	--rotate-y: ${props => (props.rotateY ? `${props.rotateY}deg` : '0deg')};
 	transform-style: preserve-3d;
+	perspective: calc(2.5 * var(--height));
+	perspective-origin: center;
+
+	.orientation {
 	transform: rotateX(var(--rotate-x)) rotateZ(var(--rotate-y));
+
+	}
+
 	* {
 		transform-style: preserve-3d;
 	}
-	.deck, .graphic, .griptape {
+	.deck,
+	.graphic,
+	.griptape {
 		width: var(--width);
 		height: var(--height);
 	}
-	.griptape, .graphic {
+	.griptape,
+	.graphic {
 		border-radius: calc(var(--width) / 2);
 		flex-direction: column;
 		justify-content: center;
 		display: flex;
 		position: absolute;
 		transform-style: preserve-3d;
-
 	}
 	.griptape {
 		transform: translateZ(-1px);
-		.mid, .nose, .tail {
-		background-color: red;
+		.mid,
+		.nose,
+		.tail {
+			background-color: red;
 		}
 	}
 	.flip {
-		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip)) ;
+		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip));
 	}
 	.spin {
 		transform: rotateZ(var(--spin));
@@ -69,19 +80,21 @@ const StyledDeck = styled.div`
 const Skateboard = props => {
 	return (
 		<StyledDeck {...props}>
-			<div className='spin'>
-				<div className='flip'>
-					<div className='deck'>
-					<div className='griptape'>
-						<div className='nose'></div>
-						<div className='mid'></div>
-						<div className='tail'></div>
-					</div>
-					<div className='graphic'>
-						<div className='nose'></div>
-						<div className='mid'></div>
-						<div className='tail'></div>
-					</div>
+			<div className='orientation'>
+				<div className='spin'>
+					<div className='flip'>
+						<div className='deck'>
+							<div className='griptape'>
+								<div className='nose'></div>
+								<div className='mid'></div>
+								<div className='tail'></div>
+							</div>
+							<div className='graphic'>
+								<div className='nose'></div>
+								<div className='mid'></div>
+								<div className='tail'></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

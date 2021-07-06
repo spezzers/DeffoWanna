@@ -15,13 +15,24 @@ const StyledDeck = styled.div`
 	* {
 		transform-style: preserve-3d;
 	}
-	.deck {
+	.deck, .graphic, .griptape {
 		width: var(--width);
 		height: var(--height);
+	}
+	.griptape, .graphic {
 		border-radius: calc(var(--width) / 2);
-		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		display: flex;
+		position: absolute;
+		transform-style: preserve-3d;
+
+	}
+	.griptape {
+		transform: translateZ(-1px);
+		.mid, .nose, .tail {
+		background-color: red;
+		}
 	}
 	.flip {
 		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip)) ;
@@ -61,9 +72,16 @@ const Skateboard = props => {
 			<div className='spin'>
 				<div className='flip'>
 					<div className='deck'>
+					<div className='griptape'>
 						<div className='nose'></div>
 						<div className='mid'></div>
 						<div className='tail'></div>
+					</div>
+					<div className='graphic'>
+						<div className='nose'></div>
+						<div className='mid'></div>
+						<div className='tail'></div>
+					</div>
 					</div>
 				</div>
 			</div>

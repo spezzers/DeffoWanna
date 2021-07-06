@@ -36,6 +36,7 @@ const StyledDeck = styled.div.attrs(props => {
 	--rotate-x: ${props => (props.rotateX ? `${props.rotateX}deg` : '0deg')};
 	--rotate-y: ${props => (props.rotateY ? `${props.rotateY}deg` : '0deg')};
 	--background-color: ${props => props.backgroundColor || 'white'};
+	--src: ${props => `url(${props.src})` || null};
 	--board-color: ${props => props.boardColor || 'BurlyWood'};
 	--grip-color: ${props => props.gripColor || 'black'};
 	transform-style: preserve-3d;
@@ -94,6 +95,21 @@ const StyledDeck = styled.div.attrs(props => {
 		.tail,
 		.mid {
 			background-color: var(--background-color);
+		}
+		.nose {
+			background-image: var(--src);
+			background-position: center top;
+			background-size: auto var(--length);
+		}
+		.mid {
+			background-image: var(--src);
+			background-position: center;
+			background-size: auto var(--length);
+		}
+		.tail {
+			background-image: var(--src);
+			background-position: center bottom;
+			background-size: auto var(--length);
 		}
 	}
 	.flip {

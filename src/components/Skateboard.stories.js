@@ -146,4 +146,4 @@ export default {
 	}
 }
 
-export const Primary = args => <Skateboard {...args}/>
+export const Primary = args => <Skateboard src={birdsImg} {...args}/>

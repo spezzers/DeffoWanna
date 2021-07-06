@@ -9,17 +9,22 @@ const StyledDeck = styled.div.attrs(props => {
 	}
 	if (props.length) {
 		size.length = `${props.length}px`
-		size.width = props.width ? `${props.width}px` : `${props.length / (32/8)}px`
-		size.thickness = props.thickness ? `${props.thickness}px` : `${props.length / (32/0.5)}px`
+		size.width = props.width
+			? `${props.width}px`
+			: `${props.length / (32 / 8)}px`
+		size.thickness = props.thickness
+			? `${props.thickness}px`
+			: `${props.length / (32 / 0.5)}px`
 	} else if (props.width) {
 		size.width = `${props.width}px`
-		size.length = `${props.width * (32/8)}px`
-		size.thickness = props.thickness ? props.thickness : `${props.width / (8 / 0.5)}`
+		size.length = `${props.width * (32 / 8)}px`
+		size.thickness = props.thickness
+			? props.thickness
+			: `${props.width / (8 / 0.5)}`
 	} else if (props.thickness) {
 		size.thickness = props.thickness
 	}
 	return size
-
 })`
 	--length: ${props => props.length};
 	--width: ${props => props.width};
@@ -30,6 +35,9 @@ const StyledDeck = styled.div.attrs(props => {
 	--spin: ${props => (props.spin ? `${props.spin}deg` : '0deg')};
 	--rotate-x: ${props => (props.rotateX ? `${props.rotateX}deg` : '0deg')};
 	--rotate-y: ${props => (props.rotateY ? `${props.rotateY}deg` : '0deg')};
+	--background-color: ${props => props.backgroundColor || 'white'};
+	--board-color: ${props => props.boardColor || 'BurlyWood'};
+	--grip-color: ${props => props.gripColor || 'black'};
 	transform-style: preserve-3d;
 	perspective: calc(2.5 * var(--length));
 	perspective-origin: center;
@@ -63,18 +71,30 @@ const StyledDeck = styled.div.attrs(props => {
 		.mid,
 		.nose,
 		.tail {
-			background-color: black;
+			background-color: var(--grip-color);
 		}
 	}
+
 	.board {
 		.mid,
 		.nose,
 		.tail {
-			background-color: orange;
+			background-color: var(--board-color);
 		}
+	}
+	.board.top {
+		transform: translateZ(calc(var(--thickness) / -2.1));
+	}
+	.board.bottom {
+		transform: translateZ(calc(var(--thickness) / 2.1));
 	}
 	.graphic {
 		transform: translateZ(calc(var(--thickness) / 2));
+		.nose,
+		.tail,
+		.mid {
+			background-color: var(--background-color);
+		}
 	}
 	.flip {
 		transform: rotateX(var(--long-flip)) rotateY(var(--lat-flip));
@@ -82,14 +102,11 @@ const StyledDeck = styled.div.attrs(props => {
 	.spin {
 		transform: rotateZ(var(--spin));
 	}
-	.mid {
-		flex-grow: 1;
-	}
+
 	.nose,
 	.tail,
 	.mid {
 		width: var(--width);
-		background-color: blue;
 	}
 
 	.nose,
@@ -97,9 +114,13 @@ const StyledDeck = styled.div.attrs(props => {
 		height: calc(var(--width) * 0.75);
 		border-radius: var(--radius) var(--radius) 0 0;
 	}
+
 	.nose {
 		transform-origin: bottom;
 		transform: rotateX(15deg);
+	}
+	.mid {
+		flex-grow: 1;
 	}
 	.tail {
 		transform-origin: top;
@@ -120,7 +141,17 @@ const Skateboard = props => {
 								<div className='mid'></div>
 								<div className='tail'></div>
 							</div>
+							<div className='board top'>
+								<div className='nose'></div>
+								<div className='mid'></div>
+								<div className='tail'></div>
+							</div>
 							<div className='board'>
+								<div className='nose'></div>
+								<div className='mid'></div>
+								<div className='tail'></div>
+							</div>
+							<div className='board bottom'>
 								<div className='nose'></div>
 								<div className='mid'></div>
 								<div className='tail'></div>

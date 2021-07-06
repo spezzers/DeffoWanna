@@ -1,5 +1,6 @@
 import React from 'react'
 import Skateboard from './Skateboard'
+import birdsImg from '../images/birds.jpg'
 
 export default {
 	title: 'Components/Image Frames/Skateboard',

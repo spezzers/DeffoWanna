@@ -129,7 +129,6 @@ const StyledDeck = styled.div.attrs(props => {
 		width: var(--width);
 		flex-shrink: 0;
 		flex-grow: 0;
-
 	}
 
 	.nose,
@@ -153,8 +152,21 @@ const StyledDeck = styled.div.attrs(props => {
 `
 
 const Skateboard = props => {
-
 	const alt = props.alt ? `${props.alt} - ` : ''
+	const graphic = section => {
+		console.log(section)
+		if (props.src) {
+			return (
+				<img
+					alt={`${alt}skateboard deck design, ${section} section graphic`}
+					srcSet={props.srcSet}
+					src={props.src}
+				/>
+			)
+		}
+		return null
+	}
+
 	return (
 		<StyledDeck {...props}>
 			<div className='orientation'>
@@ -181,28 +193,15 @@ const Skateboard = props => {
 								<div className='mid'></div>
 								<div className='tail'></div>
 							</div>
-							{/* OPTIMIZE use gatspy-plugin-image here for responsive images */}
 							<div className='graphic'>
 								<div className='nose'>
-									<img
-										alt={`${alt}skateboard deck design, nose graphic`}
-										srcSet={props.srcSet}
-										src={props.src}
-									/>
+									{graphic('nose')}
 								</div>
 								<div className='mid'>
-									<img
-										alt={`${alt}skateboard deck design, middle graphic`}
-										srcSet={props.srcSet}
-										src={props.src}
-									/>
+									{graphic('middle')}
 								</div>
 								<div className='tail'>
-									<img
-										alt={`${alt}skateboard deck design, tail graphic`}
-										srcSet={props.srcSet}
-										src={props.src}
-									/>
+									{graphic('tail')}
 								</div>
 							</div>
 						</div>

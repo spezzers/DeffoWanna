@@ -20,10 +20,11 @@ const StyledDeck = styled.div.attrs(props => {
 		size.length = `${props.width * (32 / 8)}px`
 		size.thickness = props.thickness
 			? props.thickness
-			: `${props.width / (8 / 0.5)}`
+			: `${props.width / (8 / 0.5)}px`
 	} else if (props.thickness) {
 		size.thickness = props.thickness
 	}
+	console.log(size)
 	return size
 })`
 	--length: ${props => props.length};
@@ -172,6 +173,7 @@ const Skateboard = props => {
 								<div className='mid'></div>
 								<div className='tail'></div>
 							</div>
+							{/* OPTIMIZE use gatspy-plugin-image here for responsive images */}
 							<div className='graphic'>
 								<div className='nose'></div>
 								<div className='mid'></div>

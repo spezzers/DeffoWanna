@@ -95,22 +95,25 @@ const StyledDeck = styled.div.attrs(props => {
 		.nose,
 		.tail,
 		.mid {
+			overflow: hidden;
 			background-color: var(--background-color);
+			flex-shrink: 0;
+			display: flex;
+			img {
+				height: var(--length);
+			}
 		}
 		.nose {
-			background-image: var(--src);
-			background-position: center top;
-			background-size: auto var(--length);
+			align-items: flex-start;
+			justify-content: center;
 		}
 		.mid {
-			background-image: var(--src);
-			background-position: center;
-			background-size: auto var(--length);
+			align-items: center;
+			justify-content: center;
 		}
 		.tail {
-			background-image: var(--src);
-			background-position: center bottom;
-			background-size: auto var(--length);
+			align-items: flex-end;
+			justify-content: center;
 		}
 	}
 	.flip {
@@ -124,6 +127,9 @@ const StyledDeck = styled.div.attrs(props => {
 	.tail,
 	.mid {
 		width: var(--width);
+		flex-shrink: 0;
+		flex-grow: 0;
+
 	}
 
 	.nose,
@@ -137,7 +143,7 @@ const StyledDeck = styled.div.attrs(props => {
 		transform: rotateX(15deg);
 	}
 	.mid {
-		flex-grow: 1;
+		height: calc(var(--length) - (1.5 * var(--width)));
 	}
 	.tail {
 		transform-origin: top;
@@ -147,6 +153,8 @@ const StyledDeck = styled.div.attrs(props => {
 `
 
 const Skateboard = props => {
+
+	const alt = props.alt ? `${props.alt} - ` : ''
 	return (
 		<StyledDeck {...props}>
 			<div className='orientation'>
@@ -175,9 +183,27 @@ const Skateboard = props => {
 							</div>
 							{/* OPTIMIZE use gatspy-plugin-image here for responsive images */}
 							<div className='graphic'>
-								<div className='nose'></div>
-								<div className='mid'></div>
-								<div className='tail'></div>
+								<div className='nose'>
+									<img
+										alt={`${alt}skateboard deck design, nose graphic`}
+										srcSet={props.srcSet}
+										src={props.src}
+									/>
+								</div>
+								<div className='mid'>
+									<img
+										alt={`${alt}skateboard deck design, middle graphic`}
+										srcSet={props.srcSet}
+										src={props.src}
+									/>
+								</div>
+								<div className='tail'>
+									<img
+										alt={`${alt}skateboard deck design, tail graphic`}
+										srcSet={props.srcSet}
+										src={props.src}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>

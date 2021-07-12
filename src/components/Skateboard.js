@@ -61,7 +61,6 @@ const StyledDeck = styled.div.attrs(props => {
 	.griptape,
 	.graphic,
 	.board {
-		border-radius: calc(var(--width) / 2);
 		flex-direction: column;
 		justify-content: center;
 		display: flex;
@@ -134,10 +133,10 @@ const StyledDeck = styled.div.attrs(props => {
 	.nose,
 	.tail {
 		height: calc(var(--width) * 0.75);
-		border-radius: var(--radius) var(--radius) 0 0;
 	}
 
 	.nose {
+		border-radius: var(--radius) var(--radius) 0 0;
 		transform-origin: bottom;
 		transform: rotateX(15deg);
 	}
@@ -194,15 +193,9 @@ const Skateboard = props => {
 								<div className='tail'></div>
 							</div>
 							<div className='graphic'>
-								<div className='nose'>
-									{graphic('nose')}
-								</div>
-								<div className='mid'>
-									{graphic('middle')}
-								</div>
-								<div className='tail'>
-									{graphic('tail')}
-								</div>
+								<div className='nose'>{graphic('nose')}</div>
+								<div className='mid'>{graphic('middle')}</div>
+								<div className='tail'>{graphic('tail')}</div>
 							</div>
 						</div>
 					</div>

@@ -22,20 +22,21 @@ export const DemoSVG = () => {
 const HatchedImage = styled.div.attrs(props => {
 	if (props.theme.name === 'light') {
 		return {
-			blend: 'darken',
-			themeFilters: 'brightness(1.25)'
+			blend: 'multiply',
+			themeFilters: 'contrast(20) brightness(1.25)'
 		}
 	} else {
 		return {
-			blend: 'lighten',
-			themeFilters: 'invert(1) brightness(0.85)'
+			blend: 'color-dodge',
+			themeFilters: 'contrast(20) invert(1) brightness(0.85)'
 		}
 	}
 })`
-	filter: grayscale(100%) brightness(1.15) contrast(100)
+	filter: grayscale(100%) brightness(1.15) 
 		${props => props.themeFilters} blur(0.4px) !important;
 	margin: 0;
 	mix-blend-mode: ${props => props.blend};
+	opacity: 0.75;
 `
 
 const Hatch = styled.div`
@@ -50,6 +51,7 @@ const Hatch = styled.div`
 		display: block;
 		background-color: white !important;
 		opacity: 0.47;
+		filter: invert(0);
 	}
 `
 

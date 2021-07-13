@@ -1,11 +1,13 @@
 import React from 'react'
 import Layout from '../components/layout'
 import Logo from '../components/Logo'
+import CrossHatchTest from '../components/CrossHatchTest'
 
 const LogoTest = () => {
 	return (
 		<Layout>
 			<Logo />
+			<CrossHatchTest />
 			<h1>
 				Design and
 				<br />

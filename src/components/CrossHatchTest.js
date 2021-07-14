@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import shortHatch from '../images/shortHatch.svg'
 import styled, { ThemeContext } from 'styled-components'
 import pic from '../images/lowRes.jpg'
+import vid from '../images/odog.mp4'
 
 import Logo from './Logo'
 
@@ -67,7 +68,7 @@ const HatchedImage = styled.div.attrs(props => {
 				}
 			}
 			svg,
-			img {
+			img, video {
 				filter: ${props => props.invert} blur(0);
 			}
 		}
@@ -82,6 +83,9 @@ const CrossHatchTest = () => {
 			<HatchedImage theme={theme}>
 				<div className='hatch'>
 					<div className='content'>
+						<video muted autoPlay loop playsInline >
+							<source src={vid} type='video/mp4' />
+						</video>
 						<DemoSVG />
 						<h1>Graphic Design & Web Development</h1>
 						<img src={pic} width='600px' alt='birds' />

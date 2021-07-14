@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import shortHatch from '../images/shortHatch.svg'
 import styled, { ThemeContext } from 'styled-components'
+import pic from '../images/lowRes.jpg'
 
 import Logo from './Logo'
 
@@ -23,17 +24,17 @@ const HatchedImage = styled.div.attrs(props => {
 		return {
 			blend: 'multiply',
 			themeFilters: 'brightness(1.25)',
-			invert: 'invert(0)'
+			invert: 'invert(0) contrast(0.5)'
 		}
 	} else {
 		return {
 			blend: 'color-dodge',
-			themeFilters: 'brightness(0.85)',
-			invert: 'invert(1)'
+			themeFilters: 'brightness(0.9)',
+			invert: 'invert(1) contrast(0.5)'
 		}
 	}
 })`
-	filter: grayscale(1) brightness(1) contrast(500) 
+	filter: grayscale(1) contrast(500) 
 		${props => props.themeFilters} blur(0.4px) !important;
 	margin: 0;
 	mix-blend-mode: ${props => props.blend};
@@ -48,7 +49,7 @@ const HatchedImage = styled.div.attrs(props => {
 		
 		svg,
 		img {
-			filter: ${props => props.invert} contrast(0.5) blur(0);
+			filter: ${props => props.invert} blur(0);
 			display: block;
 			background-color: white !important;
 			mix-blend-mode: hard-light;
@@ -65,6 +66,7 @@ const CrossHatchTest = () => {
 			<HatchedImage theme={theme}>
 				<div className='hatch'>
 					<DemoSVG />
+					<img src={pic} width='600px' alt='birds' />
 					<Logo color='black' />
 				</div>
 			</HatchedImage>

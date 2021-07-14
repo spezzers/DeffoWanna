@@ -83,7 +83,7 @@ const CrossHatchTest = () => {
 			<HatchedImage theme={theme}>
 				<div className='hatch'>
 					<div className='content'>
-						<video muted autoPlay loop playsInline >
+						<video width='1600px' muted autoPlay loop playsInline >
 							<source src={vid} type='video/mp4' />
 						</video>
 						<DemoSVG />

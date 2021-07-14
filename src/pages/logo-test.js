@@ -6,7 +6,6 @@ import CrossHatchTest from '../components/CrossHatchTest'
 const LogoTest = () => {
 	return (
 		<Layout>
-			<Logo />
 			<CrossHatchTest />
 			<h1>
 				Design and

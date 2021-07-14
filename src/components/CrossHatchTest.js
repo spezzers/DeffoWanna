@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import hatch from '../images/shortHatch.jpg'
-import logoAnim from '../images/Deffo-Wanna-Logo-Animation.gif'
+import shortHatch from '../images/shortHatch.svg'
 import styled, { ThemeContext } from 'styled-components'
 
 import Logo from './Logo'
@@ -23,16 +22,16 @@ const HatchedImage = styled.div.attrs(props => {
 	if (props.theme.name === 'light') {
 		return {
 			blend: 'multiply',
-			themeFilters: 'contrast(20) brightness(1.25)'
+			themeFilters: 'brightness(1.25)'
 		}
 	} else {
 		return {
 			blend: 'color-dodge',
-			themeFilters: 'contrast(20) invert(1) brightness(0.85)'
+			themeFilters: 'invert(1) brightness(0.85)'
 		}
 	}
 })`
-	filter: grayscale(100%) brightness(1.15) 
+	filter: grayscale(1) brightness(1) contrast(500) 
 		${props => props.themeFilters} blur(0.4px) !important;
 	margin: 0;
 	mix-blend-mode: ${props => props.blend};
@@ -40,18 +39,19 @@ const HatchedImage = styled.div.attrs(props => {
 `
 
 const Hatch = styled.div`
-	background-image: url(${hatch});
+	background-image: url(${shortHatch});
+	filter: blur(0.2px);
 	background-origin: border-box;
 	background-repeat: repeat;
-	background-size: 120px;
+	background-size: 70px;
 	overflow-y: hidden;
-
+	
 	svg,
 	img {
+		filter: blur(0);
 		display: block;
 		background-color: white !important;
 		opacity: 0.47;
-		filter: invert(0);
 	}
 `
 

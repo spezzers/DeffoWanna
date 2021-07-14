@@ -48,10 +48,11 @@ const HatchedImage = styled.div.attrs(props => {
 		
 		svg,
 		img {
-			filter: ${props => props.invert} blur(0);
+			filter: ${props => props.invert} contrast(0.5) blur(0);
 			display: block;
 			background-color: white !important;
-			opacity: 0.47;
+			mix-blend-mode: hard-light;
+			box-shadow: 0 0 20px 15px white;
 		}
 
 	}

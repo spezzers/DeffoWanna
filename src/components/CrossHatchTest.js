@@ -22,12 +22,14 @@ const HatchedImage = styled.div.attrs(props => {
 	if (props.theme.name === 'light') {
 		return {
 			blend: 'multiply',
-			themeFilters: 'brightness(1.25)'
+			themeFilters: 'brightness(1.25)',
+			invert: 'invert(0)'
 		}
 	} else {
 		return {
 			blend: 'color-dodge',
-			themeFilters: 'invert(1) brightness(0.85)'
+			themeFilters: 'brightness(0.85)',
+			invert: 'invert(1)'
 		}
 	}
 })`
@@ -36,22 +38,22 @@ const HatchedImage = styled.div.attrs(props => {
 	margin: 0;
 	mix-blend-mode: ${props => props.blend};
 	opacity: 0.75;
-`
+	.hatch {
+		background-image: url(${shortHatch});
+		filter: ${props => props.invert} blur(0.2px);
+		background-origin: border-box;
+		background-repeat: repeat;
+		background-size: 70px;
+		overflow-y: hidden;
+		
+		svg,
+		img {
+			filter: ${props => props.invert} blur(0);
+			display: block;
+			background-color: white !important;
+			opacity: 0.47;
+		}
 
-const Hatch = styled.div`
-	background-image: url(${shortHatch});
-	filter: blur(0.2px);
-	background-origin: border-box;
-	background-repeat: repeat;
-	background-size: 70px;
-	overflow-y: hidden;
-	
-	svg,
-	img {
-		filter: blur(0);
-		display: block;
-		background-color: white !important;
-		opacity: 0.47;
 	}
 `
 
@@ -60,10 +62,10 @@ const CrossHatchTest = () => {
 	return (
 		<>
 			<HatchedImage theme={theme}>
-				<Hatch>
+				<div className='hatch'>
 					<DemoSVG />
 					<Logo color='black' />
-				</Hatch>
+				</div>
 			</HatchedImage>
 		</>
 	)

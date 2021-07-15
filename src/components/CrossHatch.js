@@ -7,21 +7,22 @@ const Hatching = styled.div.attrs(props => {
 		...props,
 		blend: 'multiply',
 		themeFilters: 'brightness(1.25)',
-		invert: 'invert(0) contrast(0.5)',
+		invertHatch: 'invert(0)',
+		invertContent: 'invert(0)',
 		blacks: props.blacks || props.theme?.contrast || 'black',
-		whites: props.whites || props.theme?.background || 'white'
+		whites: props.whites || props.theme?.background || 'white',
 	}
 	if (props.theme.name === 'dark') {
-		passedProps =  {
+		passedProps = {
 			...passedProps,
 			blend: 'color-dodge',
 			themeFilters: 'brightness(0.9)',
-			invert: `${
-				props.preventInvert ? 'invert(1)' : 'invert(0)'
-			} contrast(0.5)`,
+			invertHatch: 'invert(1)',
+			invertContent: props.darkInvert ? 'invert(0)' : 'invert(1)',
 			blacks: props.blacks || props.theme?.background || 'white',
-			whites: props.whites || props.theme?.purple || 'black'
+			whites: props.whites || props.theme?.purpleText || 'black'
 		}
+		
 	}
 	return passedProps
 })`
@@ -51,7 +52,7 @@ const Hatching = styled.div.attrs(props => {
 	}
 	.hatch {
 		background-image: url(${shortHatch});
-		filter: ${props => props.invert} blur(0.2px);
+		filter: ${props => props.invertHatch} contrast(0.5) blur(0.2px);
 		background-origin: border-box;
 		background-repeat: repeat;
 		background-size: 60px;
@@ -62,6 +63,9 @@ const Hatching = styled.div.attrs(props => {
 			background-color: white;
 			mix-blend-mode: hard-light;
 			display: inline-block;
+
+			* {
+			}
 
 			p,
 			h1,
@@ -79,7 +83,10 @@ const Hatching = styled.div.attrs(props => {
 			svg,
 			img,
 			video {
-				filter: ${props => props.invert} blur(0);
+				filter: ${props => {
+					console.log(props)
+					return (props.invertContent)}}  contrast(0.5) blur(0);
+
 			}
 		}
 	}

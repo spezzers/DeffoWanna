@@ -36,6 +36,15 @@ export default {
 				defaultValue: {
 					summary: 'white'}
 			}
+		},
+		darkInvert: {
+			name: 'darkInvert',
+			control: 'boolean',
+			defaultValue: false,
+			table: {
+				defaultValue: {
+					summary: false}
+			}
 		}
 	}
 }

@@ -3,25 +3,27 @@ import shortHatch from '../images/shortHatch.svg'
 import styled, { ThemeContext } from 'styled-components'
 
 const Hatching = styled.div.attrs(props => {
+	let passedProps = {
+		...props,
+		blend: 'multiply',
+		themeFilters: 'brightness(1.25)',
+		invert: 'invert(0) contrast(0.5)',
+		blacks: props.blacks || props.theme?.contrast || 'black',
+		whites: props.whites || props.theme?.background || 'white'
+	}
 	if (props.theme.name === 'dark') {
-		return {
-			...props,
+		passedProps =  {
+			...passedProps,
 			blend: 'color-dodge',
 			themeFilters: 'brightness(0.9)',
-			invert: 'invert(1) contrast(0.5)',
-			darkColor: props.darkColor || props.theme?.background || 'white',
-			lightColor: props.lightColor || props.theme?.purple || 'black'
-		}
-	} else {
-		return {
-			...props,
-			blend: 'multiply',
-			themeFilters: 'brightness(1.25)',
-			invert: 'invert(0) contrast(0.5)',
-			darkColor: props.darkColor || props.theme?.contrast || 'black',
-			lightColor: props.lightColor || props.theme?.background || 'white'
+			invert: `${
+				props.preventInvert ? 'invert(1)' : 'invert(0)'
+			} contrast(0.5)`,
+			blacks: props.blacks || props.theme?.background || 'white',
+			whites: props.whites || props.theme?.purple || 'black'
 		}
 	}
+	return passedProps
 })`
 	filter: blur(0.4px);
 	display: block;
@@ -40,11 +42,11 @@ const Hatching = styled.div.attrs(props => {
 		display: block;
 	}
 	.dark {
-		background-color: ${props => props.darkColor};
+		background-color: ${props => props.blacks};
 		mix-blend-mode: lighten;
 	}
 	.light {
-		background-color: ${props => props.lightColor};
+		background-color: ${props => props.whites};
 		mix-blend-mode: darken;
 	}
 	.hatch {
@@ -86,7 +88,7 @@ const Hatching = styled.div.attrs(props => {
 const CrossHatch = props => {
 	const theme = useContext(ThemeContext)
 	return (
-		<Hatching theme={theme}>
+		<Hatching theme={theme} {...props}>
 			<div className='wrapper'>
 				<div className='hatch'>
 					<div className='content'>{props.children}</div>

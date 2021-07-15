@@ -2,7 +2,6 @@ import React from 'react'
 import CrossHatch from './CrossHatch'
 import pic from '../images/lowRes.jpg'
 import vid from '../images/odog.mp4'
-import Logo from './Logo'
 
 const DemoSVG = () => {
 	return (
@@ -20,7 +19,25 @@ const DemoSVG = () => {
 
 export default {
 	title: 'Components/Graphic Effects/CrossHatch',
-	component: CrossHatch
+	component: CrossHatch,
+	argTypes: {
+		blacks: {
+			name: 'blacks',
+			control: 'color',
+			table: {
+				defaultValue: {
+					summary: 'black'}
+			}
+		},
+		whites: {
+			name: 'whites',
+			control: 'color',
+			table: {
+				defaultValue: {
+					summary: 'white'}
+			}
+		}
+	}
 }
 
 export const Primary = args => (

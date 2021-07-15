@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../components/layout'
 import Logo from '../components/Logo'
-import CrossHatchTest from '../components/CrossHatchTest'
+import CrossHatchTest from '../components/CrossHatch'
 
 const LogoTest = () => {
 	return (

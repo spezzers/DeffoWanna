@@ -26,7 +26,8 @@ export default {
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: 'black'}
+					summary: 'black'
+				}
 			}
 		},
 		whites: {
@@ -34,16 +35,39 @@ export default {
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: 'white'}
+					summary: 'white'
+				}
 			}
 		},
 		darkInvert: {
 			name: 'darkInvert',
+			description: 'Invert colours in dark mode',
 			control: 'boolean',
 			defaultValue: false,
 			table: {
+				type: {
+					summary: 'boolean'
+				},
 				defaultValue: {
-					summary: false}
+					summary: false
+				}
+			}
+		},
+		edgeSoftness: {
+			name: 'edgeSoftness',
+			description: 'Feathering of the edges',
+			control: {
+				type: 'number',
+				min: 0,
+				step: 1
+			},
+			table: {
+				type: {
+					summary: 'px'
+				},
+				defaultValue: {
+					summary: 15
+				}
 			}
 		}
 	}

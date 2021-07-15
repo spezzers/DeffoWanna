@@ -5,12 +5,18 @@ import styled, { ThemeContext } from 'styled-components'
 const Hatching = styled.div.attrs(props => {
 	let passedProps = {
 		...props,
+		edgeSoftness:
+			props.edgeSoftness > 0
+				? `${props.edgeSoftness}px`
+				: props.edgeSoftness === 0
+				? 0
+				: '15px',
 		blend: 'multiply',
 		themeFilters: 'brightness(1.25)',
 		invertHatch: 'invert(0)',
 		invertContent: 'invert(0)',
 		blacks: props.blacks || props.theme?.contrast || 'black',
-		whites: props.whites || props.theme?.background || 'white',
+		whites: props.whites || props.theme?.background || 'white'
 	}
 	if (props.theme.name === 'dark') {
 		passedProps = {
@@ -22,7 +28,6 @@ const Hatching = styled.div.attrs(props => {
 			blacks: props.blacks || props.theme?.background || 'white',
 			whites: props.whites || props.theme?.purpleText || 'black'
 		}
-		
 	}
 	return passedProps
 })`
@@ -57,7 +62,8 @@ const Hatching = styled.div.attrs(props => {
 		background-repeat: repeat;
 		background-size: 60px;
 		overflow-y: hidden;
-		box-shadow: inset 0 0 20px 20px white;
+		box-shadow: inset 0 0
+			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
 
 		.content {
 			background-color: white;
@@ -84,9 +90,10 @@ const Hatching = styled.div.attrs(props => {
 			img,
 			video {
 				filter: ${props => {
-					console.log(props)
-					return (props.invertContent)}}  contrast(0.5) blur(0);
-
+						console.log(props)
+						return props.invertContent
+					}}
+					contrast(0.5) blur(0);
 			}
 		}
 	}

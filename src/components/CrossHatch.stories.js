@@ -2,6 +2,7 @@ import React from 'react'
 import CrossHatch from './CrossHatch'
 import pic from '../images/lowRes.jpg'
 import vid from '../images/odog.mp4'
+import Logo from './Logo'
 
 const DemoSVG = () => {
 	return (
@@ -87,6 +88,21 @@ export const Video = args => (
 )
 export const Image = args => (
 	<CrossHatch {...args}>
-		<img src={pic} width='600px' alt='birds' />
+		<img src={pic} width='600px' alt='sample image' />
+	</CrossHatch>
+)
+export const Text = args => (
+	//TODO define specific decorator defaults in controls (darkInvert)
+	// check documentation for correct way of doing this...
+	<CrossHatch {...args} darkInvert edgeSoftness={0}>
+		<h1>Cross-Hatch Effect</h1>
+		<p>Super cool, right?!</p>
+		<p>It does seem a little difficult to read paragraph text. Perhaps to be used with larger display sized text.</p>
+	</CrossHatch>
+)
+
+export const AnimatedLogo = args => (
+	<CrossHatch {...args} darkInvert >
+		<Logo color='black'/>
 	</CrossHatch>
 )

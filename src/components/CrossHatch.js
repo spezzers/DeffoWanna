@@ -46,6 +46,7 @@ const Hatching = styled.div.attrs(props => {
 		top: 0;
 		left: 0;
 		display: block;
+		pointer-events: none;
 	}
 	.dark {
 		background-color: ${props => props.blacks};
@@ -57,20 +58,24 @@ const Hatching = styled.div.attrs(props => {
 	}
 	.hatch {
 		background-image: url(${shortHatch});
-		filter: ${props => props.invertHatch} contrast(0.5) blur(0.2px);
+		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;
 		background-repeat: repeat;
+		//TODO add pattern density prop
 		background-size: 60px;
+		// ----------------------------
 		overflow-y: hidden;
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
 
 		.content {
+			//TODO add background-color prop
 			background-color: white;
+			//------------------------------
 			mix-blend-mode: hard-light;
-			display: inline-block;
-
+			filter: contrast(0.5) blur(0);
 			* {
+				filter: ${props => props.invertContent};
 			}
 
 			p,
@@ -81,19 +86,6 @@ const Hatching = styled.div.attrs(props => {
 			h5,
 			h6 {
 				color: black;
-				:selection {
-					color: black;
-					background: white;
-				}
-			}
-			svg,
-			img,
-			video {
-				filter: ${props => {
-						console.log(props)
-						return props.invertContent
-					}}
-					contrast(0.5) blur(0);
 			}
 		}
 	}

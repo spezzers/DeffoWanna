@@ -46,6 +46,7 @@ const Hatching = styled.div.attrs(props => {
 		top: 0;
 		left: 0;
 		display: block;
+		box-sizing: border-box;
 		pointer-events: none;
 	}
 	.dark {
@@ -74,8 +75,10 @@ const Hatching = styled.div.attrs(props => {
 			//------------------------------
 			mix-blend-mode: hard-light;
 			filter: contrast(0.5) blur(0);
+
 			* {
 				filter: ${props => props.invertContent};
+				margin: 0; //NOTE background-color doesn't fill to margin. Use padding for spacing
 			}
 
 			p,

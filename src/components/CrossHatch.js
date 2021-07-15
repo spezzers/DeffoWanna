@@ -35,7 +35,6 @@ const Hatching = styled.div.attrs(props => {
 		width: 100%;
 		height: 100%;
 		position: absolute;
-		z-index: 200;
 		top: 0;
 		left: 0;
 		display: block;
@@ -56,7 +55,6 @@ const Hatching = styled.div.attrs(props => {
 		background-size: 60px;
 		overflow-y: hidden;
 		box-shadow: inset 0 0 20px 20px white;
-
 
 		.content {
 			background-color: white;
@@ -89,13 +87,13 @@ const CrossHatch = props => {
 	const theme = useContext(ThemeContext)
 	return (
 		<Hatching theme={theme}>
-			<div className='dark color' />
-			<div className='light color' />
 			<div className='wrapper'>
 				<div className='hatch'>
 					<div className='content'>{props.children}</div>
 				</div>
 			</div>
+			<div className='dark color' />
+			<div className='light color' />
 		</Hatching>
 	)
 }

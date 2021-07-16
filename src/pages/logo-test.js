@@ -1,16 +1,21 @@
 import React from 'react'
 import Layout from '../components/layout'
 import CrossHatchTest from '../components/CrossHatch'
+import vid from '../images/odog.mp4'
 
 const LogoTest = () => {
 	return (
 		<Layout>
-			<CrossHatchTest />
-			<h1>
-				Design and
-				<br />
-				Web Development
-			</h1>
+			<CrossHatchTest>
+				<h1>
+					Design and
+					<br />
+					Web Development
+				</h1>
+				<video width='100%' muted autoPlay loop playsInline>
+					<source src={vid} type='video/mp4' />
+				</video>
+			</CrossHatchTest>
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
 			<h4>Yeah, not bad thanks.</h4>

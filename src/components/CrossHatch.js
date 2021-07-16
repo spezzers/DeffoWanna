@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import shortHatch from '../images/shortHatch.svg'
+import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
 const Hatching = styled.div.attrs(props => {
@@ -38,7 +39,8 @@ const Hatching = styled.div.attrs(props => {
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
 	}
-	.color {
+	
+	.color { //BUG layout issues on mobile
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
@@ -57,8 +59,11 @@ const Hatching = styled.div.attrs(props => {
 		background-color: ${props => props.whites};
 		mix-blend-mode: darken;
 	}
-	.hatch {
-		background-image: url(${shortHatch});
+	
+	.hatch { //BUG layout alignment issues for elements that extend off screen
+		//TODO try multiple backgrounds with background-blend-mode method
+		background-image: url(${crossHatchDataBase64}); //OPTIMIZE Base64 is 1.84kb larger than SVG
+		/* background-image: url(${shortHatch});  */
 		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;
 		background-repeat: repeat;

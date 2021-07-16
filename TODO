@@ -3,10 +3,12 @@ Todo:
   Components:
     - Navbar
     - Popup menu
-    - 3D Skateboard image component
+    ✔ 3D Skateboard image component @done(21-07-09 12:00)
+    ✔ CrossHatch Effect @done(21-07-16 10:41)
   
 Storybook:
   Docs:
     - Logo
+    - Skateboard
 
 Archive:

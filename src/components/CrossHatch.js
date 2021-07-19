@@ -35,12 +35,13 @@ const Hatching = styled.div.attrs(props => {
 	filter: blur(0.4px);
 	display: block;
 	overflow: hidden;
+	position: relative;
 	.wrapper {
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
 	}
 	
-	.color { //BUG layout issues on mobile
+	.color {
 		overflow: hidden;
 		width: 100%;
 		height: 100%;

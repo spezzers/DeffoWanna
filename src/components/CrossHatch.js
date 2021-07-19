@@ -36,15 +36,13 @@ const Hatching = styled.div.attrs(props => {
 })`
 	filter: blur(0.4px);
 	display: block;
-	overflow: hidden;
 	position: relative;
 	.wrapper {
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
 	}
-	
+
 	.color {
-		overflow: hidden;
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -62,18 +60,17 @@ const Hatching = styled.div.attrs(props => {
 		background-color: ${props => props.whites};
 		mix-blend-mode: darken;
 	}
-	
-	.hatch { //BUG layout alignment issues for elements that extend off screen
+
+	.hatch {
+		//FIX layout alignment issues for elements that extend off screen
 		//TODO try multiple backgrounds with background-blend-mode method
 		background-image: url(${crossHatchDataBase64}); //OPTIMIZE Base64 is 1.84kb larger than SVG
-		/* background-image: url(${shortHatch});  */
 		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;
 		background-repeat: repeat;
 		//TODO add pattern density prop
 		background-size: 60px;
 		// ----------------------------
-		overflow-y: hidden;
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
 
@@ -97,7 +94,7 @@ const Hatching = styled.div.attrs(props => {
 			h5,
 			h6 {
 				//OPTIMIZE consider an eroding/dilating filter to balance text weight across light and dark theme when using 'darkInvert'
-				color: ${props => props.text}
+				color: ${props => props.text};
 			}
 		}
 	}

@@ -74,35 +74,52 @@ export default {
 	}
 }
 
-export const Primary = args => (
-	<CrossHatch {...args}>
-		<DemoSVG />
-	</CrossHatch>
+const Template = (args, { argTypes }) => (
+	<CrossHatch {...args}>{args.children}</CrossHatch>
 )
-export const Video = args => (
-	<CrossHatch {...args}>
+
+export const Gradient = Template.bind({})
+//NOTE SVG needs to be wrapped in div for 'darkInvert' to work
+Gradient.args = {
+	children: (
+		<div>
+			<DemoSVG /> 
+		</div>
+	),
+	edgeSoftness: 0
+}
+export const Video = Template.bind({})
+Video.args = {
+	children: (
 		<video width='1080px' muted autoPlay loop playsInline>
 			<source src={vid} type='video/mp4' />
 		</video>
-	</CrossHatch>
-)
-export const Image = args => (
-	<CrossHatch {...args}>
-		<img src={pic} width='600px' alt='sample image' />
-	</CrossHatch>
-)
-export const Text = args => (
-	//TODO define specific decorator defaults in controls (darkInvert)
-	// check documentation for correct way of doing this...
-	<CrossHatch {...args} darkInvert edgeSoftness={0}>
-		<h1>Cross-Hatch Effect</h1>
-		<p>Super cool, right?!</p>
-		<p>It does seem a little difficult to read paragraph text. Perhaps to be used with larger display sized text.</p>
-	</CrossHatch>
-)
+	)
+}
 
-export const AnimatedLogo = args => (
-	<CrossHatch {...args} darkInvert >
-		<Logo color='black'/>
-	</CrossHatch>
-)
+export const Image = Template.bind({})
+Image.args = {
+	children: <img src={pic} width='600px' alt='sample image' />
+}
+export const Text = Template.bind({})
+Text.args = {
+	children: (
+		<>
+			<h1>Cross-Hatch Effect</h1>
+			<p>Super cool, right?!</p>
+			<p>
+				It does seem a little difficult to read paragraph text. Perhaps to be
+				used with larger display sized text.
+			</p>
+		</>
+	),
+	// check documentation for correct way of doing this...
+	darkInvert: true,
+	edgeSoftness: 0
+}
+
+export const AnimatedLogo = Template.bind({})
+AnimatedLogo.args = {
+	children: <Logo color='black' />,
+	darkInvert: true
+}

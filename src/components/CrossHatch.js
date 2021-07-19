@@ -16,6 +16,7 @@ const Hatching = styled.div.attrs(props => {
 		themeFilters: 'brightness(1.25)',
 		invertHatch: 'invert(0)',
 		invertContent: 'invert(0)',
+		text: 'black',
 		blacks: props.blacks || props.theme?.contrast || 'black',
 		whites: props.whites || props.theme?.background || 'white'
 	}
@@ -26,6 +27,7 @@ const Hatching = styled.div.attrs(props => {
 			themeFilters: 'brightness(0.9)',
 			invertHatch: 'invert(1)',
 			invertContent: props.darkInvert ? 'invert(0)' : 'invert(1)',
+			text: props.darkInvert ? 'black' : 'white',
 			blacks: props.blacks || props.theme?.background || 'white',
 			whites: props.whites || props.theme?.purpleText || 'black'
 		}
@@ -94,7 +96,8 @@ const Hatching = styled.div.attrs(props => {
 			h4,
 			h5,
 			h6 {
-				color: black;
+				//OPTIMIZE consider an eroding/dilating filter to balance text weight across light and dark theme when using 'darkInvert'
+				color: ${props => props.text}
 			}
 		}
 	}

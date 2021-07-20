@@ -8,20 +8,22 @@ const useResponsive = () => {
 	})
 
 	useEffect(() => {
-		if (windowSize.default) {
-			setWindowSize({
-				width: window.innerWidth,
-				height: window.innerHeight,
-				default: false
+		if (typeof window !== 'undefined') {
+			if (windowSize.default) {
+				setWindowSize({
+					width: window.innerWidth,
+					height: window.innerHeight,
+					default: false
+				})
+			}
+			window.addEventListener('resize', () => {
+				setWindowSize({
+					width: window.innerWidth,
+					height: window.innerHeight,
+					default: false
+				})
 			})
 		}
-		window.addEventListener('resize', () => {
-			setWindowSize({
-				width: window.innerWidth,
-				height: window.innerHeight,
-				default: false
-			})
-		})
 	}, [windowSize.default])
 	return {
 		windowSize

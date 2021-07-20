@@ -3,7 +3,9 @@ import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
 const Hatching = styled.div.attrs(props => {
-	let passedProps = {
+	const isDark = props.theme.name === 'dark'
+	console.log('isDark', isDark)
+	return {
 		...props,
 		edgeSoftness:
 			props.edgeSoftness > 0
@@ -11,27 +13,22 @@ const Hatching = styled.div.attrs(props => {
 				: props.edgeSoftness === 0
 				? 0
 				: '15px',
-		blend: 'multiply',
-		themeFilters: 'brightness(1.25)',
-		invertHatch: 'invert(0)',
-		invertContent: 'invert(0)',
-		text: 'black',
-		blacks: props.blacks || props.theme?.text || 'black',
-		whites: props.whites || props.theme?.background || 'white'
+		blend: isDark ? 'color-dodge' : 'multiply',
+		themeFilters: isDark ? 'brightness(0.9)' : 'brightness(1.25)',
+		invertHatch: isDark ? 'invert(1)' : 'invert(0)',
+		invertContent: !isDark
+			? 'invert(0)'
+			: props.darkInvert
+			? 'invert(0)'
+			: 'invert(1)',
+		text: !isDark ? 'black' : props.darkInvert ? 'black' : 'white',
+		blacks: isDark
+			? props.blacks || props.theme?.background || 'white'
+			: props.blacks || props.theme?.text || 'black',
+		whites: isDark
+			? props.whites || props.theme?.purpleText || 'black'
+			: props.whites || props.theme?.background || 'white'
 	}
-	if (props.theme.name === 'dark') {
-		passedProps = {
-			...passedProps,
-			blend: 'color-dodge',
-			themeFilters: 'brightness(0.9)',
-			invertHatch: 'invert(1)',
-			invertContent: props.darkInvert ? 'invert(0)' : 'invert(1)',
-			text: props.darkInvert ? 'black' : 'white',
-			blacks: props.blacks || props.theme?.background || 'white',
-			whites: props.whites || props.theme?.purpleText || 'black'
-		}
-	}
-	return passedProps
 })`
 	filter: blur(0.4px);
 	//TODO create flex layout customizable via props -----
@@ -62,7 +59,7 @@ const Hatching = styled.div.attrs(props => {
 
 	.hatch {
 		//OPTIMIZE Base64 is 1.84kb larger than SVG --------------
-		background-image: url(${crossHatchDataBase64}); 
+		background-image: url(${crossHatchDataBase64});
 		//--------------------------------------------------------
 		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;

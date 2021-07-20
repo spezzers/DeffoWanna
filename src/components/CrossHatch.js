@@ -34,7 +34,9 @@ const Hatching = styled.div.attrs(props => {
 	return passedProps
 })`
 	filter: blur(0.4px);
+	//TODO create flex layout customizable via props -----
 	display: block;
+	//----------------------------------------------------
 	position: relative;
 	.wrapper {
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};

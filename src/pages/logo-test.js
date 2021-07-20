@@ -12,7 +12,7 @@ const LogoTest = () => {
 					<br />
 					Web Development
 				</h1>
-				<video width='100%' muted autoPlay loop playsInline>
+				<video width='50%' muted autoPlay loop playsInline>
 					<source src={vid} type='video/mp4' />
 				</video>
 			</CrossHatchTest>

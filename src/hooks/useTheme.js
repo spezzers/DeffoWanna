@@ -10,7 +10,7 @@ const useTheme = () => {
 	let themePrefs = 'light'
 	// TODO set theme based on user's sytem preferences
 	if (typeof window !== 'undefined') {
-		console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+		// console.log(window.matchMedia('(prefers-color-scheme: dark)'))
 		themePrefs = window.localStorage.getItem('theme') || 'light'
 	}
 

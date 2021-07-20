@@ -7,15 +7,12 @@ const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {
-
-	// TODO detect user theme preference with mediaQuery
+	let themePrefs = 'light'
+	// TODO set theme based on user's sytem preferences
 	if (typeof window !== 'undefined') {
 		console.log(window.matchMedia('(prefers-color-scheme: dark)'))
+		themePrefs = window.localStorage.getItem('theme') || 'light'
 	}
-	const themePrefs =
-		typeof window !== 'undefined'
-			? window.localStorage.getItem('theme') || 'light'
-			: 'light'
 
 	const [current, setCurrent] = useState(themes[themePrefs])
 	const [hovering, setHovering] = useState(false)
@@ -39,7 +36,7 @@ const useTheme = () => {
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
-		r1: 7.68,
+		r1: 7.68
 	}
 	const darkIconProps = {
 		...themeIconProps,
@@ -51,7 +48,7 @@ const useTheme = () => {
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
-		r1: 6.68,
+		r1: 6.68
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>

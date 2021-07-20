@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import shortHatch from '../images/shortHatch.svg'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
@@ -17,7 +16,7 @@ const Hatching = styled.div.attrs(props => {
 		invertHatch: 'invert(0)',
 		invertContent: 'invert(0)',
 		text: 'black',
-		blacks: props.blacks || props.theme?.contrast || 'black',
+		blacks: props.blacks || props.theme?.text || 'black',
 		whites: props.whites || props.theme?.background || 'white'
 	}
 	if (props.theme.name === 'dark') {
@@ -43,13 +42,11 @@ const Hatching = styled.div.attrs(props => {
 	}
 
 	.color {
-		width: 100%;
-		height: 100%;
 		position: absolute;
 		top: 0;
+		bottom: 0;
+		right: 0;
 		left: 0;
-		display: block;
-		box-sizing: border-box;
 		pointer-events: none;
 	}
 	.dark {
@@ -62,22 +59,24 @@ const Hatching = styled.div.attrs(props => {
 	}
 
 	.hatch {
-		//FIX layout alignment issues for elements that extend off screen
-		//TODO try multiple backgrounds with background-blend-mode method
-		background-image: url(${crossHatchDataBase64}); //OPTIMIZE Base64 is 1.84kb larger than SVG
+		//OPTIMIZE Base64 is 1.84kb larger than SVG --------------
+		background-image: url(${crossHatchDataBase64}); 
+		//--------------------------------------------------------
 		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;
 		background-repeat: repeat;
-		//TODO add pattern density prop
+		//TODO add pattern density prop-------------
 		background-size: 60px;
-		// ----------------------------
+		// -----------------------------------------
+		//FIX edgeSoftness ----------
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
+		//---------------------------
 
 		.content {
-			//TODO add background-color prop
+			//TODO add background-color prop----------------
 			background-color: white;
-			//------------------------------
+			//----------------------------------------------
 			mix-blend-mode: hard-light;
 			filter: contrast(0.5) blur(0);
 

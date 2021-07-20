@@ -1,12 +1,14 @@
 import React from 'react'
 import Layout from '../components/layout'
-import CrossHatchTest from '../components/CrossHatch'
+import CrossHatch from '../components/CrossHatch'
+import Logo from '../components/Logo'
 import vid from '../images/odog.mp4'
 
 const LogoTest = () => {
 	return (
 		<Layout>
-			<CrossHatchTest>
+			<Logo />
+			<CrossHatch>
 				<h1>
 					Design and
 					<br />
@@ -15,7 +17,7 @@ const LogoTest = () => {
 				<video width='50%' muted autoPlay loop playsInline>
 					<source src={vid} type='video/mp4' />
 				</video>
-			</CrossHatchTest>
+			</CrossHatch>
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
 			<h4>Yeah, not bad thanks.</h4>

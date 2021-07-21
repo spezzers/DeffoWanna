@@ -3,8 +3,6 @@ import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
-//TODO Detect system theme change
-
 const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
@@ -53,21 +51,24 @@ const useTheme = () => {
 	)
 
 	const darkPref =
-			typeof window !== 'undefined'
-				? window.matchMedia('(prefers-color-scheme: dark)').matches
-				: null
+		typeof window !== 'undefined'
+			? window.matchMedia('(prefers-color-scheme: dark)').matches
+			: null
 
-	const setThemeAgent = useCallback(themeName => {
-		if (themeName) {
-			if (
-				(themeName === 'dark' && darkPref) ||
-				(themeName === 'light' && !darkPref)
-			) {
-				return 'system'
+	const setThemeAgent = useCallback(
+		themeName => {
+			if (themeName) {
+				if (
+					(themeName === 'dark' && darkPref) ||
+					(themeName === 'light' && !darkPref)
+				) {
+					return 'system'
+				}
+				return 'user'
 			}
-			return 'user'
-		}
-	}, [darkPref])
+		},
+		[darkPref]
+	)
 
 	useEffect(() => {
 		api.start({
@@ -78,7 +79,7 @@ const useTheme = () => {
 				friction: 15
 			}
 		})
-		
+
 		if (!current) {
 			if (typeof window !== 'undefined') {
 				const getLocalPref = window.localStorage.getItem('theme')
@@ -88,14 +89,14 @@ const useTheme = () => {
 						window.localStorage.setItem('theme', ['dark', 'system'])
 						setCurrent(themes.dark)
 					} else {
-						window.localStorage.setItem('theme', [
-							'light',
-							'default'
-						])
+						window.localStorage.setItem('theme', ['light', 'default'])
 						setCurrent(themes.light)
 					}
 				} else {
-					window.localStorage.setItem('theme', [localPref[0], setThemeAgent(localPref[0])])
+					window.localStorage.setItem('theme', [
+						localPref[0],
+						setThemeAgent(localPref[0])
+					])
 					setCurrent(themes[localPref[0]])
 				}
 			}

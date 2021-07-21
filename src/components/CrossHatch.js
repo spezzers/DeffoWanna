@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
-//BUG First render uses wrong theme in dark mode (build only)
+//FIX crossHatch fails on device rotation until page refresh
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'

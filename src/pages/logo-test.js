@@ -14,6 +14,7 @@ const LogoTest = () => {
 					<br />
 					Web Development
 				</h1>
+				{/*TODO prevent video interaction (opera browser, picture-in-picture button)*/}
 				<video width='50%' muted autoPlay loop playsInline>
 					<source src={vid} type='video/mp4' />
 				</video>

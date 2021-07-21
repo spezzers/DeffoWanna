@@ -1,25 +1,22 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
+
+//TODO Detect system theme change
 
 const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {
-	let themePrefs = 'light'
-	// TODO set theme based on user's sytem preferences
-	if (typeof window !== 'undefined') {
-		// console.log(window.matchMedia('(prefers-color-scheme: dark)'))
-		themePrefs = window.localStorage.getItem('theme') || 'light'
-	}
-
-	const [current, setCurrent] = useState(themes[themePrefs])
+	const [current, setCurrent] = useState(null)
 	const [hovering, setHovering] = useState(false)
 
 	const themeIconProps = useMemo(
 		() => ({
-			color: hovering ? current.purpleTextStrong : current.purpleText,
+			color: hovering
+				? current?.purpleTextStrong || 'blue'
+				: current?.purpleText || 'purple',
 			rotation: `rotate(${hovering ? 60 : 25})`,
 			config: config.default
 		}),
@@ -52,8 +49,25 @@ const useTheme = () => {
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>
-		current.name === 'dark' ? darkIconProps : lightIconProps
+		current?.name === 'dark' ? darkIconProps : lightIconProps
 	)
+
+	const darkPref =
+			typeof window !== 'undefined'
+				? window.matchMedia('(prefers-color-scheme: dark)').matches
+				: null
+
+	const setThemeAgent = useCallback(themeName => {
+		if (themeName) {
+			if (
+				(themeName === 'dark' && darkPref) ||
+				(themeName === 'light' && !darkPref)
+			) {
+				return 'system'
+			}
+			return 'user'
+		}
+	}, [darkPref])
 
 	useEffect(() => {
 		api.start({
@@ -64,13 +78,38 @@ const useTheme = () => {
 				friction: 15
 			}
 		})
-	}, [api, themeIconProps])
+		
+		if (!current) {
+			if (typeof window !== 'undefined') {
+				const getLocalPref = window.localStorage.getItem('theme')
+				const localPref = getLocalPref ? getLocalPref.split(',') : null
+				if (!localPref) {
+					if (darkPref) {
+						window.localStorage.setItem('theme', ['dark', 'system'])
+						setCurrent(themes.dark)
+					} else {
+						window.localStorage.setItem('theme', [
+							'light',
+							'default'
+						])
+						setCurrent(themes.light)
+					}
+				} else {
+					window.localStorage.setItem('theme', [localPref[0], setThemeAgent(localPref[0])])
+					setCurrent(themes[localPref[0]])
+				}
+			}
+		}
+	}, [api, themeIconProps, darkPref, current, setThemeAgent])
 
 	const toggleTheme = () => {
-		const newTheme = current.name === 'dark' ? themes.light : themes.dark
+		const newTheme = current?.name === 'dark' ? themes.light : themes.dark
 		const newIcon =
 			themeButtonProps.name.get() === 'light' ? darkIconProps : lightIconProps
-		window.localStorage.setItem('theme', newTheme.name)
+		window.localStorage.setItem('theme', [
+			newTheme.name,
+			setThemeAgent(newTheme.name)
+		])
 		api.start({ to: newIcon })
 		setCurrent(newTheme)
 	}

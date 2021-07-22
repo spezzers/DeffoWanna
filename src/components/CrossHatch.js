@@ -2,11 +2,10 @@ import React, { useContext } from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
-//FIX crossHatch fails on device rotation until page refresh
+//FIX crossHatch background-image fails on iOS device rotation until page refresh
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
-	console.log('isDark', isDark)
 	return {
 		...props,
 		edgeSoftness:
@@ -15,7 +14,6 @@ const Hatching = styled.div.attrs(props => {
 				: props.edgeSoftness === 0
 				? 0
 				: '15px',
-		blend: isDark ? 'color-dodge' : 'multiply',
 		themeFilters: isDark ? 'brightness(0.9)' : 'brightness(1.25)',
 		invertHatch: isDark ? 'invert(1)' : 'invert(0)',
 		invertContent: !isDark

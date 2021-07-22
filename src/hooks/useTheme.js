@@ -105,10 +105,8 @@ const useTheme = () => {
 		if (!current) {
 			if (storageAvailable()) {
 				const getLocalPrefs = window.localStorage.getItem('theme')
-
 				let localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
 
-				// reset corrupt localStorage theme
 				if (
 					localPrefs !== null &&
 					!(
@@ -120,20 +118,12 @@ const useTheme = () => {
 				}
 
 				if (localPrefs !== null && systemPrefersDarkTheme !== null) {
-					// localPrefs & systemPreferredTheme
-
 					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
 
 					if (localPrefs[1] && localPrefs[1] === 'system') {
-						// localPrefs === 'system'
-						// localPrefs = [systemPreferredTheme, 'system']
-
 						setStorage('theme', [systemThemeName, 'system'])
 						setCurrent(themes[systemThemeName])
 					} else if (['user', 'default'].includes(localPrefs[1])) {
-						// localPref !== 'system'
-						// localPrefs = [localPreferredTheme, 'user'/'system']
-
 						setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
 						setCurrent(themes[localPrefs[0]])
 					}
@@ -142,21 +132,13 @@ const useTheme = () => {
 					['light', 'dark'].includes(localPrefs[0]) &&
 					systemPrefersDarkTheme === null
 				) {
-					// localPrefs only
-					// localPrefs = [localPrefs, 'user']
-
 					setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
 					setCurrent(themes[localPrefs[0]])
 				} else if (systemPrefersDarkTheme !== null) {
-					// systemPreferredTheme only
-
 					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
-
 					setStorage('theme', [systemThemeName, 'system'])
 					setCurrent(themes[systemThemeName])
 				} else {
-					// no preferences
-
 					setStorage('theme', ['light', 'default'])
 					setCurrent(themes['light'])
 				}

@@ -70,6 +70,28 @@ const useTheme = () => {
 		[systemPrefersDarkTheme]
 	)
 
+	const storageAvailable = useCallback(() => {
+		if (typeof window !== 'undefined') {
+			try {
+				window.localStorage.setItem('storageAvailable', 'yes')
+				window.localStorage.removeItem('storageAvailable')
+				return true
+			} catch (e) {
+				return false
+			}
+		}
+		return false
+	}, [])
+
+	const setStorage = useCallback(
+		(key, value) => {
+			if (storageAvailable()) {
+				window.localStorage.setItem(key, value)
+			}
+		},
+		[storageAvailable]
+	)
+
 	useEffect(() => {
 		api.start({
 			...themeIconProps,
@@ -81,13 +103,19 @@ const useTheme = () => {
 		})
 
 		if (!current) {
-			if (typeof window !== 'undefined') {
+			if (storageAvailable()) {
 				const getLocalPrefs = window.localStorage.getItem('theme')
-				
+
 				let localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
 
 				// reset corrupt localStorage theme
-				if (!(['light', 'dark'].includes(localPrefs[0]) && ['user', 'system', 'default'].includes(localPrefs[1]))) {
+				if (
+					localPrefs !== null &&
+					!(
+						['light', 'dark'].includes(localPrefs[0]) &&
+						['user', 'system', 'default'].includes(localPrefs[1])
+					)
+				) {
 					window.localStorage.removeItem('theme')
 				}
 
@@ -100,16 +128,13 @@ const useTheme = () => {
 						// localPrefs === 'system'
 						// localPrefs = [systemPreferredTheme, 'system']
 
-						window.localStorage.setItem('theme', [systemThemeName, 'system'])
+						setStorage('theme', [systemThemeName, 'system'])
 						setCurrent(themes[systemThemeName])
 					} else if (['user', 'default'].includes(localPrefs[1])) {
 						// localPref !== 'system'
 						// localPrefs = [localPreferredTheme, 'user'/'system']
 
-						window.localStorage.setItem('theme', [
-							localPrefs[0],
-							setThemeAgent(localPrefs[0])
-						])
+						setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
 						setCurrent(themes[localPrefs[0]])
 					}
 				} else if (
@@ -120,36 +145,38 @@ const useTheme = () => {
 					// localPrefs only
 					// localPrefs = [localPrefs, 'user']
 
-					window.localStorage.setItem('theme', [
-						localPrefs[0],
-						setThemeAgent(localPrefs[0])
-					])
+					setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
 					setCurrent(themes[localPrefs[0]])
 				} else if (systemPrefersDarkTheme !== null) {
 					// systemPreferredTheme only
 
 					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
 
-					window.localStorage.setItem('theme', [systemThemeName, 'system'])
+					setStorage('theme', [systemThemeName, 'system'])
 					setCurrent(themes[systemThemeName])
 				} else {
 					// no preferences
 
-					window.localStorage.setItem('theme', ['light', 'default'])
+					setStorage('theme', ['light', 'default'])
 					setCurrent(themes['light'])
 				}
-			}
+			} else setCurrent(themes['light'])
 		}
-	}, [api, themeIconProps, systemPrefersDarkTheme, current, setThemeAgent])
+	}, [
+		api,
+		themeIconProps,
+		systemPrefersDarkTheme,
+		current,
+		setThemeAgent,
+		storageAvailable,
+		setStorage
+	])
 
 	const toggleTheme = () => {
 		const newTheme = current?.name === 'dark' ? themes.light : themes.dark
 		const newIcon =
 			themeButtonProps.name.get() === 'light' ? darkIconProps : lightIconProps
-		window.localStorage.setItem('theme', [
-			newTheme.name,
-			setThemeAgent(newTheme.name)
-		])
+		setStorage('theme', [newTheme.name, setThemeAgent(newTheme.name)])
 		api.start({ to: newIcon })
 		setCurrent(newTheme)
 	}

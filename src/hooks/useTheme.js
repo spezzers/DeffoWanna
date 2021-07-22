@@ -50,7 +50,7 @@ const useTheme = () => {
 		current?.name === 'dark' ? darkIconProps : lightIconProps
 	)
 
-	const darkPref =
+	const systemPrefersDarkTheme =
 		typeof window !== 'undefined'
 			? window.matchMedia('(prefers-color-scheme: dark)').matches
 			: null
@@ -59,15 +59,15 @@ const useTheme = () => {
 		themeName => {
 			if (themeName) {
 				if (
-					(themeName === 'dark' && darkPref) ||
-					(themeName === 'light' && !darkPref)
+					(themeName === 'dark' && systemPrefersDarkTheme === true) ||
+					(themeName === 'light' && systemPrefersDarkTheme === false)
 				) {
 					return 'system'
 				}
 				return 'user'
 			}
 		},
-		[darkPref]
+		[systemPrefersDarkTheme]
 	)
 
 	useEffect(() => {
@@ -82,26 +82,60 @@ const useTheme = () => {
 
 		if (!current) {
 			if (typeof window !== 'undefined') {
-				const getLocalPref = window.localStorage.getItem('theme')
-				const localPref = getLocalPref ? getLocalPref.split(',') : null
-				if (!localPref) {
-					if (darkPref) {
-						window.localStorage.setItem('theme', ['dark', 'system'])
-						setCurrent(themes.dark)
-					} else {
-						window.localStorage.setItem('theme', ['light', 'default'])
-						setCurrent(themes.light)
+				const getLocalPrefs = window.localStorage.getItem('theme')
+
+				const localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
+
+				if (localPrefs !== null && systemPrefersDarkTheme !== null) {
+					// localPrefs & systemPreferredTheme
+
+					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
+
+					if (localPrefs[1] && localPrefs[1] === 'system') {
+						// localPrefs === 'system'
+						// localPrefs = [systemPreferredTheme, 'system']
+
+						window.localStorage.setItem('theme', [systemThemeName, 'system'])
+						setCurrent(themes[systemThemeName])
+					} else if (['user', 'default'].includes(localPrefs[1])) {
+						// localPref !== 'system'
+						// localPrefs = [localPreferredTheme, 'user'/'system']
+
+						window.localStorage.setItem('theme', [
+							localPrefs[0],
+							setThemeAgent(localPrefs[0])
+						])
+						setCurrent(themes[localPrefs[0]])
 					}
-				} else {
+				} else if (
+					localPrefs !== null &&
+					['light', 'dark'].includes(localPrefs[0]) &&
+					systemPrefersDarkTheme === null
+				) {
+					// localPrefs only
+					// localPrefs = [localPrefs, 'user']
+
 					window.localStorage.setItem('theme', [
-						localPref[0],
-						setThemeAgent(localPref[0])
+						localPrefs[0],
+						setThemeAgent(localPrefs[0])
 					])
-					setCurrent(themes[localPref[0]])
+					setCurrent(themes[localPrefs[0]])
+				} else if (systemPrefersDarkTheme !== null) {
+					// systemPreferredTheme only
+
+					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
+
+					window.localStorage.setItem('theme', [systemThemeName, 'system'])
+					setCurrent(themes[systemThemeName])
+				} else {
+					// no preferences
+
+					window.localStorage.setItem('theme', ['light', 'default'])
+					setCurrent(themes['light'])
 				}
 			}
 		}
-	}, [api, themeIconProps, darkPref, current, setThemeAgent])
+	}, [api, themeIconProps, systemPrefersDarkTheme, current, setThemeAgent])
 
 	const toggleTheme = () => {
 		const newTheme = current?.name === 'dark' ? themes.light : themes.dark

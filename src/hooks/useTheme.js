@@ -83,8 +83,13 @@ const useTheme = () => {
 		if (!current) {
 			if (typeof window !== 'undefined') {
 				const getLocalPrefs = window.localStorage.getItem('theme')
+				
+				let localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
 
-				const localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
+				// reset corrupt localStorage theme
+				if (!(['light', 'dark'].includes(localPrefs[0]) && ['user', 'system', 'default'].includes(localPrefs[1]))) {
+					window.localStorage.removeItem('theme')
+				}
 
 				if (localPrefs !== null && systemPrefersDarkTheme !== null) {
 					// localPrefs & systemPreferredTheme

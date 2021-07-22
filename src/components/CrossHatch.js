@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
 
-//FIX crossHatch background-image fails on iOS device rotation until page refresh
+//BUG crossHatch background-image fails on iOS device rotation until page refresh. Affects video elements contained.
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
@@ -21,7 +21,7 @@ const Hatching = styled.div.attrs(props => {
 			: props.darkInvert
 			? 'invert(0)'
 			: 'invert(1)',
-		text: !isDark ? 'black' : props.darkInvert ? 'black' : 'white',
+		text: {color: 'black', bgColor: 'white'},
 		blacks: isDark
 			? props.blacks || props.theme?.background || 'white'
 			: props.blacks || props.theme?.text || 'black',
@@ -30,7 +30,6 @@ const Hatching = styled.div.attrs(props => {
 			: props.whites || props.theme?.background || 'white'
 	}
 })`
-	filter: blur(0.4px);
 	//TODO create flex layout customizable via props -----
 	display: block;
 	//----------------------------------------------------
@@ -77,7 +76,7 @@ const Hatching = styled.div.attrs(props => {
 			background-color: white;
 			//----------------------------------------------
 			mix-blend-mode: hard-light;
-			filter: contrast(0.5) blur(0);
+			filter: contrast(0.5);
 
 			* {
 				filter: ${props => props.invertContent};
@@ -92,7 +91,9 @@ const Hatching = styled.div.attrs(props => {
 			h5,
 			h6 {
 				//OPTIMIZE consider an eroding/dilating filter to balance text weight across light and dark theme when using 'darkInvert'
-				color: ${props => props.text};
+				filter: invert(0);
+				color: ${props => props.text.color};
+				background-color: ${props => props.text.bgColor};
 			}
 		}
 	}

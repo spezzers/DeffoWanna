@@ -3,22 +3,40 @@ import Layout from '../components/layout'
 import CrossHatch from '../components/CrossHatch'
 import Logo from '../components/Logo'
 import vid from '../images/odog.mp4'
+import pic from '../images/birds.jpg'
 
 const LogoTest = () => {
 	return (
 		<Layout>
-			<Logo />
 			<CrossHatch>
+			<Logo />
 				<h1>
 					Design and
 					<br />
 					Web Development
 				</h1>
-				{/*TODO prevent video interaction (opera browser, picture-in-picture button)*/}
-				<video width='50%' muted autoPlay loop playsInline>
+			</CrossHatch>
+
+			<CrossHatch>
+				<img src={pic} alt='pic' height='600px' />
+			</CrossHatch>
+			<CrossHatch>
+				<img src={pic} alt='pic' height='600px' />
+			</CrossHatch>
+			<CrossHatch>
+				<img src={pic} alt='pic' height='600px' />
+			</CrossHatch>
+			{/*TODO prevent video interaction (opera browser, picture-in-picture button)*/}
+			{/* <CrossHatch>
+				<video muted autoPlay loop playsInline>
 					<source src={vid} type='video/mp4' />
 				</video>
-			</CrossHatch>
+			</CrossHatch> */}
+			{/* <CrossHatch darkInvert>
+				<video height='1080px' muted autoPlay loop playsInline>
+					<source src={vid} type='video/mp4' />
+				</video>
+			</CrossHatch> */}
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
 			<h4>Yeah, not bad thanks.</h4>

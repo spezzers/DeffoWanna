@@ -8,8 +8,11 @@ import pic from '../images/birds.jpg'
 const LogoTest = () => {
 	return (
 		<Layout>
-			<CrossHatch>
-				<Logo color='black' />
+			<Logo color='black'/>
+			<CrossHatch edgeSoftness={0} darkInvert >
+				<div>
+					<Logo color='black' />
+				</div>
 			</CrossHatch>
 			<CrossHatch>
 				<h1>

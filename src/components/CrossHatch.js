@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled, { ThemeContext } from 'styled-components'
+import useResponsive from '../hooks/useResponsive'
 
-//BUG crossHatch background-image fails on iOS device rotation until page refresh. Affects video elements contained.
+//FIX crossHatch background-image fails on iOS device rotation until page refresh
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
@@ -21,30 +22,30 @@ const Hatching = styled.div.attrs(props => {
 			: props.darkInvert
 			? 'invert(0)'
 			: 'invert(1)',
-		text: {color: 'black', bgColor: 'white'},
 		blacks: isDark
 			? props.blacks || props.theme?.background || 'white'
 			: props.blacks || props.theme?.text || 'black',
 		whites: isDark
 			? props.whites || props.theme?.purpleText || 'black'
-			: props.whites || props.theme?.background || 'white'
+			: props.whites || props.theme?.background || 'white',
+		backgroundColor: isDark ? 'black' : 'white'
 	}
 })`
 	//TODO create flex layout customizable via props -----
-	display: block;
 	//----------------------------------------------------
+	width: fit-content;
 	position: relative;
+	background-color: ${props => props.backgroundColor};
 	.wrapper {
+		position: relative;
+
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
 	}
 
 	.color {
 		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
+		inset: 0;
 		pointer-events: none;
 	}
 	.dark {
@@ -57,12 +58,14 @@ const Hatching = styled.div.attrs(props => {
 	}
 
 	.hatch {
-		//OPTIMIZE Base64 is 1.84kb larger than SVG --------------
+		//OPTIMIZE Base64 is 1.84kb larger than SVG and multiplies with every instance--------------
 		background-image: url(${crossHatchDataBase64});
 		//--------------------------------------------------------
+		height: fit-content;
 		filter: ${props => props.invertHatch} contrast(0.5);
 		background-origin: border-box;
 		background-repeat: repeat;
+		background-position: center;
 		//TODO add pattern density prop-------------
 		background-size: 60px;
 		// -----------------------------------------
@@ -70,43 +73,41 @@ const Hatching = styled.div.attrs(props => {
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
 		//---------------------------
-
-		.content {
-			//TODO add background-color prop----------------
-			background-color: white;
-			//----------------------------------------------
+		* :not(svg){
+			background-image: none;
+			background-color: ${props => props.backgroundColor};
 			mix-blend-mode: hard-light;
-			filter: contrast(0.5);
+			filter: ${props => props.invertContent} contrast(0.5);
+			margin: 0; //NOTE background-color doesn't fill to margin. Use padding for spacing
+		}
+		
+		p,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			//OPTIMIZE consider an eroding/dilating filter to balance text weight across light and dark theme when using 'darkInvert'
+			filter: invert(0);
+			color: black;
+			background-image: none;
+			background-color: white;
 
-			* {
-				filter: ${props => props.invertContent};
-				margin: 0; //NOTE background-color doesn't fill to margin. Use padding for spacing
-			}
-
-			p,
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6 {
-				//OPTIMIZE consider an eroding/dilating filter to balance text weight across light and dark theme when using 'darkInvert'
-				filter: invert(0);
-				color: ${props => props.text.color};
-				background-color: ${props => props.text.bgColor};
-			}
 		}
 	}
 `
 
 const CrossHatch = props => {
+	const responsive = useResponsive()
 	const theme = useContext(ThemeContext)
+	useLayoutEffect(() => {
+		console.log('CrossHatch useEffect')
+	}, [responsive.windowSize])
 	return (
 		<Hatching theme={theme} {...props}>
 			<div className='wrapper'>
-				<div className='hatch'>
-					<div className='content'>{props.children}</div>
-				</div>
+				<div className='hatch'>{props.children}</div>
 			</div>
 			<div className='dark color' />
 			<div className='light color' />

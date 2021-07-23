@@ -31,11 +31,6 @@ const LogoTest = () => {
 					<source src={vid} type='video/mp4' />
 				</video>
 			</CrossHatch>
-			<CrossHatch darkInvert>
-				<video height='1080px' muted autoPlay loop playsInline>
-					<source src={vid} type='video/mp4' />
-				</video>
-			</CrossHatch>
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
 			<h4>Yeah, not bad thanks.</h4>

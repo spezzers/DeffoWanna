@@ -41,8 +41,8 @@ const Layout = ({ children }) => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			{children}
 			<theme.ToggleButton />
+			{children}
 			<GlobalStyle />
 		</ThemeProvider>
 	)

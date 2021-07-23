@@ -73,9 +73,7 @@ const Hatching = styled.div.attrs(props => {
 				filter: none;
 			}
 		}
-		* :not(.wrap) {
-			filter: none ${props => [props.invertContent]};
-		}
+		
 
 		p,
 		h1,

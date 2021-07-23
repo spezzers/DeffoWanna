@@ -82,7 +82,7 @@ export const Gradient = Template.bind({})
 //NOTE SVG needs to be wrapped in div for 'darkInvert' to work
 Gradient.args = {
 	children: (
-		<div className='wrap'>
+		<div>
 			<DemoSVG />
 		</div>
 	),
@@ -120,7 +120,7 @@ Text.args = {
 export const AnimatedLogo = Template.bind({})
 AnimatedLogo.args = {
 	children: (
-		<div className='wrap'>
+		<div>
 			<Logo color='black' />
 		</div>
 	),

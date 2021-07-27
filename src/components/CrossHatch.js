@@ -57,7 +57,7 @@ const Hatching = styled.div.attrs(props => {
 		background-origin: border-box;
 		background-repeat: repeat;
 		background-position: center;
-		background-size: 60px;
+		background-size: ${props => props.backgroundSize || '60px'};
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
 		* {

@@ -40,6 +40,19 @@ export default {
 				}
 			}
 		},
+		backgroundSize: {
+			name: 'backgroundSize',
+			control: 'text',
+			description: 'the size/density of the cross-hatch pattern',
+			table: {
+				type: {
+					summary: 'size unit'
+				},
+				defaultValue: {
+					summary: '60px'
+				}
+			}
+		},
 		darkInvert: {
 			name: 'darkInvert',
 			description: 'Invert colours in dark mode',

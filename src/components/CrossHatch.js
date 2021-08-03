@@ -20,11 +20,11 @@ const Hatching = styled.div.attrs(props => {
 			? 'invert(0)'
 			: 'invert(1)',
 		blacks: isDark
-			? props.blacks || props.theme?.background || 'white'
-			: props.blacks || props.theme?.text || 'black',
+			? props.theme[props.blacks] || props.blacks || props.theme?.background || 'white'
+			: props.theme[props.blacks] || props.blacks || props.theme?.text || 'black',
 		whites: isDark
-			? props.whites || props.theme?.purpleText || 'black'
-			: props.whites || props.theme?.background || 'white',
+			? props.theme[props.whites] || props.whites || props.theme?.purpleText || 'black'
+			: props.theme[props.whites] || props.whites || props.theme?.background || 'white',
 		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
 	}
 })`

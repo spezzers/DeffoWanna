@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
@@ -7,22 +7,14 @@ const NonNavigatingButton = styled.span`
 	cursor: pointer;
 `
 const useTheme = () => {
-
-	// TODO detect user theme preference with mediaQuery
-	if (typeof window !== 'undefined') {
-		console.log(window.matchMedia('(prefers-color-scheme: dark)'))
-	}
-	const themePrefs =
-		typeof window !== 'undefined'
-			? window.localStorage.getItem('theme') || 'light'
-			: 'light'
-
-	const [current, setCurrent] = useState(themes[themePrefs])
+	const [current, setCurrent] = useState(null)
 	const [hovering, setHovering] = useState(false)
 
 	const themeIconProps = useMemo(
 		() => ({
-			color: hovering ? current.purpleTextStrong : current.purpleText,
+			color: hovering
+				? current?.purpleTextStrong || 'blue'
+				: current?.purpleText || 'purple',
 			rotation: `rotate(${hovering ? 60 : 25})`,
 			config: config.default
 		}),
@@ -39,7 +31,7 @@ const useTheme = () => {
 		strokeDasharray: '2.37 4.75',
 		cx1: 12.68,
 		cy1: 12.68,
-		r1: 7.68,
+		r1: 7.68
 	}
 	const darkIconProps = {
 		...themeIconProps,
@@ -51,11 +43,53 @@ const useTheme = () => {
 		strokeDasharray: '7 0',
 		cx1: 8.959,
 		cy1: 12.6802,
-		r1: 6.68,
+		r1: 6.68
 	}
 
 	const [themeButtonProps, api] = useSpring(() =>
-		current.name === 'dark' ? darkIconProps : lightIconProps
+		current?.name === 'dark' ? darkIconProps : lightIconProps
+	)
+
+	const systemPrefersDarkTheme =
+		typeof window !== 'undefined'
+			? window.matchMedia('(prefers-color-scheme: dark)').matches
+			: null
+
+	const setThemeAgent = useCallback(
+		themeName => {
+			if (themeName) {
+				if (
+					(themeName === 'dark' && systemPrefersDarkTheme === true) ||
+					(themeName === 'light' && systemPrefersDarkTheme === false)
+				) {
+					return 'system'
+				}
+				return 'user'
+			}
+		},
+		[systemPrefersDarkTheme]
+	)
+
+	const storageAvailable = useCallback(() => {
+		if (typeof window !== 'undefined') {
+			try {
+				window.localStorage.setItem('storageAvailable', 'yes')
+				window.localStorage.removeItem('storageAvailable')
+				return true
+			} catch (e) {
+				return false
+			}
+		}
+		return false
+	}, [])
+
+	const setStorage = useCallback(
+		(key, value) => {
+			if (storageAvailable()) {
+				window.localStorage.setItem(key, value)
+			}
+		},
+		[storageAvailable]
 	)
 
 	useEffect(() => {
@@ -67,13 +101,64 @@ const useTheme = () => {
 				friction: 15
 			}
 		})
-	}, [api, themeIconProps])
+
+		if (!current) {
+			if (storageAvailable()) {
+				const getLocalPrefs = window.localStorage.getItem('theme')
+				let localPrefs = getLocalPrefs ? getLocalPrefs.split(',') : null
+
+				if (
+					localPrefs !== null &&
+					!(
+						['light', 'dark'].includes(localPrefs[0]) &&
+						['user', 'system', 'default'].includes(localPrefs[1])
+					)
+				) {
+					window.localStorage.removeItem('theme')
+				}
+
+				if (localPrefs !== null && systemPrefersDarkTheme !== null) {
+					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
+
+					if (localPrefs[1] && localPrefs[1] === 'system') {
+						setStorage('theme', [systemThemeName, 'system'])
+						setCurrent(themes[systemThemeName])
+					} else if (['user', 'default'].includes(localPrefs[1])) {
+						setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
+						setCurrent(themes[localPrefs[0]])
+					}
+				} else if (
+					localPrefs !== null &&
+					['light', 'dark'].includes(localPrefs[0]) &&
+					systemPrefersDarkTheme === null
+				) {
+					setStorage('theme', [localPrefs[0], setThemeAgent(localPrefs[0])])
+					setCurrent(themes[localPrefs[0]])
+				} else if (systemPrefersDarkTheme !== null) {
+					const systemThemeName = systemPrefersDarkTheme ? 'dark' : 'light'
+					setStorage('theme', [systemThemeName, 'system'])
+					setCurrent(themes[systemThemeName])
+				} else {
+					setStorage('theme', ['light', 'default'])
+					setCurrent(themes['light'])
+				}
+			} else setCurrent(themes['light'])
+		}
+	}, [
+		api,
+		themeIconProps,
+		systemPrefersDarkTheme,
+		current,
+		setThemeAgent,
+		storageAvailable,
+		setStorage
+	])
 
 	const toggleTheme = () => {
-		const newTheme = current.name === 'dark' ? themes.light : themes.dark
+		const newTheme = current?.name === 'dark' ? themes.light : themes.dark
 		const newIcon =
 			themeButtonProps.name.get() === 'light' ? darkIconProps : lightIconProps
-		window.localStorage.setItem('theme', newTheme.name)
+		setStorage('theme', [newTheme.name, setThemeAgent(newTheme.name)])
 		api.start({ to: newIcon })
 		setCurrent(newTheme)
 	}

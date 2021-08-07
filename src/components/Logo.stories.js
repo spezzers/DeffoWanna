@@ -34,15 +34,26 @@ export default {
 			control: 'color',
 			table: {
 				defaultValue: {
-					summary: 'ThemeContext.white | white',
+					summary: 'ThemeContext.white | white'
 				}
+			}
+		},
+		lightIntensity: {
+			name: 'lightIntensity',
+			description: 'Intensity of light source when activated',
+			defaultValue: 1,
+			control: {
+				type: 'number',
+				min: 1,
+				max: 10,
+				step: 0.5
 			}
 		}
 	}
 }
 
-const Template = args => <Logo {...args}/>
+const Template = args => <Logo {...args} />
 
 export const Primary = Template.bind({})
 Primary.storyName = 'Default'
-Primary.args = {size: 4}
+Primary.args = { size: 4 }

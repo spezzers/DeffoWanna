@@ -20,10 +20,11 @@ const StyledDeck = styled.div.attrs(props => {
 		size.length = `${props.width * (32 / 8)}px`
 		size.thickness = props.thickness
 			? props.thickness
-			: `${props.width / (8 / 0.5)}`
+			: `${props.width / (8 / 0.5)}px`
 	} else if (props.thickness) {
 		size.thickness = props.thickness
 	}
+	console.log(size)
 	return size
 })`
 	--length: ${props => props.length};
@@ -60,7 +61,6 @@ const StyledDeck = styled.div.attrs(props => {
 	.griptape,
 	.graphic,
 	.board {
-		border-radius: calc(var(--width) / 2);
 		flex-direction: column;
 		justify-content: center;
 		display: flex;
@@ -94,22 +94,25 @@ const StyledDeck = styled.div.attrs(props => {
 		.nose,
 		.tail,
 		.mid {
+			overflow: hidden;
 			background-color: var(--background-color);
+			flex-shrink: 0;
+			display: flex;
+			img {
+				height: var(--length);
+			}
 		}
 		.nose {
-			background-image: var(--src);
-			background-position: center top;
-			background-size: auto var(--length);
+			align-items: flex-start;
+			justify-content: center;
 		}
 		.mid {
-			background-image: var(--src);
-			background-position: center;
-			background-size: auto var(--length);
+			align-items: center;
+			justify-content: center;
 		}
 		.tail {
-			background-image: var(--src);
-			background-position: center bottom;
-			background-size: auto var(--length);
+			align-items: flex-end;
+			justify-content: center;
 		}
 	}
 	.flip {
@@ -123,20 +126,22 @@ const StyledDeck = styled.div.attrs(props => {
 	.tail,
 	.mid {
 		width: var(--width);
+		flex-shrink: 0;
+		flex-grow: 0;
 	}
 
 	.nose,
 	.tail {
 		height: calc(var(--width) * 0.75);
-		border-radius: var(--radius) var(--radius) 0 0;
 	}
 
 	.nose {
+		border-radius: var(--radius) var(--radius) 0 0;
 		transform-origin: bottom;
 		transform: rotateX(15deg);
 	}
 	.mid {
-		flex-grow: 1;
+		height: calc(var(--length) - (1.5 * var(--width)));
 	}
 	.tail {
 		transform-origin: top;
@@ -146,6 +151,21 @@ const StyledDeck = styled.div.attrs(props => {
 `
 
 const Skateboard = props => {
+	const alt = props.alt ? `${props.alt} - ` : ''
+	const graphic = section => {
+		console.log(section)
+		if (props.src) {
+			return (
+				<img
+					alt={`${alt}skateboard deck design, ${section} section graphic`}
+					srcSet={props.srcSet}
+					src={props.src}
+				/>
+			)
+		}
+		return null
+	}
+
 	return (
 		<StyledDeck {...props}>
 			<div className='orientation'>
@@ -173,9 +193,9 @@ const Skateboard = props => {
 								<div className='tail'></div>
 							</div>
 							<div className='graphic'>
-								<div className='nose'></div>
-								<div className='mid'></div>
-								<div className='tail'></div>
+								<div className='nose'>{graphic('nose')}</div>
+								<div className='mid'>{graphic('middle')}</div>
+								<div className='tail'>{graphic('tail')}</div>
 							</div>
 						</div>
 					</div>

@@ -6,6 +6,11 @@ export default {
 	title: 'Components/Image Frames/Skateboard',
 	component: Skateboard,
 	argTypes: {
+		src: {
+			name: 'src',
+			description: 'The image applied to the deck',
+			control: 'file'
+		},
 		width: {
 			name: 'width',
 			description: 'Width of deck',
@@ -146,4 +151,4 @@ export default {
 	}
 }
 
-export const Primary = args => <Skateboard src={birdsImg} {...args}/>
+export const Primary = args => <Skateboard src={birdsImg} {...args} />

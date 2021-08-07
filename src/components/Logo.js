@@ -17,9 +17,11 @@ const AnimFePointLight = animated('fePointLight')
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
-
+	
 	const size = props.size || 4
+	
 	const lightColor = props.lightColor || theme.white || 'white'
+	const lightIntensity = props.lightIntensity > 1 ? props.lightIntensity : 1
 
 	const [lightPos, setLightPos] = useSpring(() => ({
 		x: 700,
@@ -140,13 +142,14 @@ const Logo = props => {
 		>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={4} />
+					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={5.5} />
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={lightColor}
 						diffuseConstant={3 * size}
+						surfaceScale={0.4}
 					>
 						<AnimFePointLight x={lightPos.x} y={lightPos.y} z='5' />
 					</feDiffuseLighting>
@@ -155,7 +158,7 @@ const Logo = props => {
 						in='SourceGraphic'
 						in2='light2'
 						operator='arithmetic'
-						k1={theme.name === 'light' ? 0.8 : 1}
+						k1={lightIntensity * (theme.name === 'light' ? 2.8 : 1)}
 						k2={theme.name === 'light' ? 0.45 : 0.6}
 						k3='0'
 						k4='0'

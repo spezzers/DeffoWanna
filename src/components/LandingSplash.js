@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from '../images/Deffo-Wanna-Logo-Animation.gif'
-import styled, {keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+import CrossHatch from './CrossHatch'
 
 const fadeIn = keyframes`
 	from {
@@ -20,16 +21,6 @@ const CenterFlex = styled.div`
 	align-items: center;
 	user-select: none;
 
-	#logo {
-		height: 6rem;
-		width: 100%;
-		background-image: url(${logo});
-		mix-blend-mode: multiply;
-		/* filter: invert(1); */
-		background-position: center;
-		background-size: contain;
-		background-repeat: no-repeat;
-	}
 	h2 {
 		opacity: 0;
 		animation: ${fadeIn} 1.5s ease 1.8s;
@@ -43,10 +34,11 @@ const CenterFlex = styled.div`
 `
 
 const LandingSplash = () => {
-	
-	return(
+	return (
 		<CenterFlex>
-			<div id="logo"></div>
+			<CrossHatch darkInvert backgroundSize='50px'>
+				<img src={logo} alt='deffo wanna logo animation' height='120px'/>
+			</CrossHatch>
 			<h2>Design & Web Development</h2>
 			<p>(website coming soon!)</p>
 		</CenterFlex>

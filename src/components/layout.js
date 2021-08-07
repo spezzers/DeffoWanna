@@ -36,10 +36,13 @@ body {
 
 const Layout = ({ children }) => {
 	const theme = useTheme()
+	if (!theme.current) {
+		return null
+	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			{children}
 			<theme.ToggleButton />
+			{children}
 			<GlobalStyle />
 		</ThemeProvider>
 	)

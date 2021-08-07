@@ -7,15 +7,11 @@ export default {
 	argTypes: {
 		size: {
 			name: 'size',
-			description: 'Font size of the logo',
+			description: 'Overall size of the logo',
 			control: 'number',
 			table: {
-				defaultValue: {
-					summary: 4
-				},
 				type: {
-					summary: 'rem',
-					detail: 'Overall height is 2.2x the rem number'
+					summary: 'rem'
 				}
 			}
 		},
@@ -56,4 +52,4 @@ const Template = args => <Logo {...args} />
 
 export const Primary = Template.bind({})
 Primary.storyName = 'Default'
-Primary.args = { size: 4 }
+Primary.args = { size: 8 }

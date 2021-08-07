@@ -5,7 +5,7 @@ import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
 
 const StyledLogo = styled(animated.svg)`
-	height: ${props => `${props.size * 2.2}rem`};
+	height: ${props => `${props.size ? `${props.size}rem` :  null}`};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -18,7 +18,7 @@ const AnimFePointLight = animated('fePointLight')
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 	
-	const size = props.size || 4
+	const size = props.size
 	
 	const lightColor = props.lightColor || theme.white || 'white'
 	const lightIntensity = props.lightIntensity > 1 ? props.lightIntensity : 1
@@ -148,7 +148,7 @@ const Logo = props => {
 						in='light1'
 						result='light2'
 						lightingColor={lightColor}
-						diffuseConstant={3 * size}
+						diffuseConstant={12}
 						surfaceScale={0.4}
 					>
 						<AnimFePointLight x={lightPos.x} y={lightPos.y} z='5' />
@@ -166,7 +166,7 @@ const Logo = props => {
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation={0.8 * size}
+						stdDeviation={3.2}
 						floodColor={theme.black}
 						floodOpacity='0.1'
 					/>
@@ -174,14 +174,14 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency={0.015 * size}
+						baseFrequency={0.06}
 						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale={2.2 * size}
+						scale={8.8}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>

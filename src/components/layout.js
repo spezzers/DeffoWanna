@@ -3,6 +3,9 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
 
+export const lineHeight = '24px'
+export const fontSize = '19px'
+
 const GlobalStyle = createGlobalStyle`
 * {
 	-webkit-font-smoothing: antialiased;
@@ -13,8 +16,8 @@ body {
 	margin: 0;
 	padding: 5px 10px;
 	font-family: 'IBM Plex Sans', sans-serif;
-	line-height: 24px;
-	font-size: 19px;
+	line-height: ${lineHeight};
+	font-size: ${fontSize};
 	p {
 		font-family: IBM Plex Sans;
 		font-style: normal;

@@ -158,8 +158,8 @@ const Logo = props => {
 						in='SourceGraphic'
 						in2='light2'
 						operator='arithmetic'
-						k1={lightIntensity * (theme.name === 'light' ? 2.8 : 1)}
-						k2={theme.name === 'light' ? 0.45 : 0.6}
+						k1={lightIntensity * (theme.name === 'light' ? 0.6 : 1)}
+						k2={theme.name === 'light' ? 0.5 : 0.6}
 						k3='0'
 						k4='0'
 					/>

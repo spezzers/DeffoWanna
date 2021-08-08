@@ -20,11 +20,23 @@ const Hatching = styled.div.attrs(props => {
 			? 'invert(0)'
 			: 'invert(1)',
 		blacks: isDark
-			? props.theme[props.blacks] || props.blacks || props.theme?.background || 'white'
-			: props.theme[props.blacks] || props.blacks || props.theme?.text || 'black',
+			? props.theme[props.blacks] ||
+			  props.blacks ||
+			  props.theme?.background ||
+			  'white'
+			: props.theme[props.blacks] ||
+			  props.blacks ||
+			  props.theme?.text ||
+			  'black',
 		whites: isDark
-			? props.theme[props.whites] || props.whites || props.theme?.purpleText || 'black'
-			: props.theme[props.whites] || props.whites || props.theme?.background || 'white',
+			? props.theme[props.whites] ||
+			  props.whites ||
+			  props.theme?.purpleText ||
+			  'black'
+			: props.theme[props.whites] ||
+			  props.whites ||
+			  props.theme?.background ||
+			  'white',
 		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
 	}
 })`
@@ -73,7 +85,6 @@ const Hatching = styled.div.attrs(props => {
 				filter: none;
 			}
 		}
-		
 
 		p,
 		h1,
@@ -93,13 +104,15 @@ const Hatching = styled.div.attrs(props => {
 const CrossHatch = props => {
 	const theme = useContext(ThemeContext)
 	return (
-		<Hatching theme={theme} {...props}>
-			<div className='wrapper'>
-				<div className='hatch'>{props.children}</div>
-			</div>
-			<div className='dark color' />
-			<div className='light color' />
-		</Hatching>
+		<div>
+			<Hatching theme={theme} {...props}>
+				<div className='wrapper'>
+					<div className='hatch'>{props.children}</div>
+				</div>
+				<div className='dark color' />
+				<div className='light color' />
+			</Hatching>
+		</div>
 	)
 }
 

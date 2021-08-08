@@ -13,33 +13,38 @@ const LogoTest = () => {
 	console.log('current theme:', theme.current?.name)
 	return (
 		<Layout>
+			{/* <div className='whole-page'> */}
 			<CrossHatch backgroundSize='35px' whites='red'>
 				<video muted autoPlay loop playsInline>
 					<source src={ollieBall2} type='video/mp4' />
 				</video>
 			</CrossHatch>
-			<Logo color='black'/>
-			<CrossHatch edgeSoftness={0} darkInvert >
+			<Logo color='black' />
+			<CrossHatch edgeSoftness={0} darkInvert>
 				<div>
 					<Logo color='black' />
 				</div>
 			</CrossHatch>
-			<CrossHatch>
-				<h1>
-					Design and
-					<br />
-					Web Development
-				</h1>
-			</CrossHatch>
+			<div>
+				<CrossHatch>
+					<h1>
+						Design and
+						<br />
+						Web Development
+					</h1>
+				</CrossHatch>
+			</div>
 
-			<CrossHatch>
-				<img src={pic} alt='pic' height='600px' />
-			</CrossHatch>
+			<video muted autoPlay loop playsInline width='100%'>
+				<source src={ollieBall} type='video/mp4' />
+			</video>
+			<div>
+				<CrossHatch>
+					<img src={pic} alt='pic' height='600px' />
+				</CrossHatch>
+			</div>
 			{/*TODO prevent video interaction (opera browser, picture-in-picture button)*/}
-			
-				<video muted autoPlay loop playsInline>
-					<source src={ollieBall} type='video/mp4' />
-				</video>
+
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
 			<h4>Yeah, not bad thanks.</h4>
@@ -51,6 +56,7 @@ const LogoTest = () => {
 				montes! Senectus netus tincidunt, rhoncus? Quas blandit exercitationem
 				dui.
 			</p>
+			{/* </div> */}
 		</Layout>
 	)
 }

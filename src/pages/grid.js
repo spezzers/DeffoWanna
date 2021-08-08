@@ -1,49 +1,38 @@
 import React from 'react'
 import styled from 'styled-components'
-import Layout, {lineHeight} from '../components/layout'
+import Layout from '../components/layout'
 import Logo from '../components/Logo'
 
-const StyledGrid = styled.div`
-	--row-gap: ${lineHeight};
-	--col-gap: calc((var(--row-gap) / 5) * 8);
-	--xs-col: calc(var(--col-gap) * 2);
-	--s-col: calc(var(--col-gap) * 3);
-	--col: calc(var(--col-gap) * 4);
-	display: grid;
-	place-items: center;
-	width: 100%;
-	margin: 0 auto 0;
-	~ * {
-		border: 1px solid red;
-	}
-	column-gap: var(--col-gap);
-	row-gap: var(--row-gap);
-	grid-template-columns: var(--s-col) var(
-			--xs-col
-		) [logo-start] var(--col-gap) var(--col-gap) [logo-end] var(--xs-col) var(--s-col) repeat(auto-fill, var(--col));
-	h1 {
-		background-color: green;
-		grid-column-start: 2;
-	}
-	.item-2 {
-		grid-column-start: 4;
-	}
-	#logo {
-		grid-column-start: logo-start;
-		grid-column-end: logo-end;
-		overflow: hidden;
+const StyledH1 = styled.h1`
+
+	background-color: green;
+	grid-column: main-start / 6;
+	grid-row: 2;
+	:before {
+		vertical-align: baseline;
+		content: '';
+		display: inline-block;
+		height: 48px;
 	}
 `
+const StyledLogo = styled(Logo)`
+	grid-column: 2 / 4;
+`
+const StyledP = styled.p`
+	grid-row: 4 / auto;
+	grid-column: 3 / 6;
+	
+`
+
+
 
 const Grid = props => {
 	// code here
 	return (
 		<Layout>
-			<StyledGrid>
-				<Logo />
-				<h1>Grid</h1>
-				<div className='item-2'>Grid</div>
-			</StyledGrid>
+				<StyledLogo/>
+				<StyledH1>Grid</StyledH1>
+				<StyledP>Crucifix master cleanse palo santo fashion axe la croix. Kogi portland tattooed vegan. Mlkshk sartorial roof party hell of shoreditch farm-to-table lumbersexual art party jean shorts air plant viral. Pour-over vinyl you probably haven't heard of them ugh venmo green juice authentic glossier williamsburg 90's cronut helvetica. Kinfolk taxidermy health goth gluten-free, selvage farm-to-table portland roof party wolf gastropub. Umami hella messenger bag small batch trust fund snackwave. Gluten-free brooklyn thundercats messenger bag.</StyledP>
 		</Layout>
 	)
 }

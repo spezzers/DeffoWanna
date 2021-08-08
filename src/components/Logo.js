@@ -18,8 +18,6 @@ const AnimFePointLight = animated('fePointLight')
 const Logo = props => {
 	const theme = useContext(ThemeContext)
 	
-	const size = props.size
-	
 	const lightColor = props.lightColor || theme.white || 'white'
 	const lightIntensity = props.lightIntensity > 1 ? props.lightIntensity : 1
 
@@ -130,8 +128,8 @@ const Logo = props => {
 
 	return (
 		<StyledLogo
+		{...props}
 			id='logo'
-			size={size}
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'

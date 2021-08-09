@@ -3,10 +3,20 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
 
-export const lineHeight = '24px'
-export const fontSize = '19px'
-
-
+const fontSizePx = 19
+export const fontSize = `${fontSizePx}px`
+export const lineHeight = `${fontSizePx * 1.263}px`
+export const rowGap = lineHeight
+export const colGap = `${((fontSizePx * 1.263) / 5) * 8}px`
+export const breakpoint = {
+	mobile: '@media only screen and (min-width: 13.947rem)',
+	tablet: '@media only screen and (min-width: 38rem)',
+	desktop: '@media only screen and (min-width: 59rem)'
+}
+export const themeContextColor = (color, fallback) => props => {
+	const fallbackColor = fallback ? fallback : 'initial'
+	return props.theme[color] || color || fallbackColor
+}
 
 const Grid = styled.div`
 	--row-gap: ${lineHeight};
@@ -16,30 +26,50 @@ const Grid = styled.div`
 	--header-row: calc(var(--row-gap) * 2.75);
 	--row: calc(var(--row-gap) * 5);
 	--small-row: calc(var(--row-gap) * 3);
+
 	display: grid;
 	justify-content: center;
 	width: 100%;
-	~ * {
-		border: 1px solid red;
-	}
 	column-gap: var(--col-gap);
 	row-gap: var(--row-gap);
-	grid-template-columns:
-		1fr
-		[logo-start]
-		var(--col-gap)
-		[main-start]
-		var(--col-gap)
-		[logo-end]
-		var(--small-col)
-		var(--col)
-		[main-end]
-		2fr;
+
 	grid-template-rows: var(--header-row) var(--row-gap) var(--small-row) repeat(
 			auto-fit,
 			var(--row)
 		);
-	
+
+	${breakpoint.mobile} {
+		grid-template-columns: [logo-start] var(--col-gap) var(--col-gap) [logo-end] 1fr;
+	}
+	${breakpoint.tablet} {
+		grid-template-columns:
+			1fr
+			[logo-start]
+			var(--col-gap)
+			[main-start]
+			var(--col-gap)
+			[logo-end]
+			var(--small-col)
+			var(--col)
+			[main-end]
+			2fr;
+		grid-template-areas: '.  logo logo . . .';
+	}
+	${breakpoint.desktop} {
+		grid-template-columns:
+			2fr
+			var(--small-col)
+			var(--col-gap)
+			var(--col-gap)
+			[logo-end]
+			var(--small-col)
+			var(--col)
+			var(--col)
+			var(--col)
+			[main-end]
+			3fr;
+		grid-template-areas: '. . logo logo . . . . .';
+	}
 `
 
 const GlobalStyle = createGlobalStyle`
@@ -74,6 +104,14 @@ body {
 }
 `
 
+const ThemeToggleButton = styled.div`
+	grid-column: -3 / -1;
+	justify-self: right;
+	align-self: center;
+	position: relative;
+	margin-right: ${rowGap};
+`
+
 const Layout = ({ children }) => {
 	const theme = useTheme()
 	if (!theme.current) {
@@ -82,7 +120,9 @@ const Layout = ({ children }) => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
-				<theme.ToggleButton />
+				<ThemeToggleButton>
+					<theme.ToggleButton />
+				</ThemeToggleButton>
 				{children}
 			</Grid>
 			<GlobalStyle />

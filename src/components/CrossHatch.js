@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
+import { themeContextColor } from './layout'
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
@@ -20,14 +21,9 @@ const Hatching = styled.div.attrs(props => {
 			? 'invert(0)'
 			: 'invert(1)',
 		blacks: isDark
-			? props.theme[props.blacks] ||
-			  props.blacks ||
-			  props.theme?.background ||
-			  'white'
-			: props.theme[props.blacks] ||
-			  props.blacks ||
-			  props.theme?.text ||
-			  'black',
+			? themeContextColor(props.blacks, themeContextColor('background', 'white'))
+			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
+		//TODO refactor 'whites' same as 'blacks'
 		whites: isDark
 			? props.theme[props.whites] ||
 			  props.whites ||
@@ -102,10 +98,24 @@ const Hatching = styled.div.attrs(props => {
 `
 
 const CrossHatch = props => {
-	const theme = useContext(ThemeContext)
+	const {
+		edgeSoftness,
+		darkInvert,
+		blacks,
+		whites,
+		backgroundSize,
+		...wrapProps
+	} = props
+	const hatchProps = {
+		edgeSoftness,
+		darkInvert,
+		blacks,
+		whites,
+		backgroundSize
+	}
 	return (
-		<div>
-			<Hatching theme={theme} {...props}>
+		<div {...wrapProps}>
+			<Hatching {...hatchProps}>
 				<div className='wrapper'>
 					<div className='hatch'>{props.children}</div>
 				</div>

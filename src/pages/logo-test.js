@@ -2,23 +2,29 @@ import React from 'react'
 import Layout from '../components/layout'
 import CrossHatch from '../components/CrossHatch'
 import Logo from '../components/Logo'
-// import vid from '../images/odog.mp4'
 import ollieBall from '../images/ollieBall_compressed.mp4'
 import ollieBall2 from '../images/ollieBall2_compressed.mp4'
 import pic from '../images/birds.jpg'
-import useTheme from '../hooks/useTheme'
+import styled from 'styled-components'
+
+const VideoHatch = styled.div`
+	grid-row: 2 / 5;
+	grid-column: 1 / 3;
+	object-position: center;
+	margin: -24px -38px;
+	overflow: hidden;
+`
 
 const LogoTest = () => {
-	const theme = useTheme()
-	console.log('current theme:', theme.current?.name)
 	return (
 		<Layout>
-			{/* <div className='whole-page'> */}
-			<CrossHatch backgroundSize='35px' whites='red'>
-				<video muted autoPlay loop playsInline>
-					<source src={ollieBall2} type='video/mp4' />
-				</video>
-			</CrossHatch>
+			<VideoHatch>
+				<CrossHatch backgroundSize='50px' blacks='red'>
+					<video muted autoPlay loop playsInline>
+						<source src={ollieBall2} type='video/mp4' />
+					</video>
+				</CrossHatch>
+			</VideoHatch>
 			<Logo color='black' />
 			<CrossHatch edgeSoftness={0} darkInvert>
 				<div>
@@ -38,12 +44,9 @@ const LogoTest = () => {
 			<video muted autoPlay loop playsInline width='100%'>
 				<source src={ollieBall} type='video/mp4' />
 			</video>
-			<div>
-				<CrossHatch>
-					<img src={pic} alt='pic' height='600px' />
-				</CrossHatch>
-			</div>
-			{/*TODO prevent video interaction (opera browser, picture-in-picture button)*/}
+			<CrossHatch>
+				<img src={pic} alt='pic' height='600px' />
+			</CrossHatch>
 
 			<h2>Hello World</h2>
 			<h3>How are you?</h3>
@@ -56,7 +59,6 @@ const LogoTest = () => {
 				montes! Senectus netus tincidunt, rhoncus? Quas blandit exercitationem
 				dui.
 			</p>
-			{/* </div> */}
 		</Layout>
 	)
 }

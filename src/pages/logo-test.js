@@ -19,7 +19,7 @@ const LogoTest = () => {
 	return (
 		<Layout>
 			<VideoHatch>
-				<CrossHatch backgroundSize='50px' blacks='red'>
+				<CrossHatch backgroundSize='50px' blacks='black' whites='blue'>
 					<video muted autoPlay loop playsInline>
 						<source src={ollieBall2} type='video/mp4' />
 					</video>

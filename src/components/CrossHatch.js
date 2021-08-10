@@ -25,10 +25,7 @@ const Hatching = styled.div.attrs(props => {
 			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
 		//TODO refactor 'whites' same as 'blacks'
 		whites: isDark
-			? props.theme[props.whites] ||
-			  props.whites ||
-			  props.theme?.purpleText ||
-			  'black'
+			?  themeContextColor(props.whites, themeContextColor('purpleText', 'black'))
 			: props.theme[props.whites] ||
 			  props.whites ||
 			  props.theme?.background ||

@@ -1,12 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
-import Layout, { breakpoint, colGap, themeContextColor } from '../components/layout'
+import Layout, { breakpoint } from '../components/layout'
 import Logo from '../components/Logo'
 
+
 const StyledH1 = styled.h1`
-	background-color: green;
-	grid-column: 3;
-	grid-row: 2;
+	grid-row: 2 / span 2;
+	margin: 0;
+	${breakpoint.mobile} {
+		grid-column: 1 / span 3;
+		:before {
+			content: 'Mobile\ ';
+		}
+	}
+	${breakpoint.tablet} {
+		grid-column: 2 / span 3;
+		:before {
+			content: 'Tablet\ ';
+		}
+	}
+	${breakpoint.desktop} {
+		grid-column: 3 / span 3;
+		:before {
+			content: 'Desktop\ ';
+		}
+	}
 `
 const StyledLogo = styled(Logo)`
 	grid-area: logo;
@@ -15,27 +33,21 @@ const StyledP = styled.p`
 	${breakpoint.mobile} {
 		grid-row: 4 / span 5;
 		grid-column: 1 / -1;
-		padding: 0 ${colGap};
 	}
 	${breakpoint.tablet} {
 		grid-row: 4 / span 4;
-		grid-column: 3 / 5;
+		grid-column: 3 / span 3;
 	}
 	${breakpoint.desktop} {
 		grid-row: 4 / span 4;
-		grid-column: 4 / 6;
+		grid-column: 4 / span 4;
 	}
-`
-const Footer = styled.div`
-	grid-row: -2 / -1;
-	grid-column: 1 / -1;
-	background-color: ${themeContextColor('purple')};
 `
 
 const Grid = props => {
 	return (
 		<Layout>
-			<StyledLogo />
+			<StyledLogo size='4' />
 			<StyledH1>Grid</StyledH1>
 			<StyledP>
 				Crucifix master cleanse palo santo fashion axe la croix. Kogi portland
@@ -47,7 +59,6 @@ const Grid = props => {
 				gastropub. Umami hella messenger bag small batch trust fund snackwave.
 				Gluten-free brooklyn thundercats messenger bag.
 			</StyledP>
-			<Footer backgroundColor='purple' />
 		</Layout>
 	)
 }

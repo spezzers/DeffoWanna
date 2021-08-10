@@ -9,9 +9,9 @@ export const lineHeight = `${fontSizePx * 1.263}px`
 export const rowGap = lineHeight
 export const colGap = `${((fontSizePx * 1.263) / 5) * 8}px`
 export const breakpoint = {
-	mobile: '@media only screen and (min-width: 13.947rem)',
-	tablet: '@media only screen and (min-width: 38rem)',
-	desktop: '@media only screen and (min-width: 59rem)'
+	mobile: '@media only screen and (max-width: 31rem)',
+	tablet: '@media only screen and (min-width: 31rem)',
+	desktop: '@media only screen and (min-width: 62rem)'
 }
 export const themeContextColor = (color, fallback) => props => {
 	const fallbackColor = fallback ? fallback : 'initial'
@@ -33,42 +33,45 @@ const Grid = styled.div`
 	column-gap: var(--col-gap);
 	row-gap: var(--row-gap);
 
-	grid-template-rows: var(--header-row) var(--row-gap) var(--small-row) repeat(
-			auto-fit,
-			var(--row)
-		);
+	grid-template-rows:
+		var(--header-row)
+		var(--row-gap)
+		var(--small-row)
+		repeat(auto-fill, var(--row));
 
 	${breakpoint.mobile} {
+		width: calc(100% - var(--col-gap));
+		margin: 0 auto;
 		grid-template-columns: [logo-start] var(--col-gap) var(--col-gap) [logo-end] 1fr;
+		grid-template-areas: 'logo logo header';
 	}
+
 	${breakpoint.tablet} {
+		width: 100%;
+		margin: 0;
 		grid-template-columns:
-			1fr
-			[logo-start]
+			1.5fr
 			var(--col-gap)
-			[main-start]
 			var(--col-gap)
-			[logo-end]
-			var(--small-col)
-			var(--col)
-			[main-end]
-			2fr;
-		grid-template-areas: '.  logo logo . . .';
+			minmax(var(--small-col), 2fr)
+			minmax(var(--col), 4fr)
+			3fr;
+		grid-template-areas: '.  logo logo header header header';
 	}
 	${breakpoint.desktop} {
+		width: 100%;
+		margin: 0;
 		grid-template-columns:
-			2fr
+			3fr
 			var(--small-col)
 			var(--col-gap)
 			var(--col-gap)
-			[logo-end]
 			var(--small-col)
 			var(--col)
 			var(--col)
 			var(--col)
-			[main-end]
-			3fr;
-		grid-template-areas: '. . logo logo . . . . .';
+			4fr;
+		grid-template-areas: '. . logo logo . header header header header';
 	}
 `
 
@@ -104,13 +107,80 @@ body {
 }
 `
 
-const ThemeToggleButton = styled.div`
-	grid-column: -3 / -1;
-	justify-self: right;
-	align-self: center;
-	position: relative;
-	margin-right: ${rowGap};
+const StyledHeader = styled.div`
+	font-size: 0.9rem;
+	display: flex;
+	grid-area: header;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 0 ${colGap} 0 0;
+	color: ${themeContextColor('purpleText')};
+	${breakpoint.mobile} {
+		margin: 0;
+	}
+	.theme-button {
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+	}
+	.header {
+		margin: 0 ${colGap} 0 0;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		${breakpoint.mobile} {
+			display: none;
+		}
+		.nav {
+			${breakpoint.tablet} {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-evenly;
+				height: 50%;
+				margin: 0;
+				padding: 0;
+				li {
+					list-style: none;
+				}
+			}
+		}
+		.header-title {
+			border-top: 1px solid ${themeContextColor('purpleText')};
+			//FIX font not displaying lighter in browser
+			font-weight: 200;
+			:before {
+				${breakpoint.mobile} {
+					content: 'Design & Web Dev';
+				}
+				${breakpoint.tablet} {
+					content: 'Design & Web Development';
+				}
+				${breakpoint.desktop} {
+					content: 'Graphic Design & Web Development';
+				}
+			}
+		}
+	}
 `
+
+export const Header = props => {
+	return (
+		<StyledHeader>
+			<div className='header'>
+				<ul className='nav'>
+					<li>Home</li>
+					<li>Portfolio</li>
+					<li>About</li>
+					<li>Contact</li>
+				</ul>
+				<div className='header-title' />
+			</div>
+			<div className='theme-button'>{props.children}</div>
+		</StyledHeader>
+	)
+}
 
 const Layout = ({ children }) => {
 	const theme = useTheme()
@@ -120,9 +190,9 @@ const Layout = ({ children }) => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
-				<ThemeToggleButton>
+				<Header>
 					<theme.ToggleButton />
-				</ThemeToggleButton>
+				</Header>
 				{children}
 			</Grid>
 			<GlobalStyle />

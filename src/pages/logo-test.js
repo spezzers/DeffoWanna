@@ -5,26 +5,15 @@ import Logo from '../components/Logo'
 import ollieBall from '../images/ollieBall_compressed.mp4'
 import ollieBall2 from '../images/ollieBall2_compressed.mp4'
 import pic from '../images/birds.jpg'
-import styled from 'styled-components'
-
-const VideoHatch = styled.div`
-	grid-row: 2 / 5;
-	grid-column: 1 / 3;
-	object-position: center;
-	margin: -24px -38px;
-	overflow: hidden;
-`
 
 const LogoTest = () => {
 	return (
 		<Layout>
-			<VideoHatch>
-				<CrossHatch backgroundSize='50px' blacks='black' whites='blue'>
-					<video muted autoPlay loop playsInline>
-						<source src={ollieBall2} type='video/mp4' />
-					</video>
-				</CrossHatch>
-			</VideoHatch>
+			<CrossHatch backgroundSize='50px' blacks='black' whites='blue'>
+				<video muted autoPlay loop playsInline>
+					<source src={ollieBall2} type='video/mp4' />
+				</video>
+			</CrossHatch>
 			<Logo color='black' />
 			<CrossHatch edgeSoftness={0} darkInvert>
 				<div>

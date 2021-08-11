@@ -21,15 +21,20 @@ const Hatching = styled.div.attrs(props => {
 			? 'invert(0)'
 			: 'invert(1)',
 		blacks: isDark
-			? themeContextColor(props.blacks, themeContextColor('background', 'white'))
+			? themeContextColor(
+					props.blacks,
+					themeContextColor('background', 'white')
+			  )
 			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
-		//TODO refactor 'whites' same as 'blacks'
 		whites: isDark
-			?  themeContextColor(props.whites, themeContextColor('purpleText', 'black'))
-			: props.theme[props.whites] ||
-			  props.whites ||
-			  props.theme?.background ||
-			  'white',
+			? themeContextColor(
+					props.whites,
+					themeContextColor('purpleText', 'black')
+			  )
+			: themeContextColor(
+					props.whites,
+					themeContextColor('background', 'white')
+			  ),
 		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
 	}
 })`
@@ -62,9 +67,11 @@ const Hatching = styled.div.attrs(props => {
 		background-origin: border-box;
 		background-repeat: repeat;
 		background-position: center;
-		background-size: ${props => props.backgroundSize || '60px'};
+		background-size: ${props => props.backgroundSize || '3rem'};
 		box-shadow: inset 0 0
-			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
+			${props => `${props.edgeSoftness}
+			${props.edgeSoftness}`}
+			white;
 		* {
 			display: block;
 			background-image: none;

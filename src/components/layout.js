@@ -76,39 +76,46 @@ const Grid = styled.div`
 `
 
 const GlobalStyle = createGlobalStyle`
-* {
-	-webkit-font-smoothing: antialiased;
-}
-body {
-	background-color: ${props => props.theme.background};
-	color: ${props => props.theme.text};
-	margin: 0;
-	padding: 0 0 calc(${lineHeight} * 2) 0;
-	font-family: 'IBM Plex Sans', sans-serif;
-	line-height: ${lineHeight};
-	font-size: ${fontSize};
-	p {
-		font-family: IBM Plex Sans;
-		font-style: normal;
-		font-weight: normal;
-		letter-spacing: 0.012em;
+	body {
+		background-color: ${props => props.theme.background};
+		color: ${props => props.theme.text};
+		margin: 0;
+		padding: 0 0 calc(${lineHeight} * 2) 0;
+		font-family: 'IBM Plex Sans', sans-serif;
+		line-height: ${lineHeight};
+		font-size: ${fontSize};
+		
+		p {
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: 400;
+			letter-spacing: 0.012em;
+		}
+		h1, h2, h3, h4, h5, h6 {
+			font-family: 'IBM Plex Serif', serif;
+			font-style: normal;
+		}
+		h1 {
+			font-family: IBM Plex Serif;
+			font-style: normal;
+			font-weight: bold;
+			line-height: calc(2 * ${lineHeight});
+			letter-spacing: 0.002em;
+			${breakpoint.mobile} {
+				font-size: 2.1rem;
+			}
+			${breakpoint.tablet} {
+				font-size: 2.5rem;
+			}
+			${breakpoint.desktop} {
+				font-size: calc(2 * ${lineHeight});
+			}
+		}
 	}
-	//TODO change heading font
-	h1, h2, h3, h4, h5, h6 {
-		font-family: 'Raleway', serif;
-	}
-	h1 {
-		font-style: normal;
-		font-weight: 900;
-		font-size: 38px;
-		line-height: 48px;
-		letter-spacing: 0.02em;
-	}
-}
 `
 
 const StyledHeader = styled.div`
-	font-size: 0.9rem;
+	font-size: 0.95rem;
 	display: flex;
 	grid-area: header;
 	flex-direction: row;
@@ -142,20 +149,18 @@ const StyledHeader = styled.div`
 				margin: 0;
 				padding: 0;
 				li {
+					font-weight: 400;
 					list-style: none;
 				}
 			}
 		}
 		.header-title {
 			border-top: 1px solid ${themeContextColor('purpleText')};
-			//FIX font not displaying lighter in browser
 			font-weight: 200;
+			color: ${themeContextColor('purpleTextStrong')};
 			:before {
-				${breakpoint.mobile} {
-					content: 'Design & Web Dev';
-				}
 				${breakpoint.tablet} {
-					content: 'Design & Web Development';
+					content: 'Design & Web Dev';
 				}
 				${breakpoint.desktop} {
 					content: 'Graphic Design & Web Development';

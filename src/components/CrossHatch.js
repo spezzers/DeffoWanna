@@ -78,7 +78,7 @@ const Hatching = styled.div.attrs(props => {
 			background-color: ${props => props.backgroundColor};
 			filter: ${props => props.invertContent} contrast(0.5);
 			mix-blend-mode: hard-light;
-			margin: 0; //NOTE background-color doesn't fill to margin. Use padding for spacing
+			margin: 0;
 			* {
 				background-color: unset;
 				mix-blend-mode: normal;

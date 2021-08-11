@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
+import Logo from '../components/Logo'
 import '../styles/layout.css'
 
 const fontSizePx = 19
@@ -37,13 +38,19 @@ const Grid = styled.div`
 		var(--header-row)
 		var(--row-gap)
 		var(--small-row)
-		repeat(auto-fill, var(--row));
+		minmax(var(--row), 1fr);
+
+	grid-auto-rows: auto;
 
 	${breakpoint.mobile} {
 		width: calc(100% - var(--col-gap));
 		margin: 0 auto;
 		grid-template-columns: [logo-start] var(--col-gap) var(--col-gap) [logo-end] 1fr;
-		grid-template-areas: 'logo logo header';
+		grid-template-areas:
+			'logo logo header'
+			'main main main'
+			'main main main'
+			'main main main';
 	}
 
 	${breakpoint.tablet} {
@@ -56,7 +63,11 @@ const Grid = styled.div`
 			minmax(var(--small-col), 2fr)
 			minmax(var(--col), 4fr)
 			3fr;
-		grid-template-areas: '.  logo logo header header header';
+		grid-template-areas:
+			'.  logo logo header header header'
+			'. main main main main .'
+			'. main main main main .'
+			'. main main main main .';
 	}
 	${breakpoint.desktop} {
 		width: 100%;
@@ -71,7 +82,11 @@ const Grid = styled.div`
 			var(--col)
 			var(--col)
 			4fr;
-		grid-template-areas: '. . logo logo . header header header header';
+		grid-template-areas:
+			'. . logo logo . header header header header'
+			'. . main main main main main . .'
+			'. . main main main main main . .'
+			'. . main main main main main . .';
 	}
 `
 
@@ -93,13 +108,20 @@ const GlobalStyle = createGlobalStyle`
 		}
 		h1, h2, h3, h4, h5, h6 {
 			font-family: 'IBM Plex Serif', serif;
+			font-weight: normal;
 			font-style: normal;
+			margin: ${lineHeight} 0;
+			color: ${themeContextColor('textStrong')};
+			line-height: 1.4em;
+		}
+		h1, h2 {
+			margin: calc(2 * ${lineHeight}) 0;
 		}
 		h1 {
+			color: ${themeContextColor('text')};
 			font-family: IBM Plex Serif;
 			font-style: normal;
 			font-weight: bold;
-			line-height: calc(2 * ${lineHeight});
 			letter-spacing: 0.002em;
 			${breakpoint.mobile} {
 				font-size: 2.1rem;
@@ -111,81 +133,99 @@ const GlobalStyle = createGlobalStyle`
 				font-size: calc(2 * ${lineHeight});
 			}
 		}
+		h2 {
+			font-size: 1.895rem;
+			letter-spacing: 0.01em;
+		}
+		h3 {
+			font-size: 1.526rem;
+			letter-spacing: 0.023em;
+		}
+		h4 {
+			font-size: 1.368rem;
+			letter-spacing: 0.05em;
+		}
+		h5 {
+			font-size: 1.263rem;
+			letter-spacing: 0.06em;
+		}
+		h6 {
+			font-size: 1.105rem;
+			letter-spacing: 0.07em;
+		}
 	}
 `
 
-const StyledHeader = styled.div`
-	font-size: 0.95rem;
-	display: flex;
-	grid-area: header;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-end;
-	margin: 0 ${colGap} 0 0;
-	color: ${themeContextColor('purpleText')};
-	${breakpoint.mobile} {
-		margin: 0;
-	}
-	.theme-button {
-		align-self: stretch;
-		display: flex;
-		align-items: center;
-	}
-	.header {
-		margin: 0 ${colGap} 0 0;
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
+const Header = styled.div`
+	display: contents;
+	#logo {
+		grid-area: logo;
 		${breakpoint.mobile} {
-			display: none;
+			margin-left: calc(-0.5 * ${colGap});
 		}
-		.nav {
-			${breakpoint.tablet} {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-evenly;
-				height: 50%;
-				margin: 0;
-				padding: 0;
-				li {
-					font-weight: 400;
-					list-style: none;
+		${breakpoint.tablet} {
+			margin-left: -${colGap};
+		}
+	}
+	#menu {
+		font-size: 0.95rem;
+		display: flex;
+		grid-area: header;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		margin: 0 ${colGap} 0 0;
+		color: ${themeContextColor('purpleText')};
+		${breakpoint.mobile} {
+			margin: 0;
+		}
+		${breakpoint.desktop} {
+			margin-left: -${colGap};
+		}
+		.theme-button {
+			align-self: stretch;
+			display: flex;
+			align-items: center;
+		}
+		.header {
+			margin: 0 ${colGap} 0 0;
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			${breakpoint.mobile} {
+				display: none;
+			}
+			.nav-links {
+				${breakpoint.tablet} {
+					display: flex;
+					flex-direction: row;
+					justify-content: space-evenly;
+					height: 50%;
+					margin: 0;
+					padding: 0;
+					li {
+						font-weight: 400;
+						list-style: none;
+					}
 				}
 			}
-		}
-		.header-title {
-			border-top: 1px solid ${themeContextColor('purpleText')};
-			font-weight: 200;
-			color: ${themeContextColor('purpleTextStrong')};
-			:before {
-				${breakpoint.tablet} {
-					content: 'Design & Web Dev';
-				}
-				${breakpoint.desktop} {
-					content: 'Graphic Design & Web Development';
+			.header-title {
+				border-top: 1px solid ${themeContextColor('purpleText')};
+				font-weight: 200;
+				color: ${themeContextColor('purpleTextStrong')};
+				:before {
+					${breakpoint.tablet} {
+						content: 'Design & Web Dev';
+					}
+					${breakpoint.desktop} {
+						content: 'Graphic Design & Web Development';
+					}
 				}
 			}
 		}
 	}
 `
-
-export const Header = props => {
-	return (
-		<StyledHeader>
-			<div className='header'>
-				<ul className='nav'>
-					<li>Home</li>
-					<li>Portfolio</li>
-					<li>About</li>
-					<li>Contact</li>
-				</ul>
-				<div className='header-title' />
-			</div>
-			<div className='theme-button'>{props.children}</div>
-		</StyledHeader>
-	)
-}
 
 const Layout = ({ children }) => {
 	const theme = useTheme()
@@ -196,7 +236,21 @@ const Layout = ({ children }) => {
 		<ThemeProvider theme={theme.current}>
 			<Grid>
 				<Header>
-					<theme.ToggleButton />
+					<Logo size='4' />
+					<div id='menu'>
+						<div className='header'>
+							<ul className='nav-links'>
+								<li>Home</li>
+								<li>Portfolio</li>
+								<li>About</li>
+								<li>Contact</li>
+							</ul>
+							<div className='header-title' />
+						</div>
+						<div className='theme-button'>
+							<theme.ToggleButton />
+						</div>
+					</div>
 				</Header>
 				{children}
 			</Grid>

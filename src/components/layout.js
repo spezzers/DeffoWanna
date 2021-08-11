@@ -45,7 +45,12 @@ const Grid = styled.div`
 	${breakpoint.mobile} {
 		width: calc(100% - var(--col-gap));
 		margin: 0 auto;
-		grid-template-columns: [logo-start] var(--col-gap) var(--col-gap) [logo-end] 1fr;
+		grid-template-columns:
+			[logo-start]
+			var(--col-gap)
+			var(--col-gap)
+			[logo-end]
+			minmax(0, 1fr);
 		grid-template-areas:
 			'logo logo header'
 			'main main main'
@@ -57,12 +62,12 @@ const Grid = styled.div`
 		width: 100%;
 		margin: 0;
 		grid-template-columns:
-			1.5fr
+			minmax(0, 1.5fr)
 			var(--col-gap)
 			var(--col-gap)
 			minmax(var(--small-col), 2fr)
 			minmax(var(--col), 4fr)
-			3fr;
+			minmax(0, 3fr);
 		grid-template-areas:
 			'.  logo logo header header header'
 			'. main main main main .'
@@ -73,7 +78,7 @@ const Grid = styled.div`
 		width: 100%;
 		margin: 0;
 		grid-template-columns:
-			3fr
+			minmax(0, 3fr)
 			var(--small-col)
 			var(--col-gap)
 			var(--col-gap)
@@ -81,7 +86,7 @@ const Grid = styled.div`
 			var(--col)
 			var(--col)
 			var(--col)
-			4fr;
+			minmax(0, 4fr);
 		grid-template-areas:
 			'. . logo logo . header header header header'
 			'. . main main main main main . .'

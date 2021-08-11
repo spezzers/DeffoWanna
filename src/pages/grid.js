@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Layout, { breakpoint } from '../components/layout'
+import { Helmet } from 'react-helmet'
+
 
 const GridTitle = styled.h1`
 	:before {
@@ -23,6 +25,9 @@ const Main = styled.div`
 const Grid = props => {
 	return (
 		<Layout>
+			<Helmet>
+				<title>Grid Test</title>
+			</Helmet>
 			<Main>
 				<GridTitle />
 				<p>

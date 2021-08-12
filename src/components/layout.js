@@ -192,6 +192,7 @@ const Header = styled.div`
 			align-self: stretch;
 			display: flex;
 			align-items: center;
+			padding-bottom: 0.2em;
 		}
 		.header {
 			margin: 0 ${colGap} 0 0;
@@ -220,11 +221,11 @@ const Header = styled.div`
 					}
 					a.contact {
 						margin-right: 0;
-						color: ${themeContextColor('purpleTextStrong')};
 					}
 					.current-page {
-						border-bottom: 3px solid ${themeContextColor('purpleTextStrong')};
-						margin-bottom: -3px;
+						color: ${themeContextColor('purpleTextStrong')};
+						border-bottom: 1px solid ${themeContextColor('purpleText')};
+						margin-bottom: -1px;
 					}
 				}
 			}

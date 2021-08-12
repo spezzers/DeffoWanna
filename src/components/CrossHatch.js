@@ -38,7 +38,21 @@ const Hatching = styled.div.attrs(props => {
 		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
 	}
 })`
+	--bg-size: ${props => props.backgroundSize || '3rem'};
+	@keyframes jiggle {
+		0% {
+			background-position: calc(0.5 * var(--bg-size)) calc(-0.1 * var(--bg-size));
+		}
+		33% {
+			background-position: calc(-0.25 * var(--bg-size)) calc(0.5 * var(--bg-size));
+		}
+		66% {
+			background-position: calc(-0.1 * var(--bg-size)) calc(0.4 * var(--bg-size));
+		}
+	}
+
 	width: fit-content;
+	user-select: none;
 	position: relative;
 	.wrapper {
 		position: relative;
@@ -62,12 +76,14 @@ const Hatching = styled.div.attrs(props => {
 
 	.hatch {
 		background-image: url(${crossHatchDataBase64});
+		//TODO make animated texture optional (it's quite vertigo inducing!)
+		animation: jiggle 1.2s steps(1) infinite;
 		height: fit-content;
 		filter: ${props => props.invertHatch};
 		background-origin: border-box;
 		background-repeat: repeat;
 		background-position: center;
-		background-size: ${props => props.backgroundSize || '3rem'};
+		background-size: var(--bg-size);
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness}
 			${props.edgeSoftness}`}

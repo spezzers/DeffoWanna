@@ -262,7 +262,7 @@ const Layout = ({ children }) => {
 								<Link to='/grid/' activeClassName='current-page'>
 									Home
 								</Link>
-								<Link to='/portfolio/' activeClassName='current-page'>
+								<Link to='/logo-test/' activeClassName='current-page'>
 									Portfolio
 								</Link>
 								<Link to='/blog/' activeClassName='current-page'>

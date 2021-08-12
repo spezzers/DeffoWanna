@@ -106,15 +106,13 @@ const Logo = props => {
 	}
 
 	const activate = cursorPos => {
-		const result = getLightPoint(cursorPos)
-		setLightPos.start(result)
-		api.start(baloon)
-	}
-	const hoverInactive = () => {
 		api.start(fuzzy)
 	}
+	const hoverInactive = cursorPos => {
+		api.start(baloon)
+	}
 
-	const activeMouseMove = cursorPos => {
+	const hoverMouseMove = cursorPos => {
 		const result = getLightPoint(cursorPos)
 		setLightPos.start(result)
 	}
@@ -123,7 +121,7 @@ const Logo = props => {
 		activate,
 		deactivate,
 		hoverInactive,
-		activeMouseMove
+		hoverMouseMove
 	})
 
 	return (

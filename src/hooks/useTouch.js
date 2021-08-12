@@ -75,12 +75,12 @@ const useTouch = props => {
 		}
 	}
 
-	const activeMouseMove = () => {
-		if (activated) {
+	const hoverMouseMove = () => {
+		if (hovering) {
 			return {
 				onMouseMove: e => {
-					if (props.activeMouseMove !== undefined) {
-						return props.activeMouseMove({ x: e.clientX, y: e.clientY })
+					if (props.hoverMouseMove !== undefined) {
+						return props.hoverMouseMove({ x: e.clientX, y: e.clientY })
 					}
 				}
 			}
@@ -89,7 +89,7 @@ const useTouch = props => {
 
 	const attributes = () => {
 		return {
-			...activeMouseMove(),
+			...hoverMouseMove(),
 			onTouchStart: event => handleTouch(event),
 			onTouchEnd: event => handleTouch(event),
 			onTouchMove: event => handleTouch(event),

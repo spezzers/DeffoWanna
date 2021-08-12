@@ -258,21 +258,21 @@ const Layout = ({ children }) => {
 					<div id='menu'>
 						<div className='header'>
 							<div className='nav-links'>
-								<Link to='/grid' activeClassName='current-page'>
+								<Link to='/grid/' activeClassName='current-page'>
 									Home
 								</Link>
-								<Link to='/portfolio' activeClassName='current-page'>
+								<Link to='/portfolio/' activeClassName='current-page'>
 									Portfolio
 								</Link>
-								<Link to='/blog' activeClassName='current-page'>
+								<Link to='/blog/' activeClassName='current-page'>
 									Blog
 								</Link>
-								<Link to='/about' activeClassName='current-page'>
+								<Link to='/about/' activeClassName='current-page'>
 									About
 								</Link>
 								<Link
 									className='contact'
-									to='/contact'
+									to='/contact/'
 									activeClassName='current-page'
 								>
 									Contact

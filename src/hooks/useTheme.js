@@ -163,7 +163,7 @@ const useTheme = () => {
 		setCurrent(newTheme)
 	}
 
-	const themeIconMouseEvent = e => {
+	const themeIconEvent = e => {
 		switch (e.type) {
 			case 'mouseenter':
 				setHovering(true)
@@ -171,6 +171,10 @@ const useTheme = () => {
 			case 'mouseleave':
 				setHovering(false)
 				break
+			case 'keydown':
+				if (e.key !== 'Enter') {
+					break
+				}
 			case 'click':
 				toggleTheme()
 				break
@@ -181,11 +185,17 @@ const useTheme = () => {
 
 	const ToggleButton = () => (
 		<NonNavigatingButton
-			onClick={e => themeIconMouseEvent(e)}
-			onMouseLeave={e => themeIconMouseEvent(e)}
-			onMouseEnter={e => themeIconMouseEvent(e)}
+			tabIndex='0'
+			aria-label='toggle dark mode'
+			id='theme-toggle-button'
+			role='button'
+			onKeyDown={e => themeIconEvent(e)}
+			onClick={e => themeIconEvent(e)}
+			onMouseLeave={e => themeIconEvent(e)}
+			onMouseEnter={e => themeIconEvent(e)}
 		>
 			<animated.svg
+				role='document'
 				xmlns='http://www.w3.org/2000/svg'
 				width={26}
 				height={26}

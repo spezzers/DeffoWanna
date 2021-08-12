@@ -5,7 +5,7 @@ import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
 
 const StyledLogo = styled(animated.svg)`
-	height: ${props => `${props.size ? `${props.size}rem` :  null}`};
+	height: ${props => `${props.size ? `${props.size}rem` : null}`};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -17,7 +17,7 @@ const AnimFePointLight = animated('fePointLight')
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
-	
+
 	const lightColor = props.lightColor || theme.white || 'white'
 	const lightIntensity = props.lightIntensity > 1 ? props.lightIntensity : 1
 
@@ -128,8 +128,10 @@ const Logo = props => {
 
 	return (
 		<StyledLogo
-		{...props}
+			{...props}
+			tabIndex='0'
 			id='logo'
+			role='button'
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'
@@ -138,9 +140,15 @@ const Logo = props => {
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
 		>
+			<title>Deffo Wanna</title>
+			<desc>graphic design and web development</desc>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={5.5} />
+					<feGaussianBlur
+						in='SourceGraphic'
+						result='light1'
+						stdDeviation={5.5}
+					/>
 
 					<feDiffuseLighting
 						in='light1'

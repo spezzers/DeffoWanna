@@ -3,6 +3,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import Logo from '../components/Logo'
 import '../styles/layout.css'
+import { Link } from 'gatsby'
 
 const fontSizePx = 19
 export const fontSize = `${fontSizePx}px`
@@ -209,9 +210,21 @@ const Header = styled.div`
 					height: 50%;
 					margin: 0;
 					padding: 0;
-					li {
+					user-select: none;
+					a {
 						font-weight: 400;
-						list-style: none;
+						color: inherit;
+						text-decoration: none;
+						margin: 0 auto;
+						box-sizing: content-box;
+					}
+					a.contact {
+						margin-right: 0;
+						color: ${themeContextColor('purpleTextStrong')};
+					}
+					.current-page {
+						border-bottom: 3px solid ${themeContextColor('purpleTextStrong')};
+						margin-bottom: -3px;
 					}
 				}
 			}
@@ -244,12 +257,27 @@ const Layout = ({ children }) => {
 					<Logo size='4' />
 					<div id='menu'>
 						<div className='header'>
-							<ul className='nav-links'>
-								<li>Home</li>
-								<li>Portfolio</li>
-								<li>About</li>
-								<li>Contact</li>
-							</ul>
+							<div className='nav-links'>
+								<Link to='/grid' activeClassName='current-page'>
+									Home
+								</Link>
+								<Link to='/portfolio' activeClassName='current-page'>
+									Portfolio
+								</Link>
+								<Link to='/blog' activeClassName='current-page'>
+									Blog
+								</Link>
+								<Link to='/about' activeClassName='current-page'>
+									About
+								</Link>
+								<Link
+									className='contact'
+									to='/contact'
+									activeClassName='current-page'
+								>
+									Contact
+								</Link>
+							</div>
 							<div className='header-title' />
 						</div>
 						<div className='theme-button'>

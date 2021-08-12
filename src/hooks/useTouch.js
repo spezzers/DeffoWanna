@@ -51,6 +51,10 @@ const useTouch = props => {
 			case 'touchcancel':
 				setTouches([])
 				break
+			case 'keydown':
+				if (e.key !== 'Enter') {
+					break
+				}
 			case 'click':
 				e.preventDefault()
 				activated ? deactivate() : activate(e)
@@ -92,7 +96,8 @@ const useTouch = props => {
 			onTouchCancel: event => handleTouch(event),
 			onClick: event => handleTouch(event),
 			onMouseEnter: event => handleTouch(event),
-			onMouseLeave: event => handleTouch(event)
+			onMouseLeave: event => handleTouch(event),
+			onKeyDown: event => handleTouch(event)
 		}
 	}
 	return {

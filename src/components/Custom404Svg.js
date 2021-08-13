@@ -130,6 +130,8 @@ const Animated404SVG = styled.svg`
 const Custom404Svg = props => {
 	return (
 		<Animated404SVG
+			role='img'
+			aria-label='error 404: Page not found'
 			xmlns='http://www.w3.org/2000/svg'
 			viewBox='-585 -540 1080 1080'
 			preserveAspectRatio='xMidYMid meet'

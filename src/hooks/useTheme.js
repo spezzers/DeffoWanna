@@ -175,6 +175,8 @@ const useTheme = () => {
 				if (e.key !== 'Enter') {
 					break
 				}
+				toggleTheme()
+				break
 			case 'click':
 				toggleTheme()
 				break

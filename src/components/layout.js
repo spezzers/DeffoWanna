@@ -246,10 +246,58 @@ const Header = styled.div`
 	}
 `
 
-const Layout = ({ children }) => {
+const Minimal = styled.div`
+	height: 100vh;
+	width: 100vw;
+	padding-top: 1.5rem;
+	padding-bottom: 1rem;
+	box-sizing: border-box;
+	display: flex;
+	position: absolute;
+	align-items: stretch;
+	justify-content: center;
+	@media (orientation: portrait) {
+		flex-direction: column;
+	}
+	@media (orientation: landscape) {
+		flex-direction: row;
+	}
+	${breakpoint.mobile} {
+		padding-left: calc(${colGap} / 2);
+		padding-right: calc(${colGap} / 2);
+	}
+	${breakpoint.tablet} {
+		padding-left: ${colGap};
+		padding-right: ${colGap};
+	}
+	#theme-toggle-button {
+		position: fixed;
+		display: block;
+		top: calc(${rowGap} / 2);
+		${breakpoint.mobile} {
+			right: calc(${colGap} / 2);
+		}
+		${breakpoint.tablet} {
+			right: ${colGap};
+		}
+	}
+`
+
+const Layout = props => {
 	const theme = useTheme()
 	if (!theme.current) {
 		return null
+	}
+	if (props.minimal) {
+		return (
+			<ThemeProvider theme={theme.current}>
+				<GlobalStyle />
+				<Minimal>
+					<theme.ToggleButton />
+					{props.children}
+				</Minimal>
+			</ThemeProvider>
+		)
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
@@ -286,7 +334,7 @@ const Layout = ({ children }) => {
 						</div>
 					</div>
 				</Header>
-				{children}
+				{props.children}
 			</Grid>
 			<GlobalStyle />
 		</ThemeProvider>

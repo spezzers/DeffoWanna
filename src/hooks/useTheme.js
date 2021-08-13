@@ -3,7 +3,7 @@ import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
-const NonNavigatingButton = styled.span`
+const NonNavigatingButton = styled.div`
 	cursor: pointer;
 `
 const useTheme = () => {
@@ -185,8 +185,9 @@ const useTheme = () => {
 		}
 	}
 
-	const ToggleButton = () => (
+	const ToggleButton = (props) => (
 		<NonNavigatingButton
+			{...props}
 			tabIndex='0'
 			aria-label='toggle dark mode'
 			id='theme-toggle-button'

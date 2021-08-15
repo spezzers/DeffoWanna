@@ -176,35 +176,115 @@ const Header = styled.div`
 	#menu {
 		font-size: 0.95rem;
 		display: flex;
+		box-sizing: border-box;
 		grid-area: header;
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-end;
-		margin: 0 ${colGap} 0 0;
 		color: ${themeContextColor('purpleText')};
 		${breakpoint.mobile} {
-			margin: 0;
+			margin: 0 0 0 -${colGap};
+		}
+		${breakpoint.tablet} {
+			margin: 0 ${colGap} 0 0;
 		}
 		${breakpoint.desktop} {
 			margin-left: -${colGap};
 		}
+		.site-subheading {
+			font-weight: 200;
+			color: ${themeContextColor('purpleTextStrong')};
+		}
+		.feather-menu {
+			width: 2rem;
+			height: 2rem;
+			cursor: pointer;
+			flex-shrink: 0;
+			:hover {
+				stroke: ${themeContextColor('purpleTextStrong')};
+			}
+		}
 		.theme-button {
 			align-self: stretch;
+			box-sizing: border-box;
 			display: flex;
 			align-items: center;
-			padding-bottom: 0.2em;
 		}
 		.collapsible {
-			margin: 0 ${colGap} 0 0;
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			${breakpoint.mobile} {
+			visibility: hidden;
+		}
+		@media screen and (min-width: 21rem) {
+			.collapsible {
+				visibility: visible;
+				display: block;
+				.nav-links {
+					visibility: visible;
+				}
+				.site-subheading {
+					visibility: visible;
+					border: none;
+					line-height: 1.2em;
+					:before {
+						content: 'Design & Web Development'
+					}
+					
+				}
+			}
+		}
+		@media screen and (max-width: 37.999rem) {
+			.feather-menu {
+				display: block;
+				margin-right: calc(${colGap} / 2);
+				position: relative;
+				top: -0.2rem;
+			}
+			.collapsible {
+				margin: 0 ${colGap} 0 0;
+				flex-grow: 1;
+				flex-direction: column;
+				justify-content: center;
+
+				.nav-links {
+					visibility: hidden;
+					position: fixed;
+				}
+				.site-subheading {
+					border: none;
+					line-height: 1.2em;
+
+					:before {
+						${breakpoint.tablet} {
+							content: 'Design & Web Development';
+						}
+						content: 'Design & Web Dev';
+					}
+				}
+			}
+		}
+
+		@media screen and (min-width: 38rem) {
+			.feather-menu {
 				display: none;
 			}
-			.nav-links {
-				${breakpoint.tablet} {
+			.collapsible {
+				margin: 0 ${colGap} 0 0;
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+
+				.site-subheading {
+					border-top: 1px solid ${themeContextColor('purpleText')};
+					line-height: ${lineHeight};
+					:before {
+						
+						${breakpoint.desktop} {
+							content: 'Graphic Design & Web Development';
+						}
+					}
+				}
+
+				.nav-links {
 					display: flex;
 					flex-direction: row;
 					justify-content: space-evenly;
@@ -226,19 +306,6 @@ const Header = styled.div`
 						color: ${themeContextColor('purpleTextStrong')};
 						border-bottom: 1px solid ${themeContextColor('purpleText')};
 						margin-bottom: -1px;
-					}
-				}
-			}
-			.site-subheading {
-				border-top: 1px solid ${themeContextColor('purpleText')};
-				font-weight: 200;
-				color: ${themeContextColor('purpleTextStrong')};
-				:before {
-					${breakpoint.tablet} {
-						content: 'Design & Web Dev';
-					}
-					${breakpoint.desktop} {
-						content: 'Graphic Design & Web Development';
 					}
 				}
 			}
@@ -329,6 +396,22 @@ const Layout = props => {
 							</div>
 							<div className='site-subheading' />
 						</div>
+						<svg
+							onClick={() => console.log('hello menu')}
+							width={24}
+							height={24}
+							fill='none'
+							preserveAspectRatio='MidXMidY meet'
+							viewBox='0 0 24 24'
+							stroke='currentColor'
+							strokeWidth={1}
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							className='feather feather-menu'
+							{...props}
+						>
+							<path d='M3 12h18M3 6h18M3 18h18' />
+						</svg>
 						<div className='theme-button'>
 							<theme.ToggleButton />
 						</div>

@@ -194,7 +194,7 @@ const Header = styled.div`
 			align-items: center;
 			padding-bottom: 0.2em;
 		}
-		.header {
+		.collapsible {
 			margin: 0 ${colGap} 0 0;
 			flex-grow: 1;
 			display: flex;
@@ -229,7 +229,7 @@ const Header = styled.div`
 					}
 				}
 			}
-			.header-title {
+			.site-subheading {
 				border-top: 1px solid ${themeContextColor('purpleText')};
 				font-weight: 200;
 				color: ${themeContextColor('purpleTextStrong')};
@@ -305,7 +305,7 @@ const Layout = props => {
 				<Header>
 					<Logo size='4' />
 					<div id='menu'>
-						<div className='header'>
+						<div className='collapsible'>
 							<div className='nav-links'>
 								<Link to='/grid/' activeClassName='current-page'>
 									Home
@@ -327,7 +327,7 @@ const Layout = props => {
 									Contact
 								</Link>
 							</div>
-							<div className='header-title' />
+							<div className='site-subheading' />
 						</div>
 						<div className='theme-button'>
 							<theme.ToggleButton />

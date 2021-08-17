@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
-import {navigate} from 'gatsby'
+import { navigate } from 'gatsby'
 
 const StyledLogo = styled(animated.svg)`
 	height: ${props => `${props.size ? `${props.size}rem` : null}`};
@@ -107,12 +107,20 @@ const Logo = props => {
 	}
 
 	const activate = cursorPos => {
-		api.start({to: fuzzy, onRest: () => navigate('/'), config: {
-			clamp: false,
-			mass: 1,
-			tension: 250,
-			friction: 25
-		}})
+		api.start({
+			to: fuzzy,
+			onRest: () => {
+				if (props.linkTo) {
+					navigate(props.linkTo)
+				}
+			},
+			config: {
+				clamp: true,
+				mass: 1,
+				tension: 300,
+				friction: 18
+			}
+		})
 	}
 	const hoverInactive = cursorPos => {
 		api.start(baloon)

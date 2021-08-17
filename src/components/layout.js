@@ -366,11 +366,12 @@ const Layout = props => {
 			</ThemeProvider>
 		)
 	}
+	const linkTo = props.location?.pathname !== '/' ? '/' : null
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
 				<Header>
-					<Logo size='4' />
+					<Logo size='4' linkTo={linkTo}/>
 					<div id='menu'>
 						<div className='collapsible'>
 							<div className='nav-links'>

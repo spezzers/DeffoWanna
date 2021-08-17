@@ -3,10 +3,9 @@ import LandingSplash from '../components/LandingSplash'
 import Layout from '../components/layout'
 import { Helmet } from 'react-helmet'
 
-const Index = () => {
-
+const Index = props => {
 	return (
-		<Layout>
+		<Layout location={props.location}>
 			<Helmet>
 				<title>Deffo Wanna - Graphic Designer & Web Developer</title>
 			</Helmet>

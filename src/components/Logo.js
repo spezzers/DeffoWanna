@@ -3,9 +3,10 @@ import { useSpring, animated } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components'
 import { logoPaths } from './logoPaths'
 import useTouch from '../hooks/useTouch'
+import { navigate } from 'gatsby'
 
 const StyledLogo = styled(animated.svg)`
-	height: ${props => `${props.size * 2.2}rem`};
+	height: ${props => `${props.size ? `${props.size}rem` : null}`};
 	fill: none;
 	position: ${props => props.position || 'relative'};
 	:hover {
@@ -17,9 +18,7 @@ const AnimFePointLight = animated('fePointLight')
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
-	
-	const size = props.size || 4
-	
+
 	const lightColor = props.lightColor || theme.white || 'white'
 	const lightIntensity = props.lightIntensity > 1 ? props.lightIntensity : 1
 
@@ -102,21 +101,32 @@ const Logo = props => {
 		const logo = document.getElementById('logo')
 		const logoBox = logo.getBoundingClientRect()
 		const scale = 524 / logoBox.width
-		const offsetX = (cursorPos.x - logoBox.left) * scale
-		const offsetY = (cursorPos.y - logoBox.top) * scale
+		const offsetX = (cursorPos.x - logoBox.left) * scale || 800
+		const offsetY = (cursorPos.y - logoBox.top) * scale || 120
 		return { x: offsetX, y: offsetY }
 	}
 
 	const activate = cursorPos => {
-		const result = getLightPoint(cursorPos)
-		setLightPos.start(result)
+		api.start({
+			to: fuzzy,
+			onRest: () => {
+				if (props.linkTo) {
+					navigate(props.linkTo)
+				}
+			},
+			config: {
+				clamp: true,
+				mass: 1,
+				tension: 300,
+				friction: 18
+			}
+		})
+	}
+	const hoverInactive = cursorPos => {
 		api.start(baloon)
 	}
-	const hoverInactive = () => {
-		api.start(fuzzy)
-	}
 
-	const activeMouseMove = cursorPos => {
+	const hoverMouseMove = cursorPos => {
 		const result = getLightPoint(cursorPos)
 		setLightPos.start(result)
 	}
@@ -125,13 +135,15 @@ const Logo = props => {
 		activate,
 		deactivate,
 		hoverInactive,
-		activeMouseMove
+		hoverMouseMove
 	})
 
 	return (
 		<StyledLogo
+			{...props}
+			tabIndex='0'
 			id='logo'
-			size={size}
+			role='button'
 			viewBox='0 0 534 305'
 			fillRule='evenodd'
 			clipRule='evenodd'
@@ -140,15 +152,21 @@ const Logo = props => {
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
 		>
+			<title>Deffo Wanna</title>
+			<desc>graphic design and web development</desc>
 			<defs>
 				<filter id='lightSource'>
-					<feGaussianBlur in='SourceGraphic' result='light1' stdDeviation={5.5} />
+					<feGaussianBlur
+						in='SourceGraphic'
+						result='light1'
+						stdDeviation={5.5}
+					/>
 
 					<feDiffuseLighting
 						in='light1'
 						result='light2'
 						lightingColor={lightColor}
-						diffuseConstant={3 * size}
+						diffuseConstant={12}
 						surfaceScale={0.4}
 					>
 						<AnimFePointLight x={lightPos.x} y={lightPos.y} z='5' />
@@ -158,15 +176,15 @@ const Logo = props => {
 						in='SourceGraphic'
 						in2='light2'
 						operator='arithmetic'
-						k1={lightIntensity * (theme.name === 'light' ? 2.8 : 1)}
-						k2={theme.name === 'light' ? 0.45 : 0.6}
+						k1={lightIntensity * (theme.name === 'light' ? 0.6 : 1)}
+						k2={theme.name === 'light' ? 0.5 : 0.6}
 						k3='0'
 						k4='0'
 					/>
 					<feDropShadow
 						dx='-4'
 						dy='3'
-						stdDeviation={0.8 * size}
+						stdDeviation={3.2}
 						floodColor={theme.black}
 						floodOpacity='0.1'
 					/>
@@ -174,14 +192,14 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency={0.015 * size}
+						baseFrequency={0.06}
 						numOctaves='1'
 						result='turbulence'
 					/>
 					<feDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale={2.2 * size}
+						scale={8.8}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>

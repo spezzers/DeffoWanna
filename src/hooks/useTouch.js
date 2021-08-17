@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import {devLogger} from '../helpers/loggers'
-
+import { devLogger } from '../helpers/loggers'
 
 const useTouch = props => {
 	const [touches, setTouches] = useState([])
@@ -28,8 +27,10 @@ const useTouch = props => {
 		}
 	}, [hovering, deactivate, activated, hoverInactive, touches])
 
-	const activate = (e) => {
-		props?.activate ? props.activate({x: e.clientX, y: e.clientY}) : devLogger('activate')
+	const activate = e => {
+		props?.activate
+			? props.activate({ x: e.clientX, y: e.clientY })
+			: devLogger('activate')
 		setActivated(true)
 	}
 
@@ -51,6 +52,13 @@ const useTouch = props => {
 			case 'touchcancel':
 				setTouches([])
 				break
+			case 'keydown':
+				if (e.key !== 'Enter') {
+					break
+				}
+				e.preventDefault()
+				activated ? deactivate() : activate(e)
+				break
 			case 'click':
 				e.preventDefault()
 				activated ? deactivate() : activate(e)
@@ -71,12 +79,12 @@ const useTouch = props => {
 		}
 	}
 
-	const activeMouseMove = () => {
-		if (activated) {
+	const hoverMouseMove = () => {
+		if (hovering) {
 			return {
 				onMouseMove: e => {
-					if (props.activeMouseMove !== undefined) {
-						return props.activeMouseMove({ x: e.clientX, y: e.clientY })
+					if (props.hoverMouseMove !== undefined) {
+						return props.hoverMouseMove({ x: e.clientX, y: e.clientY })
 					}
 				}
 			}
@@ -85,14 +93,15 @@ const useTouch = props => {
 
 	const attributes = () => {
 		return {
-			...activeMouseMove(),
+			...hoverMouseMove(),
 			onTouchStart: event => handleTouch(event),
 			onTouchEnd: event => handleTouch(event),
 			onTouchMove: event => handleTouch(event),
 			onTouchCancel: event => handleTouch(event),
 			onClick: event => handleTouch(event),
 			onMouseEnter: event => handleTouch(event),
-			onMouseLeave: event => handleTouch(event)
+			onMouseLeave: event => handleTouch(event),
+			onKeyDown: event => handleTouch(event)
 		}
 	}
 	return {

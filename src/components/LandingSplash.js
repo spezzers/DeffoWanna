@@ -14,8 +14,9 @@ const fadeIn = keyframes`
 
 const CenterFlex = styled.div`
 	display: flex;
-	height: 100vh;
-	width: 100vw;
+	height: 100%;
+	width: 100%;
+	grid-area: main;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;

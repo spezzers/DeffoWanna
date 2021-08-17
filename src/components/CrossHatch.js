@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
+import { themeContextColor } from './layout'
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
@@ -20,15 +21,38 @@ const Hatching = styled.div.attrs(props => {
 			? 'invert(0)'
 			: 'invert(1)',
 		blacks: isDark
-			? props.theme[props.blacks] || props.blacks || props.theme?.background || 'white'
-			: props.theme[props.blacks] || props.blacks || props.theme?.text || 'black',
+			? themeContextColor(
+					props.blacks,
+					themeContextColor('background', 'white')
+			  )
+			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
 		whites: isDark
-			? props.theme[props.whites] || props.whites || props.theme?.purpleText || 'black'
-			: props.theme[props.whites] || props.whites || props.theme?.background || 'white',
+			? themeContextColor(
+					props.whites,
+					themeContextColor('purpleText', 'black')
+			  )
+			: themeContextColor(
+					props.whites,
+					themeContextColor('background', 'white')
+			  ),
 		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
 	}
 })`
+	--bg-size: ${props => props.backgroundSize || '3rem'};
+	@keyframes jiggle {
+		0% {
+			background-position: calc(0.5 * var(--bg-size)) calc(-0.1 * var(--bg-size));
+		}
+		33% {
+			background-position: calc(-0.25 * var(--bg-size)) calc(0.5 * var(--bg-size));
+		}
+		66% {
+			background-position: calc(-0.1 * var(--bg-size)) calc(0.4 * var(--bg-size));
+		}
+	}
+
 	width: fit-content;
+	user-select: none;
 	position: relative;
 	.wrapper {
 		position: relative;
@@ -52,28 +76,31 @@ const Hatching = styled.div.attrs(props => {
 
 	.hatch {
 		background-image: url(${crossHatchDataBase64});
+		//TODO make animated texture optional (it's quite vertigo inducing!)
+		animation: jiggle 1.2s steps(1) infinite;
 		height: fit-content;
 		filter: ${props => props.invertHatch};
 		background-origin: border-box;
 		background-repeat: repeat;
 		background-position: center;
-		background-size: ${props => props.backgroundSize || '60px'};
+		background-size: var(--bg-size);
 		box-shadow: inset 0 0
-			${props => `${props.edgeSoftness} ${props.edgeSoftness}`} white;
+			${props => `${props.edgeSoftness}
+			${props.edgeSoftness}`}
+			white;
 		* {
 			display: block;
 			background-image: none;
 			background-color: ${props => props.backgroundColor};
 			filter: ${props => props.invertContent} contrast(0.5);
 			mix-blend-mode: hard-light;
-			margin: 0; //NOTE background-color doesn't fill to margin. Use padding for spacing
+			margin: 0;
 			* {
 				background-color: unset;
 				mix-blend-mode: normal;
 				filter: none;
 			}
 		}
-		
 
 		p,
 		h1,
@@ -91,15 +118,31 @@ const Hatching = styled.div.attrs(props => {
 `
 
 const CrossHatch = props => {
-	const theme = useContext(ThemeContext)
+	const {
+		edgeSoftness,
+		darkInvert,
+		blacks,
+		whites,
+		backgroundSize,
+		...wrapProps
+	} = props
+	const hatchProps = {
+		edgeSoftness,
+		darkInvert,
+		blacks,
+		whites,
+		backgroundSize
+	}
 	return (
-		<Hatching theme={theme} {...props}>
-			<div className='wrapper'>
-				<div className='hatch'>{props.children}</div>
-			</div>
-			<div className='dark color' />
-			<div className='light color' />
-		</Hatching>
+		<div {...wrapProps}>
+			<Hatching {...hatchProps}>
+				<div className='wrapper'>
+					<div className='hatch'>{props.children}</div>
+				</div>
+				<div className='dark color' />
+				<div className='light color' />
+			</Hatching>
+		</div>
 	)
 }
 

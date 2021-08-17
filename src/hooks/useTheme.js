@@ -3,7 +3,7 @@ import themes from '../styles/themes'
 import styled from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
-const NonNavigatingButton = styled.span`
+const NonNavigatingButton = styled.div`
 	cursor: pointer;
 `
 const useTheme = () => {
@@ -163,13 +163,19 @@ const useTheme = () => {
 		setCurrent(newTheme)
 	}
 
-	const themeIconMouseEvent = e => {
+	const themeIconEvent = e => {
 		switch (e.type) {
 			case 'mouseenter':
 				setHovering(true)
 				break
 			case 'mouseleave':
 				setHovering(false)
+				break
+			case 'keydown':
+				if (e.key !== 'Enter') {
+					break
+				}
+				toggleTheme()
 				break
 			case 'click':
 				toggleTheme()
@@ -179,13 +185,20 @@ const useTheme = () => {
 		}
 	}
 
-	const ToggleButton = () => (
+	const ToggleButton = (props) => (
 		<NonNavigatingButton
-			onClick={e => themeIconMouseEvent(e)}
-			onMouseLeave={e => themeIconMouseEvent(e)}
-			onMouseEnter={e => themeIconMouseEvent(e)}
+			{...props}
+			tabIndex='0'
+			aria-label='toggle dark mode'
+			id='theme-toggle-button'
+			role='button'
+			onKeyDown={e => themeIconEvent(e)}
+			onClick={e => themeIconEvent(e)}
+			onMouseLeave={e => themeIconEvent(e)}
+			onMouseEnter={e => themeIconEvent(e)}
 		>
 			<animated.svg
+				role='document'
 				xmlns='http://www.w3.org/2000/svg'
 				width={26}
 				height={26}

@@ -175,13 +175,13 @@ const Header = styled.div`
 			margin-left: -${colGap};
 		}
 	}
-	#navigation {
+	.navigation {
 		font-size: 0.95rem;
 		display: flex;
 		box-sizing: border-box;
 		grid-area: header;
 		flex-direction: row;
-		align-items: center;
+		align-items: stretch;
 		justify-content: flex-end;
 		color: ${themeContextColor('purpleText')};
 		${breakpoint.mobile} {
@@ -193,18 +193,33 @@ const Header = styled.div`
 		${breakpoint.desktop} {
 			margin-left: -${colGap};
 		}
-		.site-subheading {
-			font-weight: 200;
-			color: ${themeContextColor('purpleTextStrong')};
-		}
-		.feather-menu {
-			width: 2rem;
-			height: 2rem;
-			cursor: pointer;
-			flex-shrink: 0;
-			order: 2;
-			:hover {
-				stroke: ${themeContextColor('purpleTextStrong')};
+
+		.collapsible {
+			order: 1;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-items: flex-end;
+			.nav-menu {
+				margin-left: 100%;
+				.feather-menu {
+					width: 2rem;
+					height: 2rem;
+					cursor: pointer;
+					flex-shrink: 0;
+					order: 2;
+					:hover {
+						stroke: ${themeContextColor('purpleTextStrong')};
+					}
+				}
+				.nav-links {
+				}
+			}
+			.site-subheading {
+				visibility: hidden;
+				width: 100%;
+				font-weight: 200;
+				color: ${themeContextColor('purpleTextStrong')};
 			}
 		}
 		.theme-button {
@@ -214,20 +229,23 @@ const Header = styled.div`
 			align-items: center;
 			order: 3;
 		}
-		.collapsible {
-			visibility: hidden;
-			order: 1;
-		}
 		@media screen and (min-width: 21rem) {
 			.collapsible {
 				visibility: visible;
-				display: block;
+				/* display: block; */
+				margin: 0;
+				.nav-menu {
+					order: 2;
+					margin: 0;
+				}
 				.nav-links {
 					visibility: visible;
 				}
 				.site-subheading {
+					order: 1;
 					visibility: visible;
 					border: none;
+					margin: 0 auto 0 0;
 					line-height: 1.2em;
 					:before {
 						content: 'Design & Web Development';
@@ -246,30 +264,31 @@ const Header = styled.div`
 				transform: rotate(90deg);
 			}
 			.collapsible {
-				margin: 0 ${colGap} 0 0;
+				/* margin: 0 ${colGap} 0 0; */
 				flex-grow: 1;
-				flex-direction: column;
+				flex-direction: row;
 				justify-content: center;
-
-				.nav-links {
-					visibility: hidden;
-					position: absolute;
-					display: flex;
-					flex-direction: column;
-					padding: calc(2 * ${lineHeight}) ${colGap};
-					text-align: right;
-					right: 0;
-					top: 0;
-					height: 100vh;
-					width: calc(100vw - calc(${colGap} * 2 ));
-					box-sizing: border-box;
-					justify-content: space-evenly;
-					vertical-align: text-bottom;
-					background-color: ${themeContextColor('purpleBg')};
-					a {
-						color: ${themeContextColor('text')};
-						:visited {
+				.nav-menu {
+					.nav-links {
+						visibility: hidden;
+						position: absolute;
+						display: flex;
+						flex-direction: column;
+						padding: calc(2 * ${lineHeight}) ${colGap};
+						text-align: right;
+						right: 0;
+						top: 0;
+						height: 100vh;
+						width: calc(100vw - calc(${colGap} * 2));
+						box-sizing: border-box;
+						justify-content: space-evenly;
+						vertical-align: text-bottom;
+						background-color: ${themeContextColor('purpleBg')};
+						a {
 							color: ${themeContextColor('text')};
+							:visited {
+								color: ${themeContextColor('text')};
+							}
 						}
 					}
 				}
@@ -288,48 +307,51 @@ const Header = styled.div`
 		}
 
 		@media screen and (min-width: 38rem) {
-			.feather-menu {
-				display: none;
-			}
 			.collapsible {
 				margin: 0 ${colGap} 0 0;
 				flex-grow: 1;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
+				.nav-menu {
+					order: 1;
+					width: 100%;
+					.feather-menu {
+						display: none;
+					}
+					.nav-links {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-evenly;
+						margin: 0;
+						padding: 0;
+						user-select: none;
+						a {
+							font-weight: 400;
+							color: inherit;
+							text-decoration: none;
+							margin: 0 auto;
+							box-sizing: content-box;
+						}
+						a.contact {
+							margin-right: 0;
+						}
+						.current-page {
+							color: ${themeContextColor('purpleTextStrong')};
+							border-bottom: 1px solid ${themeContextColor('purpleText')};
+							margin-bottom: -1px;
+						}
+					}
+				}
 
 				.site-subheading {
+					order: 2;
 					border-top: 1px solid ${themeContextColor('purpleText')};
 					line-height: ${lineHeight};
 					:before {
 						${breakpoint.desktop} {
 							content: 'Graphic Design & Web Development';
 						}
-					}
-				}
-
-				.nav-links {
-					display: flex;
-					flex-direction: row;
-					justify-content: space-evenly;
-					height: 50%;
-					margin: 0;
-					padding: 0;
-					user-select: none;
-					a {
-						font-weight: 400;
-						color: inherit;
-						text-decoration: none;
-						margin: 0 auto;
-						box-sizing: content-box;
-					}
-					a.contact {
-						margin-right: 0;
-					}
-					.current-page {
-						color: ${themeContextColor('purpleTextStrong')};
-						border-bottom: 1px solid ${themeContextColor('purpleText')};
-						margin-bottom: -1px;
 					}
 				}
 			}
@@ -396,47 +418,49 @@ const Layout = props => {
 			<Grid>
 				<Header>
 					<Logo size='4' linkTo={linkTo} />
-					<div id='navigation'>
-					<svg
-							onClick={() => console.log('hello menu')}
-							width={24}
-							height={24}
-							fill='none'
-							preserveAspectRatio='MidXMidY meet'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-							strokeWidth={1}
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							className='feather feather-menu'
-							tabIndex='0'
-							role='menu'
-							{...props}
-						>
-							<path d='M3 12h18M3 6h18M3 18h18' />
-						</svg>
+					<div className='navigation'>
 						<div className='collapsible'>
-							<div className='nav-links'>
-								<Link to='/logo-test/' activeClassName='current-page'>
-									Portfolio
-								</Link>
-								<Link to='/grid/' activeClassName='current-page'>
-									Blog
-								</Link>
-								<Link to='/about/' activeClassName='current-page'>
-									About
-								</Link>
-								<Link
-									className='contact'
-									to='/contact/'
-									activeClassName='current-page'
+							<div className='nav-menu'>
+								<svg
+									onClick={() => console.log('hello menu')}
+									width={24}
+									height={24}
+									fill='none'
+									preserveAspectRatio='MidXMidY meet'
+									viewBox='0 0 24 24'
+									stroke='currentColor'
+									strokeWidth={1}
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									className='feather feather-menu'
+									tabIndex='0'
+									role='menu'
+									{...props}
 								>
-									Contact
-								</Link>
+									<path d='M3 12h18M3 6h18M3 18h18' />
+								</svg>
+								<div className='nav-links'>
+									<Link to='/logo-test/' activeClassName='current-page'>
+										Portfolio
+									</Link>
+									<Link to='/grid/' activeClassName='current-page'>
+										Blog
+									</Link>
+									<Link to='/about/' activeClassName='current-page'>
+										About
+									</Link>
+									<Link
+										className='contact'
+										to='/contact/'
+										activeClassName='current-page'
+									>
+										Contact
+									</Link>
+								</div>
 							</div>
 							<div className='site-subheading' />
 						</div>
-						
+
 						<div className='theme-button'>
 							<theme.ToggleButton />
 						</div>

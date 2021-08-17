@@ -336,8 +336,8 @@ const Header = styled.div`
 						}
 						.current-page {
 							color: ${themeContextColor('purpleTextStrong')};
-							border-bottom: 1px solid ${themeContextColor('purpleText')};
-							margin-bottom: -1px;
+							border-bottom: 3px solid ${themeContextColor('purpleText')};
+							margin-bottom: -3px;
 						}
 					}
 				}
@@ -429,13 +429,13 @@ const Layout = props => {
 									strokeWidth={1}
 									strokeLinecap='round'
 									strokeLinejoin='round'
-									role='document'
+									role='none'
 									className='feather feather-menu'
 									{...props}
 								>
 									<path d='M3 12h18M3 6h18M3 18h18' />
 								</svg>
-								<div className='nav-links'>
+								<div className='nav-links' role='navigation'>
 									<Link
 										tabIndex='0'
 										to='/logo-test/'

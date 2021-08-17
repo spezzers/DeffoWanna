@@ -32,6 +32,8 @@ const Grid = styled.div`
 	display: grid;
 	justify-content: center;
 	width: 100%;
+	min-height: 100vh;
+	box-sizing: border-box;
 	column-gap: var(--col-gap);
 	row-gap: var(--row-gap);
 
@@ -101,7 +103,7 @@ const GlobalStyle = createGlobalStyle`
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
 		margin: 0;
-		padding: 0 0 calc(${lineHeight} * 2) 0;
+		padding: 0;
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		font-size: ${fontSize};
@@ -375,13 +377,10 @@ const Layout = props => {
 					<div id='menu'>
 						<div className='collapsible'>
 							<div className='nav-links'>
-								<Link to='/grid/' activeClassName='current-page'>
-									Home
-								</Link>
 								<Link to='/logo-test/' activeClassName='current-page'>
 									Portfolio
 								</Link>
-								<Link to='/blog/' activeClassName='current-page'>
+								<Link to='/grid/' activeClassName='current-page'>
 									Blog
 								</Link>
 								<Link to='/about/' activeClassName='current-page'>
@@ -409,6 +408,8 @@ const Layout = props => {
 							strokeLinecap='round'
 							strokeLinejoin='round'
 							className='feather feather-menu'
+							tabIndex='0'
+							role='menu'
 							{...props}
 						>
 							<path d='M3 12h18M3 6h18M3 18h18' />

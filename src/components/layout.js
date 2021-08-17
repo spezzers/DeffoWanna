@@ -202,10 +202,10 @@ const Header = styled.div`
 			justify-items: flex-end;
 			.nav-menu {
 				margin-left: 100%;
+				cursor: pointer;
 				.feather-menu {
 					width: 2rem;
 					height: 2rem;
-					cursor: pointer;
 					flex-shrink: 0;
 					order: 2;
 					:hover {
@@ -232,7 +232,6 @@ const Header = styled.div`
 		@media screen and (min-width: 21rem) {
 			.collapsible {
 				visibility: visible;
-				/* display: block; */
 				margin: 0;
 				.nav-menu {
 					order: 2;
@@ -254,21 +253,20 @@ const Header = styled.div`
 			}
 		}
 		@media screen and (max-width: 37.999rem) {
-			.feather-menu {
-				display: block;
-				margin-right: calc(${colGap} / 2);
-				position: relative;
-				top: -0.2rem;
-			}
-			.feather-menu:focus {
-				transform: rotate(90deg);
-			}
 			.collapsible {
-				/* margin: 0 ${colGap} 0 0; */
 				flex-grow: 1;
 				flex-direction: row;
 				justify-content: center;
 				.nav-menu {
+					:focus > .nav-links {
+						visibility: visible;
+					}
+					.feather-menu {
+						display: block;
+						margin-right: calc(${colGap} / 2);
+						position: relative;
+						top: -0.2rem;
+					}
 					.nav-links {
 						visibility: hidden;
 						position: absolute;
@@ -420,7 +418,7 @@ const Layout = props => {
 					<Logo size='4' linkTo={linkTo} />
 					<div className='navigation'>
 						<div className='collapsible'>
-							<div className='nav-menu'>
+							<div className='nav-menu' tabIndex='0' role='menu'>
 								<svg
 									onClick={() => console.log('hello menu')}
 									width={24}
@@ -433,24 +431,31 @@ const Layout = props => {
 									strokeLinecap='round'
 									strokeLinejoin='round'
 									className='feather feather-menu'
-									tabIndex='0'
-									role='menu'
 									{...props}
 								>
 									<path d='M3 12h18M3 6h18M3 18h18' />
 								</svg>
 								<div className='nav-links'>
-									<Link to='/logo-test/' activeClassName='current-page'>
+									<Link
+										tabIndex='0'
+										to='/logo-test/'
+										activeClassName='current-page'
+									>
 										Portfolio
 									</Link>
-									<Link to='/grid/' activeClassName='current-page'>
+									<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
 										Blog
 									</Link>
-									<Link to='/about/' activeClassName='current-page'>
+									<Link
+										tabIndex='0'
+										to='/about/'
+										activeClassName='current-page'
+									>
 										About
 									</Link>
 									<Link
 										className='contact'
+										tabIndex='0'
 										to='/contact/'
 										activeClassName='current-page'
 									>

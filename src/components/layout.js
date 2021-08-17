@@ -202,8 +202,8 @@ const Header = styled.div`
 			justify-items: flex-end;
 			.nav-menu {
 				margin-left: 100%;
-				cursor: pointer;
 				.feather-menu {
+					cursor: pointer;
 					width: 2rem;
 					height: 2rem;
 					flex-shrink: 0;
@@ -258,7 +258,7 @@ const Header = styled.div`
 				flex-direction: row;
 				justify-content: center;
 				.nav-menu {
-					:focus > .nav-links {
+					:focus > .nav-links, :focus-within > .nav-links {
 						visibility: visible;
 					}
 					.feather-menu {
@@ -420,7 +420,6 @@ const Layout = props => {
 						<div className='collapsible'>
 							<div className='nav-menu' tabIndex='0' role='menu'>
 								<svg
-									onClick={() => console.log('hello menu')}
 									width={24}
 									height={24}
 									fill='none'
@@ -430,6 +429,7 @@ const Layout = props => {
 									strokeWidth={1}
 									strokeLinecap='round'
 									strokeLinejoin='round'
+									role='document'
 									className='feather feather-menu'
 									{...props}
 								>
@@ -463,7 +463,7 @@ const Layout = props => {
 									</Link>
 								</div>
 							</div>
-							<div className='site-subheading' />
+							<div className='site-subheading' role='complementary'/>
 						</div>
 
 						<div className='theme-button'>

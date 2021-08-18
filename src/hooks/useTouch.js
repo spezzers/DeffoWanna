@@ -73,6 +73,12 @@ const useTouch = props => {
 					setHovering(true)
 				}
 				break
+			case 'focus':
+				setHovering(true)
+				break
+			case 'blur':
+				setHovering(false)
+				break
 			default:
 				devLogger(type)
 				break
@@ -101,7 +107,9 @@ const useTouch = props => {
 			onClick: event => handleTouch(event),
 			onMouseEnter: event => handleTouch(event),
 			onMouseLeave: event => handleTouch(event),
-			onKeyDown: event => handleTouch(event)
+			onKeyDown: event => handleTouch(event),
+			onFocus: event => handleTouch(event),
+			onBlur: event => handleTouch(event)
 		}
 	}
 	return {

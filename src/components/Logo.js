@@ -12,6 +12,9 @@ const StyledLogo = styled(animated.svg)`
 	:hover {
 		cursor: pointer;
 	}
+	:focus {
+		outline: none;
+	}
 `
 
 const AnimFePointLight = animated('fePointLight')

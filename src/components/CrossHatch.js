@@ -54,6 +54,7 @@ const Hatching = styled.div.attrs(props => {
 	width: fit-content;
 	user-select: none;
 	position: relative;
+	z-index: -1;
 	.wrapper {
 		position: relative;
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};

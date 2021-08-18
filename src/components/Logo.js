@@ -8,7 +8,7 @@ import { navigate } from 'gatsby'
 const StyledLogo = styled(animated.svg)`
 	height: ${props => `${props.size ? `${props.size}rem` : null}`};
 	fill: none;
-	position: ${props => props.position || 'relative'};
+	position: ${props => props.position || 'initial'};
 	:hover {
 		cursor: pointer;
 	}

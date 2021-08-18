@@ -17,6 +17,7 @@ const CenterFlex = styled.div`
 	height: 100%;
 	width: 100%;
 	grid-area: main;
+	z-index: -10;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;

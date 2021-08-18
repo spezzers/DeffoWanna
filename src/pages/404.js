@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
 import Custom404Svg from '../components/Custom404Svg'
 import Layout from '../components/layout'
 import styled from 'styled-components'
@@ -9,15 +8,15 @@ const Main = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	width: 100%;
 	.message {
-		@media (orientation: portrait) {
-			text-align: center;
-		}
-		@media (orientation: landscape) {
-			text-align: left;
-		}
+		text-align: center;
 		font-size: 1.5rem;
 		line-height: 2rem;
+		padding: 1rem;
+	}
+	* {
+		flex-grow: 1;
 	}
 `
 
@@ -28,8 +27,8 @@ const NotFoundPage = () => {
 			<Helmet>
 				<title>Page not found</title>
 			</Helmet>
-			<Custom404Svg />
 			<Main>
+				<Custom404Svg />
 				<div className='message'>Oops! Can't find that page...</div>
 			</Main>
 		</Layout>

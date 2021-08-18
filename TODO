@@ -2,8 +2,8 @@
 Todo:
   - Update dependencies, see exactly what with `yarn outdated`
   Components:
-    - Navbar
-    - Popup menu
+    ✔ Navbar @done(21-08-18 21:16)
+    ✔ Popup menu @done(21-08-18 21:16)
     ✔ 3D Skateboard image component @done(21-07-09 12:00)
     ✔ CrossHatch Effect @done(21-07-16 10:41)
   

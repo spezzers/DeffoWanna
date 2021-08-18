@@ -45,6 +45,12 @@ const Grid = styled.div`
 
 	grid-auto-rows: auto;
 
+	#logo {
+		grid-area: logo;
+		${breakpoint.tablet} {
+		}
+	}
+
 	${breakpoint.mobile} {
 		width: calc(100% - var(--col-gap));
 		margin: 0 auto;
@@ -59,6 +65,9 @@ const Grid = styled.div`
 			'main main main'
 			'main main main'
 			'main main main';
+		#logo {
+			margin-left: calc(-0.5 * ${colGap});
+		}
 	}
 
 	${breakpoint.tablet} {
@@ -76,6 +85,9 @@ const Grid = styled.div`
 			'. main main main main .'
 			'. main main main main .'
 			'. main main main main .';
+		#logo {
+			margin-left: -${colGap};
+		}
 	}
 	${breakpoint.desktop} {
 		width: 100%;
@@ -166,15 +178,8 @@ const GlobalStyle = createGlobalStyle`
 
 const Header = styled.div`
 	display: contents;
-	#logo {
-		grid-area: logo;
-		${breakpoint.mobile} {
-			margin-left: calc(-0.5 * ${colGap});
-		}
-		${breakpoint.tablet} {
-			margin-left: -${colGap};
-		}
-	}
+	position: relative;
+	z-index: 10;
 	.navigation {
 		font-size: 0.95rem;
 		display: flex;
@@ -210,6 +215,9 @@ const Header = styled.div`
 					order: 2;
 					:hover {
 						stroke: ${themeContextColor('purpleTextStrong')};
+					}
+					:focus {
+						outline: none;
 					}
 				}
 				.nav-links {
@@ -258,7 +266,8 @@ const Header = styled.div`
 				flex-direction: row;
 				justify-content: center;
 				.nav-menu {
-					:focus > .nav-links, :focus-within > .nav-links {
+					:focus > .nav-links,
+					:focus-within > .nav-links {
 						visibility: visible;
 					}
 					.feather-menu {
@@ -364,7 +373,6 @@ const Minimal = styled.div`
 	padding-bottom: 1rem;
 	box-sizing: border-box;
 	display: flex;
-	position: absolute;
 	align-items: stretch;
 	justify-content: center;
 	@media (orientation: portrait) {
@@ -414,12 +422,13 @@ const Layout = props => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
+				<Logo size='4' linkTo={linkTo} />
 				<Header>
-					<Logo size='4' linkTo={linkTo} />
 					<div className='navigation'>
 						<div className='collapsible'>
-							<div className='nav-menu' tabIndex='0' role='menu'>
+							<div className='nav-menu'>
 								<svg
+									tabIndex='0'
 									width={24}
 									height={24}
 									fill='none'
@@ -429,7 +438,7 @@ const Layout = props => {
 									strokeWidth={1}
 									strokeLinecap='round'
 									strokeLinejoin='round'
-									role='none'
+									role='menu'
 									className='feather feather-menu'
 									{...props}
 								>
@@ -463,7 +472,7 @@ const Layout = props => {
 									</Link>
 								</div>
 							</div>
-							<div className='site-subheading' role='complementary'/>
+							<div className='site-subheading' role='complementary' />
 						</div>
 
 						<div className='theme-button'>

@@ -452,12 +452,12 @@ const Layout = props => {
 									>
 										Portfolio
 									</Link>
-									<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
+									<Link tabIndex='0' to='/blog/' activeClassName='current-page'>
 										Blog
 									</Link>
 									<Link
 										tabIndex='0'
-										to='/about/'
+										to='/grid/'
 										activeClassName='current-page'
 									>
 										About

@@ -422,7 +422,7 @@ const Layout = props => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
-				<Logo size='4' linkTo={linkTo} />
+				<Logo size='4' linkTo={linkTo} title='home'/>
 				<Header>
 					<div className='navigation'>
 						<div className='collapsible'>

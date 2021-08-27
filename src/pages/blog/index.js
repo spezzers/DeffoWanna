@@ -1,25 +1,26 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import Layout, {lineHeight} from '../../components/layout'
+import Layout, { lineHeight } from '../../components/layout'
 import styled from 'styled-components'
 
 const BlogList = styled.div`
 	grid-area: main;
 `
 const BlogEntry = styled(Link)`
-  display: list-item;
-  color: inherit;
-  text-decoration: none;
-  list-style: none;
-  margin: calc(${lineHeight} / 2);
+	display: list-item;
+	color: inherit;
+	text-decoration: none;
+	list-style: none;
+	margin: calc(${lineHeight} / 2);
 `
 
 const BlogIndex = ({ data }) => {
-	// code here
+	const blogs = data.allMarkdownRemark.nodes
+	console.log(blogs)
 	return (
 		<Layout>
 			<BlogList>
-				{data.allMarkdownRemark.nodes.map(blog => (
+				{blogs.map(blog => (
 					<BlogEntry to={blog.frontmatter.slug} key={blog.frontmatter.slug}>
 						{blog.frontmatter.title}
 					</BlogEntry>
@@ -36,9 +37,9 @@ export const query = graphql`
 		allMarkdownRemark {
 			nodes {
 				frontmatter {
+					date
 					title
 					slug
-					date
 				}
 			}
 		}

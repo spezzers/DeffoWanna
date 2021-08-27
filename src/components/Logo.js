@@ -113,8 +113,8 @@ const Logo = props => {
 		api.start({
 			to: fuzzy,
 			onRest: () => {
-				if (props.linkTo) {
-					navigate(props.linkTo)
+				if (props.linkto) {
+					navigate(props.linkto)
 				}
 			},
 			config: {

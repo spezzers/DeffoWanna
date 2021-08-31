@@ -1,17 +1,10 @@
 import React from 'react'
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { themeContextColor } from '../styles/themes'
-import {
-	lineHeight,
-	pageGrid,
-	breakpoint,
-	colGap,
-	rowGap,
-	fontSize
-} from '../styles/sizes'
+import { pageGrid, breakpoint, colGap, rowGap } from '../styles/sizes'
 import Header from './Header'
+import GlobalStyle from './GlobalStyle'
 
 const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);
@@ -25,91 +18,21 @@ const Grid = styled.div`
 	row-gap: ${rowGap};
 	grid-auto-rows: auto;
 
-	
-
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
 		grid-template-areas:
 			'main main main';
-		
 	}
 
 	${breakpoint.tablet} {
 		${pageGrid.columns.tablet}
 		grid-template-areas:
 			'. main main main main .';
-		
 	}
 	${breakpoint.desktop} {
 		${pageGrid.columns.desktop}
 		grid-template-areas:
 			'. . main main main main main . .';
-	}
-`
-
-const GlobalStyle = createGlobalStyle`
-	body {
-		background-color: ${props => props.theme.background};
-		color: ${props => props.theme.text};
-		margin: 0;
-		padding: 0;
-		font-family: 'IBM Plex Sans', sans-serif;
-		line-height: ${lineHeight};
-		font-size: ${fontSize};
-		
-		p {
-			font-family: 'IBM Plex Sans';
-			font-style: normal;
-			font-weight: 400;
-			letter-spacing: 0.012em;
-		}
-		h1, h2, h3, h4, h5, h6 {
-			font-family: 'IBM Plex Serif', serif;
-			font-weight: normal;
-			font-style: normal;
-			margin: ${lineHeight} 0;
-			color: ${themeContextColor('textStrong')};
-			line-height: 1.4em;
-		}
-		h1, h2 {
-			margin: calc(2 * ${lineHeight}) 0;
-		}
-		h1 {
-			color: ${themeContextColor('text')};
-			font-family: IBM Plex Serif;
-			font-style: normal;
-			font-weight: bold;
-			letter-spacing: 0.002em;
-			${breakpoint.mobile} {
-				font-size: 2.1rem;
-			}
-			${breakpoint.tablet} {
-				font-size: 2.5rem;
-			}
-			${breakpoint.desktop} {
-				font-size: calc(2 * ${lineHeight});
-			}
-		}
-		h2 {
-			font-size: 1.895rem;
-			letter-spacing: 0.01em;
-		}
-		h3 {
-			font-size: 1.526rem;
-			letter-spacing: 0.023em;
-		}
-		h4 {
-			font-size: 1.368rem;
-			letter-spacing: 0.05em;
-		}
-		h5 {
-			font-size: 1.263rem;
-			letter-spacing: 0.06em;
-		}
-		h6 {
-			font-size: 1.105rem;
-			letter-spacing: 0.07em;
-		}
 	}
 `
 
@@ -167,10 +90,8 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-				<Header themeToggleButton={<theme.ToggleButton />} />
-			<Grid>
-				{props.children}
-			</Grid>
+			<Header themeToggleButton={<theme.ToggleButton />} />
+			<Grid>{props.children}</Grid>
 			<GlobalStyle />
 		</ThemeProvider>
 	)

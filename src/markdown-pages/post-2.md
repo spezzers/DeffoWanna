@@ -4,7 +4,11 @@ date: 2021-08-19
 title: My second blog post
 ---
 
-This is a test for code styling. Here is some ```inline code```, and some code blocks below...
+This is a test for code styling. Here is some `inline code`, and some code blocks below...
+
+```
+console.log('Hello')
+```
 
 ```javascript
 // dull code example

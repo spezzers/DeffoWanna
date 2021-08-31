@@ -1,13 +1,41 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
-import { lineHeight, breakpoint, colGap } from '../styles/sizes'
+import Logo from '../components/Logo'
+import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled.div`
-	display: contents;
 	position: relative;
 	z-index: 10;
+	#logo {
+		grid-area: logo;
+		${breakpoint.tablet} {
+		}
+	}
+	${pageGrid.defaults}
+	${breakpoint.mobile} {
+		${pageGrid.columns.mobile}
+		grid-template-areas:
+			'logo logo header';
+			#logo {
+			margin-left: calc(-0.5 * ${colGap});
+		}
+	}
+	${breakpoint.tablet} {
+		${pageGrid.columns.tablet}
+		grid-template-areas:
+			'.  logo logo header header header';
+			#logo {
+			margin-left: -${colGap};
+		}
+	}
+	${breakpoint.desktop} {
+		${pageGrid.columns.desktop}
+		grid-template-areas:
+			'. . logo logo . header header header header';
+	}
+
 	.navigation {
 		font-size: 0.95rem;
 		display: flex;
@@ -195,9 +223,11 @@ const HeaderWrap = styled.div`
 `
 
 const Header = props => {
-	// code here
+	const linkto = props.location?.pathname !== '/' ? '/' : null
+
 	return (
 		<HeaderWrap>
+			<Logo size='4' linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>
 					<div className='nav-menu'>

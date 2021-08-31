@@ -1,7 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
-import Logo from '../components/Logo'
 import '../styles/layout.css'
 import { themeContextColor } from '../styles/themes'
 import {
@@ -16,7 +15,7 @@ import Header from './Header'
 
 const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);
-
+	padding-top: ${rowGap};
 	display: grid;
 	justify-content: center;
 	width: 100%;
@@ -24,44 +23,26 @@ const Grid = styled.div`
 	box-sizing: border-box;
 	column-gap: ${colGap};
 	row-gap: ${rowGap};
-
 	grid-auto-rows: auto;
 
-	#logo {
-		grid-area: logo;
-		${breakpoint.tablet} {
-		}
-	}
+	
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
 		grid-template-areas:
-			'logo logo header'
-			'main main main'
-			'main main main'
 			'main main main';
-		#logo {
-			margin-left: calc(-0.5 * ${colGap});
-		}
+		
 	}
 
 	${breakpoint.tablet} {
 		${pageGrid.columns.tablet}
 		grid-template-areas:
-			'.  logo logo header header header'
-			'. main main main main .'
-			'. main main main main .'
 			'. main main main main .';
-		#logo {
-			margin-left: -${colGap};
-		}
+		
 	}
 	${breakpoint.desktop} {
 		${pageGrid.columns.desktop}
 		grid-template-areas:
-			'. . logo logo . header header header header'
-			'. . main main main main main . .'
-			'. . main main main main main . .'
 			'. . main main main main main . .';
 	}
 `
@@ -184,12 +165,10 @@ const Layout = props => {
 			</ThemeProvider>
 		)
 	}
-	const linkto = props.location?.pathname !== '/' ? '/' : null
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Grid>
-				<Logo size='4' linkto={linkto} title='home' />
 				<Header themeToggleButton={<theme.ToggleButton />} />
+			<Grid>
 				{props.children}
 			</Grid>
 			<GlobalStyle />

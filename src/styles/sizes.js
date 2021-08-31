@@ -14,7 +14,6 @@ const smallRowPx = lineHeightPx * 3
 export const fontSize = `${fontSizePx}px`
 export const lineHeight = `${lineHeightPx}px`
 
-
 export const colGap = `${colGapPx}px`
 export const col = `${colPx}px`
 export const smallCol = `${smallColPx}px`
@@ -32,6 +31,13 @@ export const breakpoint = {
 
 // Grid
 export const pageGrid = {
+	defaults: `
+		display: grid;
+		column-gap: ${colGap};
+		row-gap: ${rowGap};
+		box-sizing: border-box;
+	
+	`,
 	columns: {
 		mobile: `
 		width: calc(100% - ${colGap});

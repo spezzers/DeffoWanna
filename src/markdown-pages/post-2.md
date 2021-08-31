@@ -5,3 +5,10 @@ title: My second blog post
 ---
 
 Hello world... again!
+
+```javascript
+// dull code example
+const sayHi = greeting => {
+	console.log(greeting)
+}
+```

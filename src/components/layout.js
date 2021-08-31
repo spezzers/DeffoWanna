@@ -3,10 +3,16 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import Logo from '../components/Logo'
 import '../styles/layout.css'
-import { Link } from 'gatsby'
-import {themeContextColor} from '../styles/themes'
-import {lineHeight, breakpoint, colGap, rowGap, fontSize, smallCol, smallRow, col, row} from '../styles/sizes'
-
+import { themeContextColor } from '../styles/themes'
+import {
+	lineHeight,
+	pageGrid,
+	breakpoint,
+	colGap,
+	rowGap,
+	fontSize
+} from '../styles/sizes'
+import Header from './Header'
 
 const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);
@@ -19,12 +25,6 @@ const Grid = styled.div`
 	column-gap: ${colGap};
 	row-gap: ${rowGap};
 
-	grid-template-rows:
-		var(--header-row)
-		${rowGap}
-		${smallRow}
-		minmax(${row}, 1fr);
-
 	grid-auto-rows: auto;
 
 	#logo {
@@ -34,14 +34,7 @@ const Grid = styled.div`
 	}
 
 	${breakpoint.mobile} {
-		width: calc(100% - ${colGap});
-		margin: 0 auto;
-		grid-template-columns:
-			[logo-start]
-			${colGap}
-			${colGap}
-			[logo-end]
-			minmax(0, 1fr);
+		${pageGrid.columns.mobile}
 		grid-template-areas:
 			'logo logo header'
 			'main main main'
@@ -53,15 +46,7 @@ const Grid = styled.div`
 	}
 
 	${breakpoint.tablet} {
-		width: 100%;
-		margin: 0;
-		grid-template-columns:
-			minmax(0, 1.5fr)
-			${colGap}
-			${colGap}
-			minmax(${smallCol}, 2fr)
-			minmax(${col}, 4fr)
-			minmax(0, 3fr);
+		${pageGrid.columns.tablet}
 		grid-template-areas:
 			'.  logo logo header header header'
 			'. main main main main .'
@@ -72,18 +57,7 @@ const Grid = styled.div`
 		}
 	}
 	${breakpoint.desktop} {
-		width: 100%;
-		margin: 0;
-		grid-template-columns:
-			minmax(0, 3fr)
-			${smallCol}
-			${colGap}
-			${colGap}
-			${smallCol}
-			${col}
-			${col}
-			${col}
-			minmax(0, 4fr);
+		${pageGrid.columns.desktop}
 		grid-template-areas:
 			'. . logo logo . header header header header'
 			'. . main main main main main . .'
@@ -158,196 +132,6 @@ const GlobalStyle = createGlobalStyle`
 	}
 `
 
-const Header = styled.div`
-	display: contents;
-	position: relative;
-	z-index: 10;
-	.navigation {
-		font-size: 0.95rem;
-		display: flex;
-		box-sizing: border-box;
-		grid-area: header;
-		flex-direction: row;
-		align-items: stretch;
-		justify-content: flex-end;
-		color: ${themeContextColor('purpleText')};
-		${breakpoint.mobile} {
-			margin: 0 0 0 -${colGap};
-		}
-		${breakpoint.tablet} {
-			margin: 0 ${colGap} 0 0;
-		}
-		${breakpoint.desktop} {
-			margin-left: -${colGap};
-		}
-
-		.collapsible {
-			order: 1;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-items: flex-end;
-			.nav-menu {
-				margin-left: 100%;
-				.feather-menu {
-					cursor: pointer;
-					width: 2rem;
-					height: 2rem;
-					flex-shrink: 0;
-					order: 2;
-					:hover {
-						stroke: ${themeContextColor('purpleTextStrong')};
-					}
-					:focus {
-						outline: none;
-					}
-				}
-				.nav-links {
-				}
-			}
-			.site-subheading {
-				visibility: hidden;
-				width: 100%;
-				font-weight: 200;
-				color: ${themeContextColor('purpleTextStrong')};
-			}
-		}
-		.theme-button {
-			align-self: stretch;
-			box-sizing: border-box;
-			display: flex;
-			align-items: center;
-			order: 3;
-		}
-		@media screen and (min-width: 21rem) {
-			.collapsible {
-				visibility: visible;
-				margin: 0;
-				.nav-menu {
-					order: 2;
-					margin: 0;
-				}
-				.nav-links {
-					visibility: visible;
-				}
-				.site-subheading {
-					order: 1;
-					visibility: visible;
-					border: none;
-					margin: 0 auto 0 0;
-					line-height: 1.2em;
-					:before {
-						content: 'Design & Web Development';
-					}
-				}
-			}
-		}
-		@media screen and (max-width: 37.999rem) {
-			.collapsible {
-				flex-grow: 1;
-				flex-direction: row;
-				justify-content: center;
-				.nav-menu {
-					:focus > .nav-links,
-					:focus-within > .nav-links {
-						visibility: visible;
-					}
-					.feather-menu {
-						display: block;
-						margin-right: calc(${colGap} / 2);
-						position: relative;
-						top: -0.2rem;
-					}
-					.nav-links {
-						visibility: hidden;
-						position: absolute;
-						display: flex;
-						flex-direction: column;
-						padding: calc(2 * ${lineHeight}) ${colGap};
-						text-align: right;
-						right: 0;
-						top: 0;
-						height: 100vh;
-						width: calc(100vw - calc(${colGap} * 2));
-						box-sizing: border-box;
-						justify-content: space-evenly;
-						vertical-align: text-bottom;
-						background-color: ${themeContextColor('purpleBg')};
-						a {
-							color: ${themeContextColor('text')};
-							:visited {
-								color: ${themeContextColor('text')};
-							}
-						}
-					}
-				}
-				.site-subheading {
-					border: none;
-					line-height: 1.2em;
-
-					:before {
-						${breakpoint.tablet} {
-							content: 'Design & Web Development';
-						}
-						content: 'Design & Web Dev';
-					}
-				}
-			}
-		}
-
-		@media screen and (min-width: 38rem) {
-			.collapsible {
-				margin: 0 ${colGap} 0 0;
-				flex-grow: 1;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				.nav-menu {
-					order: 1;
-					width: 100%;
-					.feather-menu {
-						display: none;
-					}
-					.nav-links {
-						display: flex;
-						flex-direction: row;
-						justify-content: space-evenly;
-						margin: 0;
-						padding: 0;
-						user-select: none;
-						a {
-							font-weight: 400;
-							color: inherit;
-							text-decoration: none;
-							margin: 0 auto;
-							box-sizing: content-box;
-						}
-						a.contact {
-							margin-right: 0;
-						}
-						.current-page {
-							color: ${themeContextColor('purpleTextStrong')};
-							border-bottom: 3px solid ${themeContextColor('purpleText')};
-							margin-bottom: -3px;
-						}
-					}
-				}
-
-				.site-subheading {
-					order: 2;
-					border-top: 1px solid ${themeContextColor('purpleText')};
-					line-height: ${lineHeight};
-					:before {
-						${breakpoint.desktop} {
-							content: 'Graphic Design & Web Development';
-						}
-					}
-				}
-			}
-		}
-	}
-`
-
 const Minimal = styled.div`
 	height: 100vh;
 	width: 100vw;
@@ -404,64 +188,8 @@ const Layout = props => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<Grid>
-				<Logo size='4' linkto={linkto} title='home'/>
-				<Header>
-					<div className='navigation'>
-						<div className='collapsible'>
-							<div className='nav-menu'>
-								<svg
-									tabIndex='0'
-									width={24}
-									height={24}
-									fill='none'
-									preserveAspectRatio='MidXMidY meet'
-									viewBox='0 0 24 24'
-									stroke='currentColor'
-									strokeWidth={1}
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									role='menu'
-									className='feather feather-menu'
-									{...props}
-								>
-									<path d='M3 12h18M3 6h18M3 18h18' />
-								</svg>
-								<div className='nav-links' role='navigation'>
-									<Link
-										tabIndex='0'
-										to='/logo-test/'
-										activeClassName='current-page'
-									>
-										Portfolio
-									</Link>
-									<Link tabIndex='0' to='/blog/' activeClassName='current-page'>
-										Blog
-									</Link>
-									<Link
-										tabIndex='0'
-										to='/grid/'
-										activeClassName='current-page'
-									>
-										About
-									</Link>
-									<Link
-										className='contact'
-										tabIndex='0'
-										to='/contact/'
-										activeClassName='current-page'
-									>
-										Contact
-									</Link>
-								</div>
-							</div>
-							<div className='site-subheading' role='complementary' />
-						</div>
-
-						<div className='theme-button'>
-							<theme.ToggleButton />
-						</div>
-					</div>
-				</Header>
+				<Logo size='4' linkto={linkto} title='home' />
+				<Header themeToggleButton={<theme.ToggleButton />} />
 				{props.children}
 			</Grid>
 			<GlobalStyle />

@@ -5,31 +5,25 @@ import Logo from '../components/Logo'
 import '../styles/layout.css'
 import { Link } from 'gatsby'
 import {themeContextColor} from '../styles/themes'
-import {lineHeight, breakpoint, colGap, rowGap, fontSize} from '../styles/sizes'
+import {lineHeight, breakpoint, colGap, rowGap, fontSize, smallCol, smallRow, col, row} from '../styles/sizes'
 
 
 const Grid = styled.div`
-	--row-gap: ${lineHeight};
-	--col-gap: ${colGap};
-	--small-col: calc(var(--col-gap) * 2);
-	--col: calc(var(--col-gap) * 4);
-	--header-row: calc(var(--row-gap) * 2.75);
-	--row: calc(var(--row-gap) * 5);
-	--small-row: calc(var(--row-gap) * 3);
+	--header-row: calc(${rowGap} * 2.75);
 
 	display: grid;
 	justify-content: center;
 	width: 100%;
 	min-height: 100vh;
 	box-sizing: border-box;
-	column-gap: var(--col-gap);
-	row-gap: var(--row-gap);
+	column-gap: ${colGap};
+	row-gap: ${rowGap};
 
 	grid-template-rows:
 		var(--header-row)
-		var(--row-gap)
-		var(--small-row)
-		minmax(var(--row), 1fr);
+		${rowGap}
+		${smallRow}
+		minmax(${row}, 1fr);
 
 	grid-auto-rows: auto;
 
@@ -40,12 +34,12 @@ const Grid = styled.div`
 	}
 
 	${breakpoint.mobile} {
-		width: calc(100% - var(--col-gap));
+		width: calc(100% - ${colGap});
 		margin: 0 auto;
 		grid-template-columns:
 			[logo-start]
-			var(--col-gap)
-			var(--col-gap)
+			${colGap}
+			${colGap}
 			[logo-end]
 			minmax(0, 1fr);
 		grid-template-areas:
@@ -63,10 +57,10 @@ const Grid = styled.div`
 		margin: 0;
 		grid-template-columns:
 			minmax(0, 1.5fr)
-			var(--col-gap)
-			var(--col-gap)
-			minmax(var(--small-col), 2fr)
-			minmax(var(--col), 4fr)
+			${colGap}
+			${colGap}
+			minmax(${smallCol}, 2fr)
+			minmax(${col}, 4fr)
 			minmax(0, 3fr);
 		grid-template-areas:
 			'.  logo logo header header header'
@@ -82,13 +76,13 @@ const Grid = styled.div`
 		margin: 0;
 		grid-template-columns:
 			minmax(0, 3fr)
-			var(--small-col)
-			var(--col-gap)
-			var(--col-gap)
-			var(--small-col)
-			var(--col)
-			var(--col)
-			var(--col)
+			${smallCol}
+			${colGap}
+			${colGap}
+			${smallCol}
+			${col}
+			${col}
+			${col}
 			minmax(0, 4fr);
 		grid-template-areas:
 			'. . logo logo . header header header header'

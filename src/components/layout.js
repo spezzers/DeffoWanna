@@ -4,26 +4,13 @@ import useTheme from '../hooks/useTheme'
 import Logo from '../components/Logo'
 import '../styles/layout.css'
 import { Link } from 'gatsby'
+import {themeContextColor} from '../styles/themes'
+import {lineHeight, breakpoint, colGap, rowGap, fontSize} from '../styles/sizes'
 
-const fontSizePx = 19
-const lineHeightRatio = 1.263
-export const fontSize = `${fontSizePx}px`
-export const lineHeight = `${fontSizePx * lineHeightRatio}px`
-export const rowGap = lineHeight
-export const colGap = `${((fontSizePx * lineHeightRatio) / 5) * 8}px`
-export const breakpoint = {
-	mobile: '@media only screen and (max-width: 31rem)',
-	tablet: '@media only screen and (min-width: 31rem)',
-	desktop: '@media only screen and (min-width: 62rem)'
-}
-export const themeContextColor = (color, fallback) => props => {
-	const fallbackColor = fallback ? fallback : 'initial'
-	return props.theme[color] || color || fallbackColor
-}
 
 const Grid = styled.div`
 	--row-gap: ${lineHeight};
-	--col-gap: calc((var(--row-gap) / 5) * 8);
+	--col-gap: ${colGap};
 	--small-col: calc(var(--col-gap) * 2);
 	--col: calc(var(--col-gap) * 4);
 	--header-row: calc(var(--row-gap) * 2.75);

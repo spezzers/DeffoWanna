@@ -1,6 +1,8 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import Layout, { lineHeight } from '../../components/layout'
+import Layout from '../../components/layout'
+import { lineHeight } from '../../styles/sizes'
+
 import styled from 'styled-components'
 
 const BlogList = styled.div`

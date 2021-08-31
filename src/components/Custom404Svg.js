@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { themeContextColor } from './layout'
+import { themeContextColor } from '../styles/themes'
 import custom404SvgPaths from './custom404SvgPaths'
 
 const Animated404SVG = styled.svg`

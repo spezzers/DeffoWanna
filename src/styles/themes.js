@@ -91,4 +91,9 @@ const themes = {
   },
 };
 
+export const themeContextColor = (color, fallback) => props => {
+	const fallbackColor = fallback ? fallback : 'initial'
+	return props.theme[color] || color || fallbackColor
+}
+
 export default themes;

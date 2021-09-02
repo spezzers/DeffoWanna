@@ -2,7 +2,7 @@ const themes = {
   light: {
     name: "light",
     background: "#f9f4f1",
-    backgroundSecondary: "#edebe6",
+    backgroundSecondary: "#ede9e6",
     contrast: "#1b1622",
     black: "#1b1622",
     white: "#ffffff",
@@ -42,7 +42,7 @@ const themes = {
     errorText: "#a8000e",
     confirm: "#449c6d",
     confirmText: "#075f36",
-    callToAction: "#a30054",
+    callToAction: "#6d3646",
   },
   dark: {
     name: "dark",
@@ -87,13 +87,13 @@ const themes = {
     errorText: "#ff8f96",
     confirm: "#55af7f",
     confirmText: "#51c48a",
-    callToAction: "#ff8abd",
+    callToAction: "#e1bcbc",
   },
 };
 
-export const themeContextColor = (color, fallback) => props => {
-	const fallbackColor = fallback ? fallback : 'initial'
-	return props.theme[color] || color || fallbackColor
-}
+export const themeContextColor = (color, fallback) => (props) => {
+  const fallbackColor = fallback ? fallback : "initial";
+  return props.theme[color] || color || fallbackColor;
+};
 
 export default themes;

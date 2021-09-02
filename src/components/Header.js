@@ -235,17 +235,15 @@ const Header = props => {
 	}))
 
 	useLayoutEffect(() => {
-		let collapse = false
+		let collapse = true
 		const toggleCollapse = () => {
 			if (collapse) {
 				return api.start({
 					top: '-4rem',
-					delay: 0
 				})
 			} else {
 				return api.start({
 					top: '0rem',
-					delay: 100
 				})
 			}
 		}
@@ -258,6 +256,10 @@ const Header = props => {
 					const newScrollPos = window.scrollY
 					const threshold = headerRef?.current?.clientHeight || 20
 					if (newScrollPos >= 0) {
+						if (newScrollPos === 0 && !collapse) {
+							collapse = true
+							return toggleCollapse()
+						}
 						if (newScrollPos > previousScrollPos + threshold) {
 							if (!collapse) {
 								collapse = true

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
@@ -226,15 +226,15 @@ const HeaderWrap = styled(animated.div)`
 `
 
 const Header = props => {
+	const headerRef = useRef(null)
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
-	const headerRef = useRef()
 
 	const [style, api] = useSpring(() => ({
 		top: '-4rem'
 	}))
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let collapse = false
 		const toggleCollapse = () => {
 			if (collapse) {
@@ -256,7 +256,7 @@ const Header = props => {
 				'scroll',
 				() => {
 					const newScrollPos = window.scrollY
-					const threshold = headerRef.current.clientHeight
+					const threshold = headerRef?.current?.clientHeight || 20
 					if (newScrollPos >= 0) {
 						if (newScrollPos > previousScrollPos + threshold) {
 							if (!collapse) {
@@ -279,7 +279,7 @@ const Header = props => {
 				}
 			)
 		}
-	}, [api])
+	}, [headerRef, api])
 
 	return (
 		<HeaderWrap ref={headerRef} style={style}>

@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
-import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
+import { lineHeight, breakpoint, colGap, pageGrid, rowGap } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled(animated.div)`
 	position: sticky;
-	top: ${props => `-${props.y.get()}rem` || 0};
 	z-index: 10;
 	background-color: ${props => props.color || themeContextColor('background')};
+	box-shadow: 0 0 ${rowGap} ${rowGap} ${props => props.color || themeContextColor('background')};
 	#logo {
 		grid-area: logo;
 		${breakpoint.tablet} {
@@ -229,12 +229,19 @@ const Header = props => {
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
 
-	const [hidden, setHidden] = useState(false)
+	let hidden = false
 
-	const { y } = useSpring({
-		from: { y: hidden ? 4 : 0},
-		to: { y: hidden ? 0 : 4 }
-	})
+	const [style, api] = useSpring(() => ({
+		top: '-4rem',
+		opacity: 1
+	}))
+	const toggleVisible = () => {
+		return api.start({
+			top: hidden ? '-4rem' : '0rem',
+			opacity: hidden ? 0 : 1
+		})
+	}
+
 	if (typeof window !== 'undefined') {
 		let previousScrollPos = window.scrollY
 		window.addEventListener(
@@ -242,10 +249,12 @@ const Header = props => {
 			() => {
 				const newScrollY = window.scrollY
 				if (newScrollY > previousScrollPos && !hidden) {
-					setHidden(true)
+					hidden = true
+					toggleVisible()
 				}
 				if (newScrollY < previousScrollPos && hidden) {
-					setHidden(false)
+					hidden = false
+					toggleVisible()
 				}
 				previousScrollPos = newScrollY
 			},
@@ -256,7 +265,7 @@ const Header = props => {
 	}
 
 	return (
-		<HeaderWrap y={y}>
+		<HeaderWrap style={style}>
 			<Logo size={logoSize} linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>

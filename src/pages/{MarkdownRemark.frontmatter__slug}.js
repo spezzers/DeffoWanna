@@ -13,7 +13,6 @@ const Template = ({
 }) => {
 	const { markdownRemark } = data // data.markdownRemark holds your post data
 	const { frontmatter, html } = markdownRemark
-	console.log(data.markdownRemark)
 	return (
 		<Layout>
 			<Helmet>

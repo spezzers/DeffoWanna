@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
 import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled.div`
-	position: relative;
+const HeaderWrap = styled(animated.div)`
+	position: sticky;
+	top: ${props => `-${props.y.get()}rem` || 0};
 	z-index: 10;
+	background-color: ${props => props.color || themeContextColor('background')};
 	#logo {
 		grid-area: logo;
 		${breakpoint.tablet} {
@@ -18,7 +21,7 @@ const HeaderWrap = styled.div`
 		${pageGrid.columns.mobile}
 		grid-template-areas:
 			'logo logo header';
-			#logo {
+		#logo {
 			margin-left: calc(-0.5 * ${colGap});
 		}
 	}
@@ -26,7 +29,7 @@ const HeaderWrap = styled.div`
 		${pageGrid.columns.tablet}
 		grid-template-areas:
 			'.  logo logo header header header';
-			#logo {
+		#logo {
 			margin-left: -${colGap};
 		}
 	}
@@ -224,10 +227,37 @@ const HeaderWrap = styled.div`
 
 const Header = props => {
 	const linkto = props.location?.pathname !== '/' ? '/' : null
+	const logoSize = 4
+
+	const [hidden, setHidden] = useState(false)
+
+	const { y } = useSpring({
+		from: { y: hidden ? 4 : 0},
+		to: { y: hidden ? 0 : 4 }
+	})
+	if (typeof window !== 'undefined') {
+		let previousScrollPos = window.scrollY
+		window.addEventListener(
+			'scroll',
+			() => {
+				const newScrollY = window.scrollY
+				if (newScrollY > previousScrollPos && !hidden) {
+					setHidden(true)
+				}
+				if (newScrollY < previousScrollPos && hidden) {
+					setHidden(false)
+				}
+				previousScrollPos = newScrollY
+			},
+			{
+				passive: true
+			}
+		)
+	}
 
 	return (
-		<HeaderWrap>
-			<Logo size='4' linkto={linkto} title='home' />
+		<HeaderWrap y={y}>
+			<Logo size={logoSize} linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>
 					<div className='nav-menu'>
@@ -275,7 +305,7 @@ const Header = props => {
 					<div className='site-subheading' role='complementary' />
 				</div>
 
-				<div className='theme-button'>{props.themeToggleButton}</div>
+				<div className='theme-button'>{props.themetogglebutton}</div>
 			</div>
 		</HeaderWrap>
 	)

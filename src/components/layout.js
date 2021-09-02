@@ -90,7 +90,7 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header themeToggleButton={<theme.ToggleButton />} />
+			<Header themetogglebutton={<theme.ToggleButton />} />
 			<Grid>{props.children}</Grid>
 			<GlobalStyle />
 		</ThemeProvider>

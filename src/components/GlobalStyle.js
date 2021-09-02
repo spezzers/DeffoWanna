@@ -103,7 +103,7 @@ const GlobalStyle = createGlobalStyle`
 		overflow: auto;
 		border-radius: 0.25em;
 		background: #272822;
-		background: ${themeContextColor('backgroundSecondary')};
+		background: ${themeContextColor('backgroundSecondary')} linear-gradient(110deg, ${themeContextColor('purpleBg')}35, ${themeContextColor('tealBg')}35);
 		box-shadow: inset 0 .05em .2em ${themeContextColor('black')}05;
 	}
 

@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
-import { lineHeight, breakpoint, colGap, pageGrid, rowGap } from '../styles/sizes'
+import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled(animated.div)`
 	position: sticky;
 	z-index: 10;
 	background-color: ${props => props.color || themeContextColor('background')};
-	box-shadow: 0 0 ${rowGap} ${rowGap} ${props => props.color || themeContextColor('background')};
+	box-shadow: 0 -6rem 0 6rem ${props => props.color || themeContextColor('background')};
 	#logo {
 		grid-area: logo;
 		${breakpoint.tablet} {
@@ -228,44 +228,61 @@ const HeaderWrap = styled(animated.div)`
 const Header = props => {
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
-
-	let hidden = false
+	const headerRef = useRef()
 
 	const [style, api] = useSpring(() => ({
-		top: '-4rem',
-		opacity: 1
+		top: '-4rem'
 	}))
-	const toggleVisible = () => {
-		return api.start({
-			top: hidden ? '-4rem' : '0rem',
-			opacity: hidden ? 0 : 1
-		})
-	}
 
-	if (typeof window !== 'undefined') {
-		let previousScrollPos = window.scrollY
-		window.addEventListener(
-			'scroll',
-			() => {
-				const newScrollY = window.scrollY
-				if (newScrollY > previousScrollPos && !hidden) {
-					hidden = true
-					toggleVisible()
-				}
-				if (newScrollY < previousScrollPos && hidden) {
-					hidden = false
-					toggleVisible()
-				}
-				previousScrollPos = newScrollY
-			},
-			{
-				passive: true
+	useEffect(() => {
+		let collapse = false
+		const toggleCollapse = () => {
+			if (collapse) {
+				return api.start({
+					top: '-4rem',
+					delay: 0
+				})
+			} else {
+				return api.start({
+					top: '0rem',
+					delay: 100
+				})
 			}
-		)
-	}
+		}
+
+		if (typeof window !== 'undefined') {
+			let previousScrollPos = window.scrollY
+			window.addEventListener(
+				'scroll',
+				() => {
+					const newScrollPos = window.scrollY
+					const threshold = headerRef.current.clientHeight
+					if (newScrollPos >= 0) {
+						if (newScrollPos > previousScrollPos + threshold) {
+							if (!collapse) {
+								collapse = true
+								return toggleCollapse()
+							}
+							previousScrollPos = newScrollPos
+						}
+						if (newScrollPos < previousScrollPos - threshold) {
+							if (collapse) {
+								collapse = false
+								return toggleCollapse()
+							}
+							previousScrollPos = newScrollPos
+						}
+					}
+				},
+				{
+					passive: true
+				}
+			)
+		}
+	}, [api])
 
 	return (
-		<HeaderWrap style={style}>
+		<HeaderWrap ref={headerRef} style={style}>
 			<Logo size={logoSize} linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>

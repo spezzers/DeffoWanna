@@ -10,6 +10,7 @@ module.exports = {
 		'gatsby-plugin-sitemap',
 		'gatsby-plugin-mdx',
 		'gatsby-transformer-sharp',
+		'gatsby-plugin-gatsby-cloud',
 		{
 			resolve: `gatsby-transformer-remark`,
 			options: {

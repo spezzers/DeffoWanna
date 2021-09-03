@@ -1,7 +1,7 @@
 import React from 'react'
 import { crossHatchDataBase64 } from './crossHatchData'
 import styled from 'styled-components'
-import { themeContextColor } from './layout'
+import { themeContextColor } from '../styles/themes'
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'

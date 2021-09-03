@@ -1,6 +1,6 @@
 
 Todo:
-  - Update dependencies, see exactly what with `yarn outdated`
+  ✔ Update dependencies, see exactly what with `yarn outdated` @done(21-08-31 13:06)
   Components:
     ✔ Navbar @done(21-08-18 21:16)
     ✔ Popup menu @done(21-08-18 21:16)

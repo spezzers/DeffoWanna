@@ -113,8 +113,8 @@ const Logo = props => {
 		api.start({
 			to: fuzzy,
 			onRest: () => {
-				if (props.linkTo) {
-					navigate(props.linkTo)
+				if (props.linkto) {
+					navigate(props.linkto)
 				}
 			},
 			config: {
@@ -155,8 +155,8 @@ const Logo = props => {
 			strokeMiterlimit={1.414}
 			{...touch.attributes()}
 		>
-			<title>Deffo Wanna</title>
-			<desc>graphic design and web development</desc>
+			<title>{props.title ? props.title : 'Deffo Wanna'}</title>
+			<desc>{props.title ? 'Deffo Wanna' : ''} graphic design and web development</desc>
 			<defs>
 				<filter id='lightSource'>
 					<feGaussianBlur

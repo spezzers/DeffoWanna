@@ -11,7 +11,7 @@ try {
 
 	let light = {}
 	let dark = {}
-	for (const [key, value] of Object.entries(data.colors)) {
+	for (const [key, value] of Object.entries(data)) {
 		if (key === 'Light') {
 			light = value
 		}
@@ -40,6 +40,11 @@ try {
 	await writeFile(
 		outputFile,
 		`const themes = ${JSON.stringify(themes, null, 2)}
+
+export const themeContextColor = (color, fallback) => props => {
+	const fallbackColor = fallback ? fallback : 'initial'
+	return props.theme[color] || color || fallbackColor
+}
 
 export default themes`
 	)

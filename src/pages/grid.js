@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import Layout, { breakpoint } from '../components/layout'
+import Layout from '../components/layout'
+import { breakpoint } from '../styles/sizes'
 import { Helmet } from 'react-helmet'
-
 
 const GridTitle = styled.h1`
 	:before {

@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
-import { themeContextColor } from '../styles/themes'
+import { themeContextColor } from './themes'
 import {
 	lineHeight,
 	breakpoint,
 	fontSize,
 	rowGap,
 	colGap
-} from '../styles/sizes'
+} from './sizes'
 
 const GlobalStyle = createGlobalStyle`
 	body {

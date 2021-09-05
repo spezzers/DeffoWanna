@@ -4,7 +4,7 @@ import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
 import { pageGrid, breakpoint, colGap, rowGap } from '../styles/sizes'
 import Header from './Header'
-import GlobalStyle from './GlobalStyle'
+import GlobalStyle from '../styles/GlobalStyle'
 
 const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);

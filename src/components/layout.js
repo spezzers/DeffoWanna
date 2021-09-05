@@ -83,7 +83,7 @@ const Layout = props => {
 			<ThemeProvider theme={theme.current}>
 				<GlobalStyle />
 				<Minimal>
-					<theme.ToggleButton />
+					<ThemeToggleButton settheme={theme.setTheme} />
 					{props.children}
 				</Minimal>
 			</ThemeProvider>
@@ -91,7 +91,9 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />} />
+			<Header
+				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
+			/>
 			<Grid>{props.children}</Grid>
 			<GlobalStyle />
 		</ThemeProvider>

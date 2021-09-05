@@ -2,14 +2,7 @@ import themes from '../src/styles/themes'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import '@storybook/addon-console'
 import { useDarkMode } from 'storybook-dark-mode'
-
-
-const GlobalStyle = createGlobalStyle`
-	body { 
-		background-color: ${props => props.theme.background};
-		color: ${props => props.theme.text};
-	}
-`
+import GlobalStyle from '../src/styles/GlobalStyle'
 
 export const parameters = {
 	backgrounds: {
@@ -19,10 +12,9 @@ export const parameters = {
 	layout: 'centered',
 	matchers: {
 		color: /(background|color)$/i,
-		date: /Date$/,
-	  }
+		date: /Date$/
+	}
 }
-
 
 const withThemeProvider = (Story, context) => {
 	const theme = useDarkMode() ? themes.dark : themes.light

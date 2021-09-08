@@ -79,6 +79,19 @@ export default {
 				}
 			}
 		},
+		animate: {
+			name: 'animate',
+			description: 'Jiggle the cross-hatching',
+			control: 'boolean',
+			table: {
+				type: {
+					summary: 'boolean'
+				},
+				defaultValue: {
+					summary: false
+				}
+			}
+		},
 		edgeSoftness: {
 			name: 'edgeSoftness',
 			description: 'Feathering of the edges',

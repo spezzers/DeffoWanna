@@ -33,6 +33,7 @@ const Hatching = styled.div.attrs(props => {
 	const newProps = {
 		...props,
 		...inverts(),
+		animate: props.animate ? 'jiggle 1.2s steps(1) infinite' : 'none',
 		edgeSoftness:
 			props.edgeSoftness > 0
 				? `${props.edgeSoftness}px`
@@ -104,8 +105,7 @@ const Hatching = styled.div.attrs(props => {
 
 	.hatch {
 		background-image: url(${crossHatchDataBase64});
-		//TODO make animated texture optional (it's quite vertigo inducing!)
-		animation: jiggle 1.2s steps(1) infinite;
+		animation: ${props => props.animate};
 		height: fit-content;
 		filter: ${props => props.invertHatch};
 		background-origin: border-box;
@@ -152,6 +152,7 @@ const CrossHatch = props => {
 		blacks,
 		whites,
 		backgroundSize,
+		animate,
 		...wrapProps
 	} = props
 	const hatchProps = {
@@ -160,6 +161,7 @@ const CrossHatch = props => {
 		preserveHatch,
 		blacks,
 		whites,
+		animate,
 		backgroundSize
 	}
 	return (

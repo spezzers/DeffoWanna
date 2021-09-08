@@ -9,7 +9,7 @@ const Hatching = styled.div.attrs(props => {
 	const invertHatchBool = props.invertHatch === false ? false : true
 
 	const inverts = () => {
-		let edgeColor = 'black'
+		let edgeColor = 'white'
 		let invertContent = 'invert(0)'
 		let invertHatch = 'invert(0)'
 		if (isDark) {
@@ -23,6 +23,8 @@ const Hatching = styled.div.attrs(props => {
 				invertContent = 'invert(1)'
 				invertHatch = 'invert(1)'
 				edgeColor = 'white'
+			} else {
+				edgeColor = 'black'
 			}
 		}
 		return { invertHatch, invertContent, edgeColor }
@@ -131,7 +133,7 @@ const Hatching = styled.div.attrs(props => {
 		display: block;
 		background-image: none;
 		background-color: ${props => props.backgroundColor};
-		filter: ${props => props.invertContent} contrast(0.5);
+		filter: ${props => props.invertContent} contrast(0.49);
 		mix-blend-mode: hard-light;
 		margin: 0;
 		* {

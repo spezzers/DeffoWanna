@@ -137,9 +137,9 @@ const Hatching = styled.div.attrs(props => {
 		mix-blend-mode: hard-light;
 		margin: 0;
 		* {
-			background-color: unset;
-			mix-blend-mode: normal;
-			filter: none;
+			/* background-color: unset; */
+			/* mix-blend-mode: normal; */
+			/* filter: none; */
 		}
 	}
 `

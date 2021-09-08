@@ -6,20 +6,20 @@ import { themeContextColor } from '../styles/themes'
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
 	const invertContentBool = props.invertContent || false
-	const invertHatchBool = props.invertHatch === false ? false : true
+	const preserveHatchBool = props.preserveHatch || false
 
 	const inverts = () => {
 		let edgeColor = 'white'
 		let invertContent = 'invert(0)'
 		let invertHatch = 'invert(0)'
 		if (isDark) {
-			if (invertContentBool && invertHatchBool) {
+			if (invertContentBool && !preserveHatchBool) {
 				invertHatch = 'invert(1)'
 				edgeColor = 'white'
-			} else if (invertContentBool && !invertHatchBool) {
+			} else if (invertContentBool && preserveHatchBool) {
 				invertContent = 'invert(1)'
 				edgeColor = 'black'
-			} else if (!invertContentBool && invertHatchBool) {
+			} else if (!invertContentBool && !preserveHatchBool) {
 				invertContent = 'invert(1)'
 				invertHatch = 'invert(1)'
 				edgeColor = 'white'
@@ -148,7 +148,7 @@ const CrossHatch = props => {
 	const {
 		edgeSoftness,
 		invertContent,
-		invertHatch,
+		preserveHatch,
 		blacks,
 		whites,
 		backgroundSize,
@@ -157,7 +157,7 @@ const CrossHatch = props => {
 	const hatchProps = {
 		edgeSoftness,
 		invertContent,
-		invertHatch,
+		preserveHatch,
 		blacks,
 		whites,
 		backgroundSize

@@ -66,16 +66,16 @@ export default {
 				}
 			}
 		},
-		invertHatch: {
-			name: 'invertHatch',
-			description: 'Invert cross-hatch colours in dark mode',
+		preserveHatch: {
+			name: 'preserveHatch',
+			description: 'Prevent cross-hatch colours from inverting in dark mode',
 			control: 'boolean',
 			table: {
 				type: {
 					summary: 'boolean'
 				},
 				defaultValue: {
-					summary: true
+					summary: false
 				}
 			}
 		},

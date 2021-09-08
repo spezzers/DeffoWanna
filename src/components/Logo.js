@@ -18,6 +18,7 @@ const StyledLogo = styled(animated.svg)`
 `
 
 const AnimFePointLight = animated('fePointLight')
+const AnimFeDisplacementMap = animated('feDisplacementMap')
 
 const Logo = props => {
 	const theme = useContext(ThemeContext)
@@ -49,8 +50,9 @@ const Logo = props => {
 		}, {})
 		return result
 	}
-
+	
 	const normal = {
+		scale: 1,
 		...getPaths('normal'),
 		color: props.color || theme?.purpleText || '#777777',
 		weight: 5,
@@ -72,6 +74,7 @@ const Logo = props => {
 		...heavy,
 		weight: 28,
 		filter: 'url(#fuzzyWuzzy)',
+		scale: 60,
 		config: {
 			mass: 1,
 			tension: 500,
@@ -195,14 +198,14 @@ const Logo = props => {
 				<filter id='fuzzyWuzzy'>
 					<feTurbulence
 						type='turbulence'
-						baseFrequency={0.06}
-						numOctaves='1'
+						baseFrequency={12}
+						numOctaves='2'
 						result='turbulence'
 					/>
-					<feDisplacementMap
+					<AnimFeDisplacementMap
 						in2='turbulence'
 						in='SourceGraphic'
-						scale={8.8}
+						scale={logoProps.scale}
 						xChannelSelector='R'
 						yChannelSelector='G'
 					/>

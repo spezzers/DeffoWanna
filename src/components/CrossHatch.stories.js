@@ -53,17 +53,29 @@ export default {
 				}
 			}
 		},
-		darkInvert: {
-			name: 'darkInvert',
-			description: 'Invert colours in dark mode',
+		invertContent: {
+			name: 'invertContent',
+			description: 'Invert content colours in dark mode',
 			control: 'boolean',
-			defaultValue: false,
 			table: {
 				type: {
 					summary: 'boolean'
 				},
 				defaultValue: {
 					summary: false
+				}
+			}
+		},
+		invertHatch: {
+			name: 'invertHatch',
+			description: 'Invert cross-hatch colours in dark mode',
+			control: 'boolean',
+			table: {
+				type: {
+					summary: 'boolean'
+				},
+				defaultValue: {
+					summary: true
 				}
 			}
 		},
@@ -126,7 +138,7 @@ Text.args = {
 			</p>
 		</>
 	),
-	darkInvert: true,
+	invertContent: true,
 	edgeSoftness: 0
 }
 
@@ -137,5 +149,5 @@ AnimatedLogo.args = {
 			<Logo color='black' />
 		</div>
 	),
-	darkInvert: true
+	invertContent: true
 }

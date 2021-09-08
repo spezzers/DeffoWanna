@@ -1,12 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import { themeContextColor } from './themes'
-import {
-	lineHeight,
-	breakpoint,
-	fontSize,
-	rowGap,
-	colGap
-} from './sizes'
+import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
 	body {
@@ -17,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		font-size: ${fontSize};
+		transition: all 0.2s ease;
 		
 		p {
 			font-family: 'IBM Plex Sans';
@@ -103,7 +98,11 @@ const GlobalStyle = createGlobalStyle`
 		overflow: auto;
 		border-radius: 0.25em;
 		background: #272822;
-		background: ${themeContextColor('backgroundSecondary')} linear-gradient(110deg, ${themeContextColor('purpleBg')}38, ${themeContextColor('orangeBg')}31);
+		background: ${themeContextColor(
+			'backgroundSecondary'
+		)} linear-gradient(110deg, ${themeContextColor(
+	'purpleBg'
+)}38, ${themeContextColor('orangeBg')}31);
 		box-shadow: inset 0 .05em .2em ${themeContextColor('black')}05;
 	}
 

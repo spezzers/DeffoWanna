@@ -91,7 +91,7 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header
+			<Header location={props.location}
 				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
 			/>
 			<Grid>{props.children}</Grid>

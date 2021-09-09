@@ -3,9 +3,6 @@ import { themeContextColor } from './themes'
 import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
-	* {
-		transition: 0.3s linear;
-	}
 	body {
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};

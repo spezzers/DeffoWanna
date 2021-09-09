@@ -3,6 +3,9 @@ import { themeContextColor } from './themes'
 import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
+	* {
+		transition: 0.3s linear;
+	}
 	body {
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
@@ -11,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		font-size: ${fontSize};
-		transition: all 0.2s ease;
+		
 		
 		p {
 			font-family: 'IBM Plex Sans';
@@ -66,6 +69,10 @@ const GlobalStyle = createGlobalStyle`
 			font-size: 1.105rem;
 			letter-spacing: 0.07em;
 		}
+	}
+	img {
+		filter: ${props =>
+			props.theme.name === 'dark' ? 'contrast(0.9) brightness(0.77) saturate(0.95) ' : 'contrast(1) brightness(1) saturate(1)'}
 	}
 
 	code[class*="language-"],

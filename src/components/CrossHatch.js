@@ -79,11 +79,11 @@ const Hatching = styled.div.attrs(props => {
 	width: fit-content;
 	user-select: none;
 	position: relative;
-	.wrapper {
+	.hatch-wrap {
 		position: relative;
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
-		z-index: -1;
+		z-index: 0;
 	}
 
 	:before,
@@ -91,7 +91,7 @@ const Hatching = styled.div.attrs(props => {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
-		z-index: 0;
+		z-index: 1;
 		content: '';
 	}
 	:before {
@@ -133,7 +133,7 @@ const Hatching = styled.div.attrs(props => {
 		display: block;
 		background-image: none;
 		background-color: ${props => props.backgroundColor};
-		filter: ${props => props.invertContent} contrast(0.49);
+		filter: ${props => props.invertContent} contrast(0.475);
 		mix-blend-mode: hard-light;
 		margin: 0;
 		* {
@@ -167,7 +167,7 @@ const CrossHatch = props => {
 	return (
 		<div {...wrapProps}>
 			<Hatching {...hatchProps}>
-				<div className='wrapper'>
+				<div className='hatch-wrap'>
 					<div className='hatch'>{props.children}</div>
 				</div>
 			</Hatching>

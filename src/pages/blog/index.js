@@ -18,7 +18,6 @@ const BlogEntry = styled(Link)`
 
 const BlogIndex = ({ data }) => {
 	const blogs = data.allMarkdownRemark.nodes
-	console.log(blogs)
 	return (
 		<Layout>
 			<BlogList>

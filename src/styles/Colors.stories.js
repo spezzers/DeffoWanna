@@ -34,7 +34,6 @@ const ColorsList = styled.div`
 
 const Colors = () => {
 	const theme = useContext(ThemeContext)
-	console.log(theme)
 	return (
 		<ColorsList>
 			{Object.entries(theme).map(entry => {

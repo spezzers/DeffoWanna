@@ -89,7 +89,7 @@ const ThemeToggleButton = props => {
 				toggleTheme()
 				break
 			default:
-				console.log('unhandled mouse event:', e.type)
+				console.trace('unhandled mouse event:', e.type)
 		}
 	}
 

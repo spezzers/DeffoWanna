@@ -38,7 +38,7 @@ const CenterFlex = styled.div`
 const LandingSplash = () => {
 	return (
 		<CenterFlex>
-			<CrossHatch darkInvert backgroundSize='50px'>
+			<CrossHatch invertContent backgroundSize='50px'>
 				<img src={logo} alt='deffo wanna logo animation' height='120px'/>
 			</CrossHatch>
 			<h2>Design & Web Development</h2>

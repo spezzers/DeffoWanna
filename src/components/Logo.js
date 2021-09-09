@@ -49,13 +49,15 @@ const Logo = props => {
 		}, {})
 		return result
 	}
-
+	
 	const normal = {
+		scale: 1,
 		...getPaths('normal'),
 		color: props.color || theme?.purpleText || '#777777',
 		weight: 5,
 		filter: '',
 		config: {
+			clamp: false,
 			mass: 1,
 			tension: 450,
 			friction: 60
@@ -68,26 +70,11 @@ const Logo = props => {
 		filter: ''
 	}
 
-	const fuzzy = {
-		...heavy,
-		weight: 28,
-		filter: 'url(#fuzzyWuzzy)',
-		config: {
-			mass: 1,
-			tension: 500,
-			friction: 22
-		}
-	}
 	const baloon = {
 		...normal,
 		...getPaths('baloon'),
 		weight: 27,
 		filter: 'url(#lightSource)',
-		config: {
-			mass: 4,
-			tension: 900,
-			friction: 40
-		}
 	}
 
 	const [logoProps, api] = useSpring(() => ({
@@ -97,7 +84,15 @@ const Logo = props => {
 	}))
 
 	const deactivate = () => {
-		api.start(normal)
+		api.start({
+			to: normal,
+			config: {
+				clamp: false,
+				mass: 1,
+				tension: 450,
+				friction: 60
+			}
+		})
 	}
 
 	const getLightPoint = cursorPos => {
@@ -111,22 +106,30 @@ const Logo = props => {
 
 	const activate = cursorPos => {
 		api.start({
-			to: fuzzy,
+			to: heavy,
+			config: {
+				clamp: props.linkto !== null ? true : false,
+				mass: 1,
+				tension: 220,
+				friction: 8,
+			},
 			onRest: () => {
 				if (props.linkto) {
 					navigate(props.linkto)
 				}
-			},
-			config: {
-				clamp: true,
-				mass: 1,
-				tension: 300,
-				friction: 18
 			}
 		})
 	}
 	const hoverInactive = cursorPos => {
-		api.start(baloon)
+		api.start({
+			to: baloon,
+			config: {
+				clamp: false,
+				mass: 1,
+				tension: 400,
+				friction: 10
+			}
+		})
 	}
 
 	const hoverMouseMove = cursorPos => {
@@ -190,21 +193,6 @@ const Logo = props => {
 						stdDeviation={3.2}
 						floodColor={theme.black}
 						floodOpacity='0.1'
-					/>
-				</filter>
-				<filter id='fuzzyWuzzy'>
-					<feTurbulence
-						type='turbulence'
-						baseFrequency={0.06}
-						numOctaves='1'
-						result='turbulence'
-					/>
-					<feDisplacementMap
-						in2='turbulence'
-						in='SourceGraphic'
-						scale={8.8}
-						xChannelSelector='R'
-						yChannelSelector='G'
 					/>
 				</filter>
 			</defs>

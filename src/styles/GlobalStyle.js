@@ -1,12 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
-import { themeContextColor } from '../styles/themes'
-import {
-	lineHeight,
-	breakpoint,
-	fontSize,
-	rowGap,
-	colGap
-} from '../styles/sizes'
+import { themeContextColor } from './themes'
+import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
 	body {
@@ -17,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		font-size: ${fontSize};
+		
 		
 		p {
 			font-family: 'IBM Plex Sans';
@@ -72,6 +67,10 @@ const GlobalStyle = createGlobalStyle`
 			letter-spacing: 0.07em;
 		}
 	}
+	img {
+		filter: ${props =>
+			props.theme.name === 'dark' ? 'contrast(0.9) brightness(0.77) saturate(0.95) ' : 'contrast(1) brightness(1) saturate(1)'}
+	}
 
 	code[class*="language-"],
 	pre[class*="language-"] {
@@ -103,7 +102,11 @@ const GlobalStyle = createGlobalStyle`
 		overflow: auto;
 		border-radius: 0.25em;
 		background: #272822;
-		background: ${themeContextColor('backgroundSecondary')} linear-gradient(110deg, ${themeContextColor('purpleBg')}38, ${themeContextColor('orangeBg')}31);
+		background: ${themeContextColor(
+			'backgroundSecondary'
+		)} linear-gradient(110deg, ${themeContextColor(
+	'purpleBg'
+)}38, ${themeContextColor('orangeBg')}31);
 		box-shadow: inset 0 .05em .2em ${themeContextColor('black')}05;
 	}
 

@@ -24,7 +24,6 @@ const StyledDeck = styled.div.attrs(props => {
 	} else if (props.thickness) {
 		size.thickness = props.thickness
 	}
-	console.log(size)
 	return size
 })`
 	--length: ${props => props.length};
@@ -153,7 +152,6 @@ const StyledDeck = styled.div.attrs(props => {
 const Skateboard = props => {
 	const alt = props.alt ? `${props.alt} - ` : ''
 	const graphic = section => {
-		console.log(section)
 		if (props.src) {
 			return (
 				<img

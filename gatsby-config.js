@@ -5,15 +5,21 @@ module.exports = {
 	},
 	plugins: [
 		'gatsby-plugin-styled-components',
-		'gatsby-plugin-sharp',
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-sitemap',
 		'gatsby-plugin-mdx',
 		'gatsby-transformer-sharp',
+		`gatsby-plugin-sharp`,
 		{
 			resolve: `gatsby-transformer-remark`,
 			options: {
 				plugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth: 1200
+						}
+					},
 					{
 						resolve: `gatsby-remark-prismjs`,
 						options: {

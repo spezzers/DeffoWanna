@@ -5,8 +5,35 @@ import { themeContextColor } from '../styles/themes'
 
 const Hatching = styled.div.attrs(props => {
 	const isDark = props.theme.name === 'dark'
-	return {
+	const invertContentBool = props.invertContent || false
+	const preserveHatchBool = props.preserveHatch || false
+
+	const inverts = () => {
+		let edgeColor = 'white'
+		let invertContent = 'invert(0)'
+		let invertHatch = 'invert(0)'
+		if (isDark) {
+			if (invertContentBool && !preserveHatchBool) {
+				invertHatch = 'invert(1)'
+				edgeColor = 'white'
+			} else if (invertContentBool && preserveHatchBool) {
+				invertContent = 'invert(1)'
+				edgeColor = 'black'
+			} else if (!invertContentBool && !preserveHatchBool) {
+				invertContent = 'invert(1)'
+				invertHatch = 'invert(1)'
+				edgeColor = 'white'
+			} else {
+				edgeColor = 'black'
+			}
+		}
+		return { invertHatch, invertContent, edgeColor }
+	}
+
+	const newProps = {
 		...props,
+		...inverts(),
+		animate: props.animate ? 'jiggle 1.2s steps(1) infinite' : 'none',
 		edgeSoftness:
 			props.edgeSoftness > 0
 				? `${props.edgeSoftness}px`
@@ -14,12 +41,6 @@ const Hatching = styled.div.attrs(props => {
 				? 0
 				: '15px',
 		themeFilters: isDark ? 'brightness(0.9)' : 'brightness(1.25)',
-		invertHatch: isDark ? 'invert(1)' : 'invert(0)',
-		invertContent: !isDark
-			? 'invert(0)'
-			: props.darkInvert
-			? 'invert(0)'
-			: 'invert(1)',
 		blacks: isDark
 			? themeContextColor(
 					props.blacks,
@@ -35,50 +56,56 @@ const Hatching = styled.div.attrs(props => {
 					props.whites,
 					themeContextColor('background', 'white')
 			  ),
-		backgroundColor: !isDark ? 'white' : props.darkInvert ? 'white' : 'black'
+		backgroundColor: !isDark ? 'white' : props.invertContent ? 'white' : 'black'
 	}
+	return newProps
 })`
 	--bg-size: ${props => props.backgroundSize || '3rem'};
 	@keyframes jiggle {
 		0% {
-			background-position: calc(0.5 * var(--bg-size)) calc(-0.1 * var(--bg-size));
+			background-position: calc(0.5 * var(--bg-size))
+				calc(-0.1 * var(--bg-size));
 		}
 		33% {
-			background-position: calc(-0.25 * var(--bg-size)) calc(0.5 * var(--bg-size));
+			background-position: calc(-0.25 * var(--bg-size))
+				calc(0.5 * var(--bg-size));
 		}
 		66% {
-			background-position: calc(-0.1 * var(--bg-size)) calc(0.4 * var(--bg-size));
+			background-position: calc(-0.1 * var(--bg-size))
+				calc(0.4 * var(--bg-size));
 		}
 	}
 
 	width: fit-content;
 	user-select: none;
 	position: relative;
-	z-index: -1;
 	.wrapper {
 		position: relative;
 		filter: grayscale(1) contrast(500) ${props => props.themeFilters};
 		margin: 0;
+		z-index: -1;
 	}
 
-	.color {
+	:before,
+	:after {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
+		z-index: 0;
+		content: '';
 	}
-	.dark {
+	:before {
 		background-color: ${props => props.blacks};
 		mix-blend-mode: lighten;
 	}
-	.light {
+	:after {
 		background-color: ${props => props.whites};
 		mix-blend-mode: darken;
 	}
 
 	.hatch {
 		background-image: url(${crossHatchDataBase64});
-		//TODO make animated texture optional (it's quite vertigo inducing!)
-		animation: jiggle 1.2s steps(1) infinite;
+		animation: ${props => props.animate};
 		height: fit-content;
 		filter: ${props => props.invertHatch};
 		background-origin: border-box;
@@ -87,21 +114,7 @@ const Hatching = styled.div.attrs(props => {
 		background-size: var(--bg-size);
 		box-shadow: inset 0 0
 			${props => `${props.edgeSoftness}
-			${props.edgeSoftness}`}
-			white;
-		* {
-			display: block;
-			background-image: none;
-			background-color: ${props => props.backgroundColor};
-			filter: ${props => props.invertContent} contrast(0.5);
-			mix-blend-mode: hard-light;
-			margin: 0;
-			* {
-				background-color: unset;
-				mix-blend-mode: normal;
-				filter: none;
-			}
-		}
+			${props.edgeSoftness} ${props.edgeColor}`};
 
 		p,
 		h1,
@@ -116,22 +129,39 @@ const Hatching = styled.div.attrs(props => {
 			background-color: white;
 		}
 	}
+	.hatch > * {
+		display: block;
+		background-image: none;
+		background-color: ${props => props.backgroundColor};
+		filter: ${props => props.invertContent} contrast(0.49);
+		mix-blend-mode: hard-light;
+		margin: 0;
+		* {
+			/* background-color: unset; */
+			/* mix-blend-mode: normal; */
+			/* filter: none; */
+		}
+	}
 `
 
 const CrossHatch = props => {
 	const {
 		edgeSoftness,
-		darkInvert,
+		invertContent,
+		preserveHatch,
 		blacks,
 		whites,
 		backgroundSize,
+		animate,
 		...wrapProps
 	} = props
 	const hatchProps = {
 		edgeSoftness,
-		darkInvert,
+		invertContent,
+		preserveHatch,
 		blacks,
 		whites,
+		animate,
 		backgroundSize
 	}
 	return (
@@ -140,8 +170,6 @@ const CrossHatch = props => {
 				<div className='wrapper'>
 					<div className='hatch'>{props.children}</div>
 				</div>
-				<div className='dark color' />
-				<div className='light color' />
 			</Hatching>
 		</div>
 	)

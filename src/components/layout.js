@@ -4,7 +4,8 @@ import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
 import { pageGrid, breakpoint, colGap, rowGap } from '../styles/sizes'
 import Header from './Header'
-import GlobalStyle from './GlobalStyle'
+import GlobalStyle from '../styles/GlobalStyle'
+import ThemeToggleButton from './ThemeToggleButton'
 
 const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);
@@ -82,7 +83,7 @@ const Layout = props => {
 			<ThemeProvider theme={theme.current}>
 				<GlobalStyle />
 				<Minimal>
-					<theme.ToggleButton />
+					<ThemeToggleButton settheme={theme.setTheme} />
 					{props.children}
 				</Minimal>
 			</ThemeProvider>
@@ -90,7 +91,9 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header themetogglebutton={<theme.ToggleButton />} />
+			<Header location={props.location}
+				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
+			/>
 			<Grid>{props.children}</Grid>
 			<GlobalStyle />
 		</ThemeProvider>

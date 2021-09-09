@@ -66,7 +66,6 @@ const Logo = props => {
 	const heavy = {
 		...normal,
 		...getPaths('heavy'),
-		color: theme?.purpleBg || normal.color,
 		weight: 22,
 		filter: ''
 	}

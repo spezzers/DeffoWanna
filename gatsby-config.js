@@ -8,8 +8,14 @@ module.exports = {
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-sitemap',
 		'gatsby-plugin-mdx',
+		'gatsby-plugin-image',
 		'gatsby-transformer-sharp',
-		`gatsby-plugin-sharp`,
+		{ 
+			resolve: `gatsby-plugin-sharp`,
+			options: {
+				defaultQuality: 80
+			}
+		},
 		{
 			resolve: `gatsby-transformer-remark`,
 			options: {
@@ -17,7 +23,8 @@ module.exports = {
 					{
 						resolve: `gatsby-remark-images`,
 						options: {
-							maxWidth: 1200
+							maxWidth: 720,
+							quality: 75
 						}
 					},
 					{

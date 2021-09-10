@@ -6,11 +6,10 @@ const GlobalStyle = createGlobalStyle`
 	body {
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
-		margin: 0;
-		padding: 0;
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		font-size: ${fontSize};
+		max-width: 1900px;
 		
 		
 		p {
@@ -18,6 +17,13 @@ const GlobalStyle = createGlobalStyle`
 			font-style: normal;
 			font-weight: 400;
 			letter-spacing: 0.012em;
+			margin: ${lineHeight} 0;
+			span.gatsby-resp-image-wrapper {
+				margin: ${lineHeight} 0;
+			}
+			strong, em {
+				color: ${props => props.theme.textStrong};
+			}
 		}
 		h1, h2, h3, h4, h5, h6 {
 			font-family: 'IBM Plex Serif', serif;
@@ -69,7 +75,9 @@ const GlobalStyle = createGlobalStyle`
 	}
 	img {
 		filter: ${props =>
-			props.theme.name === 'dark' ? 'contrast(0.9) brightness(0.77) saturate(0.95) ' : 'contrast(1) brightness(1) saturate(1)'}
+			props.theme.name === 'dark'
+				? 'contrast(0.95) brightness(0.8) saturate(0.96) '
+				: 'contrast(1) brightness(1) saturate(1)'}
 	}
 
 	code[class*="language-"],

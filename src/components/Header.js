@@ -3,18 +3,19 @@ import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
-import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
+import { lineHeight, breakpoint, colGap, pageGrid, smallRow } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled(animated.div)`
 	position: sticky;
 	z-index: 10;
+	height: ${smallRow};
 	background-color: ${props => props.color || themeContextColor('background')};
 	box-shadow: 0 -6rem 0 6rem ${props => props.color || themeContextColor('background')};
 	#logo {
+		margin-top: -0.175rem;
 		grid-area: logo;
-		${breakpoint.tablet} {
-		}
+		align-self: center;
 	}
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
@@ -160,7 +161,7 @@ const HeaderWrap = styled(animated.div)`
 				}
 				.site-subheading {
 					border: none;
-					line-height: 1.2em;
+					line-height: ${lineHeight};
 
 					:before {
 						${breakpoint.tablet} {
@@ -231,7 +232,7 @@ const Header = props => {
 	const logoSize = 4
 
 	const [style, api] = useSpring(() => ({
-		top: '-4rem'
+		top: `-${smallRow}`
 	}))
 
 	useLayoutEffect(() => {
@@ -239,7 +240,7 @@ const Header = props => {
 		const toggleCollapse = () => {
 			if (collapse) {
 				return api.start({
-					top: '-4rem',
+					top: `-${smallRow}`,
 				})
 			} else {
 				return api.start({

@@ -11,6 +11,22 @@ const GlobalStyle = createGlobalStyle`
 		font-size: ${fontSize};
 		max-width: 1900px;
 		
+		blockquote {
+			margin: ${lineHeight} 0;
+			padding: 0 ${colGap};
+			border-left: 3px solid ${themeContextColor('backgroundSecondary')};
+			border-right: 3px solid ${themeContextColor('backgroundSecondary')};
+			box-sizing: border-box;
+			p {
+				padding: calc(${lineHeight} / 2 ) 0;
+				font-family: 'IBM Plex Serif', serif;
+				font-weight: 700;
+				font-style: italic;
+				font-size: ${lineHeight};
+				line-height: ${lineHeight};
+			}
+		}
+		
 		
 		p {
 			font-family: 'IBM Plex Sans';

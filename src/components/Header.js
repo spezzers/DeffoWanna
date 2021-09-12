@@ -64,9 +64,14 @@ const HeaderWrap = styled(animated.div)`
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			justify-items: flex-end;
 			.nav-menu {
-				margin-left: 100%;
+				display: flex;
+				justify-content: flex-end;
+				.nav-links {
+					max-width: 33rem;
+					flex-grow: 1;
+					justify-content: space-evenly;
+				}
 				.feather-menu {
 					cursor: pointer;
 					width: 2rem;
@@ -79,8 +84,6 @@ const HeaderWrap = styled(animated.div)`
 					:focus {
 						outline: none;
 					}
-				}
-				.nav-links {
 				}
 			}
 			.site-subheading {
@@ -148,7 +151,7 @@ const HeaderWrap = styled(animated.div)`
 						height: 100vh;
 						width: calc(100vw - calc(${colGap} * 2));
 						box-sizing: border-box;
-						justify-content: space-evenly;
+						/* justify-content: space-evenly; */
 						vertical-align: text-bottom;
 						background-color: ${themeContextColor('purpleBg')};
 						a {
@@ -189,7 +192,7 @@ const HeaderWrap = styled(animated.div)`
 					.nav-links {
 						display: flex;
 						flex-direction: row;
-						justify-content: space-evenly;
+						/* justify-content: space-evenly; */
 						margin: 0;
 						padding: 0;
 						user-select: none;
@@ -197,7 +200,7 @@ const HeaderWrap = styled(animated.div)`
 							font-weight: 400;
 							color: inherit;
 							text-decoration: none;
-							margin: 0 auto;
+							/* margin: 0 auto; */
 							box-sizing: content-box;
 						}
 						a.contact {

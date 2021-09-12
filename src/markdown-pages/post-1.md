@@ -5,3 +5,5 @@ title: My first blog post
 ---
 
 Hello world. It does feel good to be alive!
+
+> let's quote something here, yeah? - wisdom

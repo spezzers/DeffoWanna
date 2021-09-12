@@ -13,7 +13,7 @@ module.exports = {
 		{ 
 			resolve: `gatsby-plugin-sharp`,
 			options: {
-				defaultQuality: 80
+				defaultQuality: 65
 			}
 		},
 		{
@@ -24,7 +24,7 @@ module.exports = {
 						resolve: `gatsby-remark-images`,
 						options: {
 							maxWidth: 720,
-							quality: 75
+							quality: 65
 						}
 					},
 					{

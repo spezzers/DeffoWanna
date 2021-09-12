@@ -3,13 +3,21 @@ import { themeContextColor } from './themes'
 import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
+	html {
+		font-size: ${fontSize};
+	}
 	body {
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
-		font-size: ${fontSize};
 		max-width: 1900px;
+		
+		.footnotes {
+			font-weight: 200;
+			font-size: 1rem;
+			color: ${themeContextColor('textStrong')}
+		}
 		
 		blockquote {
 			margin: ${lineHeight} 0;
@@ -22,12 +30,42 @@ const GlobalStyle = createGlobalStyle`
 				font-family: 'IBM Plex Serif', serif;
 				font-weight: 700;
 				font-style: italic;
-				font-size: ${lineHeight};
+				font-size: calc(${lineHeight} * 0.925);
 				line-height: ${lineHeight};
+				em, strong {
+					color: ${themeContextColor('text')};
+					/* font-size: ${lineHeight}; */
+				}
+				em {
+					text-decoration: underline solid ${themeContextColor('purpleText')};
+				}
+				strong {
+					text-decoration: underline double ${themeContextColor('purpleText')};
+				}
+				
 			}
 		}
-		
-		
+
+		a, a.footnote-backref {
+			color: ${themeContextColor('tealText')};
+			font-weight: 700;
+			box-sizing: content-box;
+			position: relative;
+			text-decoration: none;
+			:focus, :hover {
+				color: ${themeContextColor('yellowText')};
+				text-decoration: underline solid;
+				text-shadow: -1px 1px 8px ${themeContextColor('yelloBg')}cc;
+				outline: none;
+			}
+		}
+		sup a, a.footnote-backref {
+			padding: .5rem;
+			margin: -.5rem;
+			:hover {
+				text-decoration: none;
+			}
+		}
 		p {
 			font-family: 'IBM Plex Sans';
 			font-style: normal;
@@ -40,6 +78,11 @@ const GlobalStyle = createGlobalStyle`
 			strong, em {
 				color: ${props => props.theme.textStrong};
 			}
+			mark {
+				background-color: ${themeContextColor('orange')};
+				color: ${themeContextColor('textStrong')}
+			}
+			
 		}
 		h1, h2, h3, h4, h5, h6 {
 			font-family: 'IBM Plex Serif', serif;

@@ -3,10 +3,16 @@ import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
-import { lineHeight, breakpoint, colGap, pageGrid, smallRow } from '../styles/sizes'
+import {
+	lineHeight,
+	breakpoint,
+	colGap,
+	pageGrid,
+	smallRow
+} from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled(animated.div)`
+const HeaderWrap = styled(animated.header)`
 	position: sticky;
 	z-index: 10;
 	height: ${smallRow};
@@ -71,6 +77,27 @@ const HeaderWrap = styled(animated.div)`
 					max-width: 33rem;
 					flex-grow: 1;
 					justify-content: space-evenly;
+					a {
+						background-color: ${themeContextColor('background')};
+						--timing: .1s ease-in-out;
+						transition: 
+							padding var(--timing),
+							margin var(--timing),
+							border var(--timing),
+							border-bottom var(--timing),
+							border-radius var(--timing),
+							transform var(--timing);
+						:hover,
+						:focus {
+							padding: 0.45em 0.5em 0.3em;
+							margin: -0.45em -0.5em -0.7em;
+							color: ${themeContextColor('purpleTextStrong')};
+							transform: scale(1.15);
+							outline: none;
+							border-radius: 0 0 .95em .95em;
+							border-bottom: 0.2em solid ${themeContextColor('purpleText')};
+						}
+					}
 				}
 				.feather-menu {
 					cursor: pointer;
@@ -155,6 +182,17 @@ const HeaderWrap = styled(animated.div)`
 						vertical-align: text-bottom;
 						background-color: ${themeContextColor('purpleBg')};
 						a {
+							transition: none;
+							background-color: unset;
+							:hover,
+							:focus {
+								transform: unset;
+								border: unset;
+								margin: unset;
+								padding: unset;
+								overflow: visible;
+								border-radius: unset;
+							}
 							color: ${themeContextColor('text')};
 							:visited {
 								color: ${themeContextColor('text')};
@@ -203,9 +241,6 @@ const HeaderWrap = styled(animated.div)`
 							/* margin: 0 auto; */
 							box-sizing: content-box;
 						}
-						a.contact {
-							margin-right: 0;
-						}
 						.current-page {
 							color: ${themeContextColor('purpleTextStrong')};
 							border-bottom: 3px solid ${themeContextColor('purpleText')};
@@ -243,11 +278,11 @@ const Header = props => {
 		const toggleCollapse = () => {
 			if (collapse) {
 				return api.start({
-					top: `-${smallRow}`,
+					top: `-${smallRow}`
 				})
 			} else {
 				return api.start({
-					top: '0rem',
+					top: '0rem'
 				})
 			}
 		}
@@ -310,7 +345,7 @@ const Header = props => {
 						>
 							<path d='M3 12h18M3 6h18M3 18h18' />
 						</svg>
-						<div className='nav-links' role='navigation'>
+						<nav className='nav-links' role='navigation'>
 							<Link
 								tabIndex='0'
 								to='/logo-test/'
@@ -324,15 +359,10 @@ const Header = props => {
 							<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
 								About
 							</Link>
-							<Link
-								className='contact'
-								tabIndex='0'
-								to='/contact/'
-								activeClassName='current-page'
-							>
+							<Link tabIndex='0' to='/contact/' activeClassName='current-page'>
 								Contact
 							</Link>
-						</div>
+						</nav>
 					</div>
 					<div className='site-subheading' role='complementary' />
 				</div>

@@ -4,6 +4,7 @@ import { useSpring, animated, config } from 'react-spring'
 
 const NonNavigatingButton = styled.div`
 	cursor: pointer;
+	outline: none;
 `
 
 const ThemeToggleButton = props => {
@@ -12,10 +13,12 @@ const ThemeToggleButton = props => {
 
 	const themeIconProps = useMemo(
 		() => ({
-			color: hovering
-				? current?.purpleTextStrong || 'blue'
-				: current?.purpleText || 'purple',
-			rotation: `rotate(${hovering ? 60 : 25})`,
+			color: !hovering
+				? current?.purpleText || 'purple'
+				: current?.name === 'dark'
+				? current?.white || 'white'
+				: current?.orangeText || 'orange',
+			transform: `rotate(${hovering ? 60 : 25}) scale(${hovering ? 1.2 : 1})`,
 			config: config.default
 		}),
 		[hovering, current]
@@ -113,7 +116,7 @@ const ThemeToggleButton = props => {
 				width={26}
 				height={26}
 				fill='none'
-				transform={themeButtonProps.rotation}
+				transform={themeButtonProps.transform}
 			>
 				<animated.circle
 					cx={themeButtonProps.cx0}

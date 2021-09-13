@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
 			p {
 				padding: calc(${lineHeight} / 2 ) 0;
 				font-family: 'IBM Plex Serif', serif;
-				font-weight: 700;
+				font-weight: 600;
 				font-style: italic;
 				font-size: calc(${lineHeight} * 0.925);
 				line-height: ${lineHeight};
@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
 
 		a, a.footnote-backref {
 			color: ${themeContextColor('tealText')};
-			font-weight: 700;
+			font-weight: 600;
 			box-sizing: content-box;
 			position: relative;
 			text-decoration: none;

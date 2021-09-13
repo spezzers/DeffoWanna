@@ -30,6 +30,7 @@ const _Button = styled.button.attrs(props => {
 	margin: calc(${lineHeight} / 2) calc(${colGap} / 2);
 	font-size: 1em;
 	font-weight: 600;
+	font-family: IBM Plex Sans, sans-serif;
 	color: var(--bg);
 	border-radius: .5em;
 	transform: translateY(-.125em);

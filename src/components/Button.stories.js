@@ -17,3 +17,11 @@ const Template = (args, {argTypes}) => (
 )
 
 export const Primary = Template.bind({})
+Primary.args = {
+	primary: true,
+	children: 'I like big buttons...'
+}
+export const Secondary = Template.bind({})
+Secondary.args = {
+	children: '...I cannot lie.'
+}

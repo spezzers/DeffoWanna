@@ -282,7 +282,7 @@ const Header = props => {
 				})
 			} else {
 				return api.start({
-					top: '0rem'
+					top: '0px'
 				})
 			}
 		}
@@ -351,16 +351,16 @@ const Header = props => {
 								to='/logo-test/'
 								activeClassName='current-page'
 							>
-								Portfolio
+								portfolio
 							</Link>
 							<Link tabIndex='0' to='/blog/' activeClassName='current-page'>
-								Blog
+								blog
 							</Link>
 							<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
-								About
+								about
 							</Link>
 							<Link tabIndex='0' to='/contact/' activeClassName='current-page'>
-								Contact
+								contact
 							</Link>
 						</nav>
 					</div>

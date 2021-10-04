@@ -76,26 +76,31 @@ const HeaderWrap = styled(animated.header)`
 				.nav-links {
 					max-width: 33rem;
 					flex-grow: 1;
-					justify-content: space-evenly;
+					justify-content: flex-end;
+
 					a {
 						background-color: ${themeContextColor('background')};
-						--timing: .1s ease-in-out;
-						transition: 
-							padding var(--timing),
-							margin var(--timing),
-							border var(--timing),
-							border-bottom var(--timing),
-							border-radius var(--timing),
-							transform var(--timing);
+						--timing: 0.1s ease-in-out;
+						margin-right: 2em;
+						transition: padding var(--timing), margin var(--timing),
+							border var(--timing), border-bottom var(--timing),
+							border-radius var(--timing), transform var(--timing);
 						:hover,
 						:focus {
 							padding: 0.45em 0.5em 0.3em;
-							margin: -0.45em -0.5em -0.7em;
+							margin: -0.45em 1.5em -0.7em -0.5em;
 							color: ${themeContextColor('purpleTextStrong')};
 							transform: scale(1.15);
 							outline: none;
-							border-radius: 0 0 .95em .95em;
+							border-radius: 0 0 0.95em 0.95em;
 							border-bottom: 0.2em solid ${themeContextColor('purpleText')};
+						}
+					}
+					a:last-child {
+						margin-right: 0;
+						:hover,
+						:focus {
+							margin-right: -0.5em;
 						}
 					}
 				}
@@ -114,7 +119,7 @@ const HeaderWrap = styled(animated.header)`
 				}
 			}
 			.site-subheading {
-				visibility: hidden;
+				display: none;
 				width: 100%;
 				font-weight: 200;
 				color: ${themeContextColor('purpleTextStrong')};
@@ -126,8 +131,9 @@ const HeaderWrap = styled(animated.header)`
 			display: flex;
 			align-items: center;
 			order: 3;
+			margin-left: calc(${colGap} / 2);
 		}
-		@media screen and (min-width: 21rem) {
+		@media screen and (min-width: 21.5rem) {
 			.collapsible {
 				visibility: visible;
 				margin: 0;
@@ -139,22 +145,26 @@ const HeaderWrap = styled(animated.header)`
 					visibility: visible;
 				}
 				.site-subheading {
+					display: block;
 					order: 1;
 					visibility: visible;
 					border: none;
 					margin: 0 auto 0 0;
 					line-height: 1.2em;
+					padding: 0 1em;
 					:before {
 						content: 'Design & Web Development';
 					}
 				}
 			}
 		}
-		@media screen and (max-width: 37.999rem) {
+		@media screen and (max-width: 43.999rem) {
 			.collapsible {
 				flex-grow: 1;
 				flex-direction: row;
-				justify-content: center;
+				justify-content: flex-end;
+				margin-right: 0;
+
 				.nav-menu {
 					:focus > .nav-links,
 					:focus-within > .nav-links {
@@ -162,9 +172,7 @@ const HeaderWrap = styled(animated.header)`
 					}
 					.feather-menu {
 						display: block;
-						margin-right: calc(${colGap} / 2);
 						position: relative;
-						top: -0.2rem;
 					}
 					.nav-links {
 						visibility: hidden;
@@ -203,7 +211,6 @@ const HeaderWrap = styled(animated.header)`
 				.site-subheading {
 					border: none;
 					line-height: ${lineHeight};
-
 					:before {
 						${breakpoint.tablet} {
 							content: 'Design & Web Development';
@@ -214,9 +221,8 @@ const HeaderWrap = styled(animated.header)`
 			}
 		}
 
-		@media screen and (min-width: 38rem) {
+		@media screen and (min-width: 44rem) {
 			.collapsible {
-				margin: 0 ${colGap} 0 0;
 				flex-grow: 1;
 				display: flex;
 				flex-direction: column;
@@ -230,7 +236,6 @@ const HeaderWrap = styled(animated.header)`
 					.nav-links {
 						display: flex;
 						flex-direction: row;
-						/* justify-content: space-evenly; */
 						margin: 0;
 						padding: 0;
 						user-select: none;
@@ -238,7 +243,6 @@ const HeaderWrap = styled(animated.header)`
 							font-weight: 400;
 							color: inherit;
 							text-decoration: none;
-							/* margin: 0 auto; */
 							box-sizing: content-box;
 						}
 						.current-page {
@@ -253,6 +257,7 @@ const HeaderWrap = styled(animated.header)`
 					order: 2;
 					border-top: 1px solid ${themeContextColor('purpleText')};
 					line-height: ${lineHeight};
+					padding: 0;
 					:before {
 						${breakpoint.desktop} {
 							content: 'Graphic Design & Web Development';

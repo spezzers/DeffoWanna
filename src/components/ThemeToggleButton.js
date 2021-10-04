@@ -99,6 +99,7 @@ const ThemeToggleButton = props => {
 	return (
 		<NonNavigatingButton
 			{...props}
+			style={{height: '26px', width: '26px'}}
 			tabIndex='0'
 			aria-label='toggle dark mode'
 			id='theme-toggle-button'

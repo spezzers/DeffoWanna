@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
 		max-width: 1900px;
+		min-width: 246px;
 		
 		.footnotes {
 			font-weight: 200;

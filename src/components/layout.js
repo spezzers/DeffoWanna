@@ -13,13 +13,14 @@ export const Section = styled.section`
 	width: 100%;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
-	padding: ${smallRow} 0 ${rowGap};
+	padding-top: ${smallRow};
 	box-sizing: border-box;
 	scroll-snap-align: start;
 	scroll-snap-align: end;
 	scroll-padding: ${rowGap};
 	:first-child {
 		/* min-height: calc(100vh - ${smallRow}); */
+		scroll-padding-top: -${smallRow};
 	}
 	`
 

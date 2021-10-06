@@ -13,7 +13,7 @@ import {
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled(animated.header)`
-	position: ${props => props.fixHeader ? 'fixed' : 'sticky'};
+	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
 	background-color: ${props => props.color || themeContextColor('background')};
@@ -26,8 +26,9 @@ const HeaderWrap = styled(animated.header)`
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		grid-template-areas:
-			'logo logo header';
+		left: calc(${colGap} / 2);
+		right: calc(${colGap} / 2);
+		grid-template-areas: 'logo logo header';
 		#logo {
 			margin-left: calc(-0.5 * ${colGap});
 		}
@@ -275,7 +276,7 @@ const Header = props => {
 	const logoSize = 4
 
 	const [style, api] = useSpring(() => ({
-		top: props.fixHeader ? '0' : `-${smallRow}`
+		transform: 'translateY(0px)'
 	}))
 
 	useLayoutEffect(() => {
@@ -283,40 +284,37 @@ const Header = props => {
 		const toggleCollapse = () => {
 			if (collapse) {
 				return api.start({
-					top: `-${smallRow}`
+					transform: `translateY(-${smallRow})`
 				})
 			} else {
 				return api.start({
-					top: '0px'
+					transform: 'translateY(0px)'
 				})
 			}
 		}
 		if (!props.fixHeader) {
 			if (typeof window !== 'undefined') {
 				let previousScrollPos = window.scrollY
+				console.log(previousScrollPos)
 				window.addEventListener(
 					'scroll',
 					() => {
 						const newScrollPos = window.scrollY
-						const threshold = headerRef?.current?.clientHeight || 20
+						const threshold = headerRef?.current?.clientHeight || 60
 						if (newScrollPos >= 0) {
-							if (newScrollPos === 0 && !collapse) {
-								collapse = true
+							if (newScrollPos === 0 && collapse) {
+								collapse = false
 								return toggleCollapse()
 							}
 							if (newScrollPos > previousScrollPos + threshold) {
-								if (!collapse) {
-									collapse = true
-									return toggleCollapse()
-								}
+								collapse = true
 								previousScrollPos = newScrollPos
+								return toggleCollapse()
 							}
 							if (newScrollPos < previousScrollPos - threshold) {
-								if (collapse) {
-									collapse = false
-									return toggleCollapse()
-								}
+								collapse = false
 								previousScrollPos = newScrollPos
+								return toggleCollapse()
 							}
 						}
 					},

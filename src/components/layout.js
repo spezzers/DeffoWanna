@@ -2,22 +2,37 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { pageGrid, breakpoint, colGap, rowGap } from '../styles/sizes'
+import { pageGrid, breakpoint, colGap, rowGap, smallRow } from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
 
-const Grid = styled.div`
+export const Section = styled.section`
+	background-color: ${props => props.backgroundColor};
+	grid-column: 1 / -1;
+	width: 100%;
+	min-height: 100vh;
+	height: ${props => props.height || 'auto'};
+	padding: ${smallRow} 0 ${rowGap};
+	box-sizing: border-box;
+	scroll-snap-align: start;
+	scroll-snap-align: end;
+	scroll-padding: ${rowGap};
+	:first-child {
+		min-height: calc(100vh - ${smallRow});
+	}
+	`
+
+export const Grid = styled.div`
 	--header-row: calc(${rowGap} * 2.75);
-	padding-top: ${rowGap};
 	display: grid;
 	justify-content: center;
 	width: 100%;
-	min-height: 100vh;
+	height: 100%;
 	box-sizing: border-box;
 	column-gap: ${colGap};
-	row-gap: ${rowGap};
 	grid-auto-rows: auto;
+	position: relative;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
@@ -75,6 +90,7 @@ const Minimal = styled.div`
 
 const Layout = props => {
 	const theme = useTheme()
+	console.log(props)
 	if (!theme.current) {
 		return null
 	}
@@ -91,7 +107,7 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header location={props.location}
+			<Header location={props.location} fixHeader={props.fixHeader}
 				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
 			/>
 			<Grid>{props.children}</Grid>

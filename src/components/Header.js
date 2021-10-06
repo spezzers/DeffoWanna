@@ -13,7 +13,7 @@ import {
 import { themeContextColor } from '../styles/themes'
 
 const HeaderWrap = styled(animated.header)`
-	position: sticky;
+	position: ${props => props.fixHeader ? 'fixed' : 'sticky'};
 	z-index: 10;
 	height: ${smallRow};
 	background-color: ${props => props.color || themeContextColor('background')};
@@ -275,7 +275,7 @@ const Header = props => {
 	const logoSize = 4
 
 	const [style, api] = useSpring(() => ({
-		top: `-${smallRow}`
+		top: props.fixHeader ? '0' : `-${smallRow}`
 	}))
 
 	useLayoutEffect(() => {
@@ -291,41 +291,42 @@ const Header = props => {
 				})
 			}
 		}
-
-		if (typeof window !== 'undefined') {
-			let previousScrollPos = window.scrollY
-			window.addEventListener(
-				'scroll',
-				() => {
-					const newScrollPos = window.scrollY
-					const threshold = headerRef?.current?.clientHeight || 20
-					if (newScrollPos >= 0) {
-						if (newScrollPos === 0 && !collapse) {
-							collapse = true
-							return toggleCollapse()
-						}
-						if (newScrollPos > previousScrollPos + threshold) {
-							if (!collapse) {
+		if (!props.fixHeader) {
+			if (typeof window !== 'undefined') {
+				let previousScrollPos = window.scrollY
+				window.addEventListener(
+					'scroll',
+					() => {
+						const newScrollPos = window.scrollY
+						const threshold = headerRef?.current?.clientHeight || 20
+						if (newScrollPos >= 0) {
+							if (newScrollPos === 0 && !collapse) {
 								collapse = true
 								return toggleCollapse()
 							}
-							previousScrollPos = newScrollPos
-						}
-						if (newScrollPos < previousScrollPos - threshold) {
-							if (collapse) {
-								collapse = false
-								return toggleCollapse()
+							if (newScrollPos > previousScrollPos + threshold) {
+								if (!collapse) {
+									collapse = true
+									return toggleCollapse()
+								}
+								previousScrollPos = newScrollPos
 							}
-							previousScrollPos = newScrollPos
+							if (newScrollPos < previousScrollPos - threshold) {
+								if (collapse) {
+									collapse = false
+									return toggleCollapse()
+								}
+								previousScrollPos = newScrollPos
+							}
 						}
+					},
+					{
+						passive: true
 					}
-				},
-				{
-					passive: true
-				}
-			)
+				)
+			}
 		}
-	}, [headerRef, api])
+	}, [headerRef, api, props.fixHeader])
 
 	return (
 		<HeaderWrap ref={headerRef} style={style}>

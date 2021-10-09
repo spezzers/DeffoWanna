@@ -5,12 +5,9 @@ import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 const GlobalStyle = createGlobalStyle`
 	html {
 		font-size: ${fontSize};
-		scroll-snap-type: y proximity;
-		scroll-behavior: smooth;
 	}
 	body {
-		scroll-snap-type: y proximity;
-		scroll-behavior: smooth;
+		overscroll-behavior-y: none;
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
 		font-family: 'IBM Plex Sans', sans-serif;

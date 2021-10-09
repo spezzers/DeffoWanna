@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
@@ -274,47 +274,44 @@ const Header = props => {
 	const headerRef = useRef(null)
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
+	const fixHeader = props.fixHeader || false
 
 	const [style, api] = useSpring(() => ({
 		transform: 'translateY(0px)'
 	}))
 
-	useLayoutEffect(() => {
-		let collapse = true
-		const toggleCollapse = () => {
-			if (collapse) {
-				return api.start({
-					transform: `translateY(-${smallRow})`
-				})
-			} else {
-				return api.start({
-					transform: 'translateY(0px)'
-				})
-			}
+	const toggleCollapse = useCallback(bool => {
+		if (bool) {
+			return api.start({
+				transform: `translateY(-${smallRow})`
+			})
+		} else {
+			return api.start({
+				transform: 'translateY(0px)'
+			})
 		}
-		if (!props.fixHeader) {
+	}, [api])
+
+	useLayoutEffect(() => {
+		if (!fixHeader) {
 			if (typeof window !== 'undefined') {
 				let previousScrollPos = window.scrollY
-				console.log(previousScrollPos)
 				window.addEventListener(
 					'scroll',
 					() => {
 						const newScrollPos = window.scrollY
 						const threshold = headerRef?.current?.clientHeight || 60
 						if (newScrollPos >= 0) {
-							if (newScrollPos === 0 && collapse) {
-								collapse = false
-								return toggleCollapse()
+							if (newScrollPos === 0) {
+								return toggleCollapse(false)
 							}
 							if (newScrollPos > previousScrollPos + threshold) {
-								collapse = true
 								previousScrollPos = newScrollPos
-								return toggleCollapse()
+								return toggleCollapse(true)
 							}
 							if (newScrollPos < previousScrollPos - threshold) {
-								collapse = false
 								previousScrollPos = newScrollPos
-								return toggleCollapse()
+								return toggleCollapse(false)
 							}
 						}
 					},
@@ -324,10 +321,13 @@ const Header = props => {
 				)
 			}
 		}
-	}, [headerRef, api, props.fixHeader])
-
+	}, [headerRef, api, fixHeader, toggleCollapse])
 	return (
-		<HeaderWrap ref={headerRef} style={style}>
+		<HeaderWrap
+			ref={headerRef}
+			style={style}
+			onFocus={() => toggleCollapse(false)}
+		>
 			<Logo size={logoSize} linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>
@@ -337,7 +337,7 @@ const Header = props => {
 							width={24}
 							height={24}
 							fill='none'
-							preserveAspectRatio='MidXMidY meet'
+							preserveAspectRatio='xMidYMid meet'
 							viewBox='0 0 24 24'
 							stroke='currentColor'
 							strokeWidth={1}
@@ -345,7 +345,6 @@ const Header = props => {
 							strokeLinejoin='round'
 							role='menu'
 							className='feather feather-menu'
-							{...props}
 						>
 							<path d='M3 12h18M3 6h18M3 18h18' />
 						</svg>

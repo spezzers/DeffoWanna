@@ -80,7 +80,7 @@ const HeaderWrap = styled(animated.header)`
 					justify-content: flex-end;
 
 					a {
-						background-color: ${themeContextColor('background')};
+						background-color: ${props => props.color || themeContextColor('background')};
 						--timing: 0.1s ease-in-out;
 						margin-right: 2em;
 						transition: padding var(--timing), margin var(--timing),

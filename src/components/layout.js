@@ -15,11 +15,13 @@ export const Section = styled.section`
 	height: ${props => props.height || 'auto'};
 	box-sizing: border-box;
 	:first-child {
-		padding-top: ${smallRow};
+		min-height: calc(100vh - ${smallRow});
 	}
 `
 
-export const Grid = styled.div`
+const PageGrid = styled.div`
+	background-color: ${props => props.backgroundColor || props.theme.background};
+	padding-top: ${smallRow};
 	display: grid;
 	justify-content: center;
 	width: 100%;
@@ -108,7 +110,7 @@ const Layout = props => {
 				fixHeader={props.fixHeader}
 				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
 			/>
-			<Grid>{props.children}</Grid>
+			<PageGrid>{props.children}</PageGrid>
 			<GlobalStyle />
 		</ThemeProvider>
 	)

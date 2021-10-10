@@ -20,7 +20,6 @@ export const Section = styled.section`
 `
 
 export const Grid = styled.div`
-	--header-row: calc(${rowGap} * 2.75);
 	display: grid;
 	justify-content: center;
 	width: 100%;

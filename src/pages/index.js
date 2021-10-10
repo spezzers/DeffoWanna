@@ -2,6 +2,7 @@ import React from 'react'
 import LandingSplash from '../components/LandingSplash'
 import Layout, { Section, Grid } from '../components/layout'
 import { Helmet } from 'react-helmet'
+import { themeContextColor } from '../styles/themes'
 
 const Index = props => {
 	return (
@@ -12,11 +13,10 @@ const Index = props => {
 			<Section>
 				<LandingSplash />
 			</Section>
-			<Section>
+			<Section height='2000px' backgroundColor={themeContextColor('blueBg')}>
 				<h1>Section 2</h1>
-				<Grid></Grid>
 			</Section>
-			<Section>
+			<Section backgroundColor={themeContextColor('greenBg')}>
 				<h1>Section 3</h1>
 			</Section>
 			<Section>

@@ -187,7 +187,6 @@ const HeaderWrap = styled(animated.header)`
 						height: 100vh;
 						width: calc(100vw - calc(${colGap} * 2));
 						box-sizing: border-box;
-						/* justify-content: space-evenly; */
 						vertical-align: text-bottom;
 						background-color: ${themeContextColor('purpleBg')};
 						a {
@@ -354,16 +353,16 @@ const Header = props => {
 								to='/logo-test/'
 								activeClassName='current-page'
 							>
-								portfolio
+								Portfolio
 							</Link>
 							<Link tabIndex='0' to='/blog/' activeClassName='current-page'>
-								blog
+								Blog
 							</Link>
 							<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
-								about
+								About
 							</Link>
 							<Link tabIndex='0' to='/contact/' activeClassName='current-page'>
-								contact
+								Contact
 							</Link>
 						</nav>
 					</div>

@@ -1,7 +1,8 @@
 import React from 'react'
 import LandingSplash from '../components/LandingSplash'
-import Layout from '../components/layout'
+import Layout, { Section, PageGrid } from '../components/layout'
 import { Helmet } from 'react-helmet'
+import { themeContextColor } from '../styles/themes'
 
 const Index = props => {
 	return (
@@ -9,7 +10,21 @@ const Index = props => {
 			<Helmet>
 				<title>Deffo Wanna - Graphic Designer & Web Developer</title>
 			</Helmet>
-			<LandingSplash />
+			<Section id='section1'>
+				<LandingSplash />
+			</Section>
+			<Section id='section2' height='2000px' backgroundColor={themeContextColor('blueBg')}>
+				<h1>Section 2</h1>
+			</Section>
+			<Section id='section3' backgroundColor={themeContextColor('greenBg')}>
+				<h1>Section 3</h1>
+			</Section>
+			<Section id='section4'>
+				<h1>Section 4</h1>
+			</Section>
+			<Section id='section5'>
+				<h1>Section 5</h1>
+			</Section>
 		</Layout>
 	)
 }

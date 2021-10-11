@@ -17,7 +17,6 @@ const CenterFlex = styled.div`
 	height: 100%;
 	width: 100%;
 	grid-area: main;
-	z-index: -10;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -38,7 +37,7 @@ const CenterFlex = styled.div`
 const LandingSplash = () => {
 	return (
 		<CenterFlex>
-			<CrossHatch invertContent backgroundSize='50px'>
+			<CrossHatch invertContent backgroundSize='50px' animate>
 				<img src={logo} alt='deffo wanna logo animation' height='120px'/>
 			</CrossHatch>
 			<h2>Design & Web Development</h2>

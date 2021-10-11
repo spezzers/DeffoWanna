@@ -3,6 +3,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import '@storybook/addon-console'
 import { useDarkMode } from 'storybook-dark-mode'
 import GlobalStyle from '../src/styles/GlobalStyle'
+import '../src/styles/layout.css'
 
 export const parameters = {
 	backgrounds: {

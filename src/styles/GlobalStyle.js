@@ -3,21 +3,88 @@ import { themeContextColor } from './themes'
 import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
 
 const GlobalStyle = createGlobalStyle`
+	html {
+		font-size: ${fontSize};
+	}
 	body {
+		overscroll-behavior-y: none;
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.text};
-		margin: 0;
-		padding: 0;
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
-		font-size: ${fontSize};
+		max-width: 1900px;
+		min-width: 246px;
 		
+		.footnotes {
+			font-weight: 200;
+			font-size: 1rem;
+			color: ${themeContextColor('textStrong')}
+		}
 		
+		blockquote {
+			margin: ${lineHeight} 0;
+			padding: 0 ${colGap};
+			border-left: 3px solid ${themeContextColor('backgroundSecondary')};
+			border-right: 3px solid ${themeContextColor('backgroundSecondary')};
+			box-sizing: border-box;
+			p {
+				padding: calc(${lineHeight} / 2 ) 0;
+				font-family: 'IBM Plex Serif', serif;
+				font-weight: 600;
+				font-style: italic;
+				font-size: calc(${lineHeight} * 0.925);
+				line-height: ${lineHeight};
+				em, strong {
+					color: ${themeContextColor('text')};
+					/* font-size: ${lineHeight}; */
+				}
+				em {
+					text-decoration: underline solid ${themeContextColor('purpleText')};
+				}
+				strong {
+					text-decoration: underline double ${themeContextColor('purpleText')};
+				}
+				
+			}
+		}
+
+		a, a.footnote-backref {
+			color: ${themeContextColor('tealText')};
+			font-weight: 600;
+			box-sizing: content-box;
+			position: relative;
+			text-decoration: none;
+			:focus, :hover {
+				color: ${themeContextColor('yellowText')};
+				text-decoration: underline solid;
+				text-shadow: -1px 1px 8px ${themeContextColor('yelloBg')}cc;
+				outline: none;
+			}
+		}
+		sup a, a.footnote-backref {
+			padding: .5rem;
+			margin: -.5rem;
+			:hover {
+				text-decoration: none;
+			}
+		}
 		p {
 			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 400;
 			letter-spacing: 0.012em;
+			margin: ${lineHeight} 0;
+			span.gatsby-resp-image-wrapper {
+				margin: ${lineHeight} 0;
+			}
+			strong, em {
+				color: ${props => props.theme.textStrong};
+			}
+			mark {
+				background-color: ${themeContextColor('orange')};
+				color: ${themeContextColor('textStrong')}
+			}
+			
 		}
 		h1, h2, h3, h4, h5, h6 {
 			font-family: 'IBM Plex Serif', serif;
@@ -69,7 +136,9 @@ const GlobalStyle = createGlobalStyle`
 	}
 	img {
 		filter: ${props =>
-			props.theme.name === 'dark' ? 'contrast(0.9) brightness(0.77) saturate(0.95) ' : 'contrast(1) brightness(1) saturate(1)'}
+			props.theme.name === 'dark'
+				? 'contrast(0.95) brightness(0.8) saturate(0.96) '
+				: 'contrast(1) brightness(1) saturate(1)'}
 	}
 
 	code[class*="language-"],

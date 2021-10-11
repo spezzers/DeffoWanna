@@ -1,26 +1,34 @@
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
-import { lineHeight, breakpoint, colGap, pageGrid } from '../styles/sizes'
+import {
+	lineHeight,
+	breakpoint,
+	colGap,
+	pageGrid,
+	smallRow
+} from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled(animated.div)`
-	position: sticky;
+const HeaderWrap = styled(animated.header)`
+	position: fixed;
 	z-index: 10;
+	height: ${smallRow};
 	background-color: ${props => props.color || themeContextColor('background')};
 	box-shadow: 0 -6rem 0 6rem ${props => props.color || themeContextColor('background')};
 	#logo {
+		margin-top: -0.175rem;
 		grid-area: logo;
-		${breakpoint.tablet} {
-		}
+		align-self: center;
 	}
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		grid-template-areas:
-			'logo logo header';
+		left: calc(${colGap} / 2);
+		right: calc(${colGap} / 2);
+		grid-template-areas: 'logo logo header';
 		#logo {
 			margin-left: calc(-0.5 * ${colGap});
 		}
@@ -63,9 +71,40 @@ const HeaderWrap = styled(animated.div)`
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			justify-items: flex-end;
 			.nav-menu {
-				margin-left: 100%;
+				display: flex;
+				justify-content: flex-end;
+				.nav-links {
+					max-width: 33rem;
+					flex-grow: 1;
+					justify-content: flex-end;
+
+					a {
+						background-color: ${props => props.color || themeContextColor('background')};
+						--timing: 0.1s ease-in-out;
+						margin-right: 2em;
+						transition: padding var(--timing), margin var(--timing),
+							border var(--timing), border-bottom var(--timing),
+							border-radius var(--timing), transform var(--timing);
+						:hover,
+						:focus {
+							padding: 0.45em 0.5em 0.3em;
+							margin: -0.45em 1.5em -0.7em -0.5em;
+							color: ${themeContextColor('purpleTextStrong')};
+							transform: scale(1.15);
+							outline: none;
+							border-radius: 0 0 0.95em 0.95em;
+							border-bottom: 0.2em solid ${themeContextColor('purpleText')};
+						}
+					}
+					a:last-child {
+						margin-right: 0;
+						:hover,
+						:focus {
+							margin-right: -0.5em;
+						}
+					}
+				}
 				.feather-menu {
 					cursor: pointer;
 					width: 2rem;
@@ -79,11 +118,9 @@ const HeaderWrap = styled(animated.div)`
 						outline: none;
 					}
 				}
-				.nav-links {
-				}
 			}
 			.site-subheading {
-				visibility: hidden;
+				display: none;
 				width: 100%;
 				font-weight: 200;
 				color: ${themeContextColor('purpleTextStrong')};
@@ -95,8 +132,9 @@ const HeaderWrap = styled(animated.div)`
 			display: flex;
 			align-items: center;
 			order: 3;
+			margin-left: calc(${colGap} / 2);
 		}
-		@media screen and (min-width: 21rem) {
+		@media screen and (min-width: 21.5rem) {
 			.collapsible {
 				visibility: visible;
 				margin: 0;
@@ -108,22 +146,26 @@ const HeaderWrap = styled(animated.div)`
 					visibility: visible;
 				}
 				.site-subheading {
+					display: block;
 					order: 1;
 					visibility: visible;
 					border: none;
 					margin: 0 auto 0 0;
 					line-height: 1.2em;
+					padding: 0 1em;
 					:before {
 						content: 'Design & Web Development';
 					}
 				}
 			}
 		}
-		@media screen and (max-width: 37.999rem) {
+		@media screen and (max-width: 43.999rem) {
 			.collapsible {
 				flex-grow: 1;
 				flex-direction: row;
-				justify-content: center;
+				justify-content: flex-end;
+				margin-right: 0;
+
 				.nav-menu {
 					:focus > .nav-links,
 					:focus-within > .nav-links {
@@ -131,9 +173,7 @@ const HeaderWrap = styled(animated.div)`
 					}
 					.feather-menu {
 						display: block;
-						margin-right: calc(${colGap} / 2);
 						position: relative;
-						top: -0.2rem;
 					}
 					.nav-links {
 						visibility: hidden;
@@ -147,10 +187,20 @@ const HeaderWrap = styled(animated.div)`
 						height: 100vh;
 						width: calc(100vw - calc(${colGap} * 2));
 						box-sizing: border-box;
-						justify-content: space-evenly;
 						vertical-align: text-bottom;
 						background-color: ${themeContextColor('purpleBg')};
 						a {
+							transition: none;
+							background-color: unset;
+							:hover,
+							:focus {
+								transform: unset;
+								border: unset;
+								margin: unset;
+								padding: unset;
+								overflow: visible;
+								border-radius: unset;
+							}
 							color: ${themeContextColor('text')};
 							:visited {
 								color: ${themeContextColor('text')};
@@ -160,8 +210,7 @@ const HeaderWrap = styled(animated.div)`
 				}
 				.site-subheading {
 					border: none;
-					line-height: 1.2em;
-
+					line-height: ${lineHeight};
 					:before {
 						${breakpoint.tablet} {
 							content: 'Design & Web Development';
@@ -172,9 +221,8 @@ const HeaderWrap = styled(animated.div)`
 			}
 		}
 
-		@media screen and (min-width: 38rem) {
+		@media screen and (min-width: 44rem) {
 			.collapsible {
-				margin: 0 ${colGap} 0 0;
 				flex-grow: 1;
 				display: flex;
 				flex-direction: column;
@@ -188,7 +236,6 @@ const HeaderWrap = styled(animated.div)`
 					.nav-links {
 						display: flex;
 						flex-direction: row;
-						justify-content: space-evenly;
 						margin: 0;
 						padding: 0;
 						user-select: none;
@@ -196,11 +243,7 @@ const HeaderWrap = styled(animated.div)`
 							font-weight: 400;
 							color: inherit;
 							text-decoration: none;
-							margin: 0 auto;
 							box-sizing: content-box;
-						}
-						a.contact {
-							margin-right: 0;
 						}
 						.current-page {
 							color: ${themeContextColor('purpleTextStrong')};
@@ -214,6 +257,7 @@ const HeaderWrap = styled(animated.div)`
 					order: 2;
 					border-top: 1px solid ${themeContextColor('purpleText')};
 					line-height: ${lineHeight};
+					padding: 0;
 					:before {
 						${breakpoint.desktop} {
 							content: 'Graphic Design & Web Development';
@@ -229,62 +273,60 @@ const Header = props => {
 	const headerRef = useRef(null)
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
+	const fixHeader = props.fixHeader || false
 
 	const [style, api] = useSpring(() => ({
-		top: '-4rem'
+		transform: 'translateY(0px)'
 	}))
 
+	const toggleCollapse = useCallback(bool => {
+		if (bool) {
+			return api.start({
+				transform: `translateY(-${smallRow})`
+			})
+		} else {
+			return api.start({
+				transform: 'translateY(0px)'
+			})
+		}
+	}, [api])
+
 	useLayoutEffect(() => {
-		let collapse = true
-		const toggleCollapse = () => {
-			if (collapse) {
-				return api.start({
-					top: '-4rem',
-				})
-			} else {
-				return api.start({
-					top: '0rem',
-				})
+		if (!fixHeader) {
+			if (typeof window !== 'undefined') {
+				let previousScrollPos = window.scrollY
+				window.addEventListener(
+					'scroll',
+					() => {
+						const newScrollPos = window.scrollY
+						const threshold = headerRef?.current?.clientHeight || 60
+						if (newScrollPos >= 0) {
+							if (newScrollPos === 0) {
+								return toggleCollapse(false)
+							}
+							if (newScrollPos > previousScrollPos + threshold) {
+								previousScrollPos = newScrollPos
+								return toggleCollapse(true)
+							}
+							if (newScrollPos < previousScrollPos - threshold) {
+								previousScrollPos = newScrollPos
+								return toggleCollapse(false)
+							}
+						}
+					},
+					{
+						passive: true
+					}
+				)
 			}
 		}
-
-		if (typeof window !== 'undefined') {
-			let previousScrollPos = window.scrollY
-			window.addEventListener(
-				'scroll',
-				() => {
-					const newScrollPos = window.scrollY
-					const threshold = headerRef?.current?.clientHeight || 20
-					if (newScrollPos >= 0) {
-						if (newScrollPos === 0 && !collapse) {
-							collapse = true
-							return toggleCollapse()
-						}
-						if (newScrollPos > previousScrollPos + threshold) {
-							if (!collapse) {
-								collapse = true
-								return toggleCollapse()
-							}
-							previousScrollPos = newScrollPos
-						}
-						if (newScrollPos < previousScrollPos - threshold) {
-							if (collapse) {
-								collapse = false
-								return toggleCollapse()
-							}
-							previousScrollPos = newScrollPos
-						}
-					}
-				},
-				{
-					passive: true
-				}
-			)
-		}
-	}, [headerRef, api])
-
+	}, [headerRef, api, fixHeader, toggleCollapse])
 	return (
-		<HeaderWrap ref={headerRef} style={style}>
+		<HeaderWrap
+			ref={headerRef}
+			style={style}
+			onFocus={() => toggleCollapse(false)}
+		>
 			<Logo size={logoSize} linkto={linkto} title='home' />
 			<div className='navigation'>
 				<div className='collapsible'>
@@ -294,7 +336,7 @@ const Header = props => {
 							width={24}
 							height={24}
 							fill='none'
-							preserveAspectRatio='MidXMidY meet'
+							preserveAspectRatio='xMidYMid meet'
 							viewBox='0 0 24 24'
 							stroke='currentColor'
 							strokeWidth={1}
@@ -302,11 +344,10 @@ const Header = props => {
 							strokeLinejoin='round'
 							role='menu'
 							className='feather feather-menu'
-							{...props}
 						>
 							<path d='M3 12h18M3 6h18M3 18h18' />
 						</svg>
-						<div className='nav-links' role='navigation'>
+						<nav className='nav-links' role='navigation'>
 							<Link
 								tabIndex='0'
 								to='/logo-test/'
@@ -320,15 +361,10 @@ const Header = props => {
 							<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
 								About
 							</Link>
-							<Link
-								className='contact'
-								tabIndex='0'
-								to='/contact/'
-								activeClassName='current-page'
-							>
+							<Link tabIndex='0' to='/contact/' activeClassName='current-page'>
 								Contact
 							</Link>
-						</div>
+						</nav>
 					</div>
 					<div className='site-subheading' role='complementary' />
 				</div>

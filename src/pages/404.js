@@ -3,6 +3,8 @@ import Custom404Svg from '../components/Custom404Svg'
 import Layout from '../components/layout'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import Button from '../components/Button'
+import { navigate } from 'gatsby-link'
 
 const Main = styled.div`
 	display: flex;
@@ -22,6 +24,7 @@ const Main = styled.div`
 
 // markup
 const NotFoundPage = () => {
+	const goHome = () => navigate('/')
 	return (
 		<Layout minimal>
 			<Helmet>
@@ -29,7 +32,9 @@ const NotFoundPage = () => {
 			</Helmet>
 			<Main>
 				<Custom404Svg />
-				<div className='message'>Oops! Can't find that page...</div>
+				<div className='message'>Oops! Can't find that page... (sorry!)</div>
+				<Button onClick={goHome} color='teal'>Take me home</Button>
+				<Button variant='secondary' color='teal' onClick={goHome}>start over</Button>
 			</Main>
 		</Layout>
 	)

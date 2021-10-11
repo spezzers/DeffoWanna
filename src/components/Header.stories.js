@@ -8,6 +8,22 @@ export default {
 	component: Header,
 	parameters: {
 		layout: 'fullscreen'
+	},
+	argTypes: {
+		fixHeader: {
+			name: 'fixHeader',
+			description: 'Prevent the header from collapsing on page page scroll',
+			control: {type: 'boolean'},
+			table: {
+				type: {
+					summary: 'boolean',
+					detail: 'pass this prop down from the Layout component'
+				},
+				defaultValue: {
+					summary: false
+				}
+			}
+		}
 	}
 }
 

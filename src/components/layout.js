@@ -2,27 +2,39 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { pageGrid, breakpoint, colGap, rowGap } from '../styles/sizes'
+import { pageGrid, breakpoint, colGap, rowGap, smallRow } from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
 
-const Grid = styled.div`
-	--header-row: calc(${rowGap} * 2.75);
-	padding-top: ${rowGap};
+export const Section = styled.section`
+	background-color: ${props => props.backgroundColor};
+	grid-column: 1 / -1;
+	width: 100%;
+	min-height: 100vh;
+	height: ${props => props.height || 'auto'};
+	box-sizing: border-box;
+	:first-child {
+		min-height: calc(100vh - ${smallRow});
+	}
+`
+
+const PageGrid = styled.div`
+	background-color: ${props => props.backgroundColor || props.theme.background};
+	padding-top: ${smallRow};
 	display: grid;
 	justify-content: center;
 	width: 100%;
-	min-height: 100vh;
-	box-sizing: border-box;
+	height: 100%;
 	column-gap: ${colGap};
-	row-gap: ${rowGap};
 	grid-auto-rows: auto;
+	position: absolute;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		grid-template-areas:
-			'main main main';
+		margin-left: calc(${colGap} / 2);
+		margin-right: calc(${colGap} / 2);
+		grid-template-areas: 'main main main';
 	}
 
 	${breakpoint.tablet} {
@@ -75,6 +87,7 @@ const Minimal = styled.div`
 
 const Layout = props => {
 	const theme = useTheme()
+	console.log(props)
 	if (!theme.current) {
 		return null
 	}
@@ -91,10 +104,12 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
-			<Header location={props.location}
+			<Header
+				location={props.location}
+				fixHeader={props.fixHeader}
 				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
 			/>
-			<Grid>{props.children}</Grid>
+			<PageGrid>{props.children}</PageGrid>
 			<GlobalStyle />
 		</ThemeProvider>
 	)

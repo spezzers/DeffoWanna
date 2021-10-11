@@ -29,7 +29,6 @@ const PageGrid = styled.div`
 	column-gap: ${colGap};
 	grid-auto-rows: auto;
 	position: absolute;
-	scroll-snap-type: y proximity;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}

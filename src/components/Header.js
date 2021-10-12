@@ -291,7 +291,6 @@ const Header = props => {
 	const [style, api] = useSpring(() => ({
 		transform: 'translateY(0px)',
 		bgColor: theme['background'],
-		boxShadow: '0 -6rem 0 6rem black'
 	}))
 
 	const toggleCollapse = useCallback(
@@ -317,7 +316,7 @@ const Header = props => {
 
 				const sections = document.getElementsByClassName('full-width-section')
 
-				let section = 0
+				let section
 
 				const directionalCollapse = newScrollPos => {
 					const threshold = headerRef?.current?.clientHeight || 60
@@ -339,8 +338,8 @@ const Header = props => {
 					if (sections.length > 0) {
 						for (const [key, value] of Object.entries(sections)) {
 							if (
-								value.offsetTop - smallRowPx <= newScrollPos &&
-								value.offsetTop + value.offsetHeight > newScrollPos
+								newScrollPos >= value.offsetTop - smallRowPx &&
+								newScrollPos < value.offsetTop + value.offsetHeight + smallRowPx
 							) {
 								const n = parseInt(key)
 								if (n !== section) {

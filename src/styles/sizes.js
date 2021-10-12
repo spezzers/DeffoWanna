@@ -8,7 +8,7 @@ const colGapPx = ((fontSizePx * lineHeightRatio) / 5) * 8
 const colPx = colGapPx * 4
 const rowPx = lineHeightPx * 5
 const smallColPx = colGapPx * 2
-const smallRowPx = lineHeightPx * 3
+export const smallRowPx = lineHeightPx * 3
 
 // exported style strings
 export const fontSize = `${fontSizePx}px`

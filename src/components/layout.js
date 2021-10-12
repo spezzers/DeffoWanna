@@ -8,10 +8,19 @@ import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
 import { themeContextColor } from '../styles/themes'
 
-export const Section = styled.section.attrs(props => ({
-	className: 'full-width-section'
-}))`
-	background-color: ${props => props.backgroundColor || themeContextColor('background')};
+const FullWidthSection = props => {
+	return (
+		<section
+			className={`full-width-section ${props.className}`}
+			data-bg-color={props.bgColor ? props.bgColor : 'background'}
+		>
+			{props.children}
+		</section>
+	)
+}
+
+export const Section = styled(FullWidthSection)`
+	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
 	width: 100vw;
 	min-height: 100vh;
@@ -21,7 +30,7 @@ export const Section = styled.section.attrs(props => ({
 		min-height: calc(100vh - ${smallRow});
 	}
 	${breakpoint.mobile} {
-		box-sizing: content-box;
+		box-sizing: border-box;
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
 		padding-left: calc(${colGap} / 2);
@@ -64,7 +73,7 @@ const Overlay = styled.div`
 	height: 100vh;
 	position: fixed;
 	background-color: blue;
-	opacity: .5;
+	opacity: 0.5;
 	inset: 0;
 	z-index: 250;
 `
@@ -131,7 +140,6 @@ const Layout = props => {
 			/>
 			<PageGrid>{props.children}</PageGrid>
 			{/* <Overlay /> */}
-
 		</ThemeProvider>
 	)
 }

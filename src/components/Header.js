@@ -1,26 +1,30 @@
-import React, { useLayoutEffect, useRef, useCallback } from 'react'
-import styled from 'styled-components'
-import { animated, useSpring } from 'react-spring'
+import React, { useLayoutEffect, useRef, useCallback, useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
+import { animated, useSpring, config } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
+import { themeContextColor } from '../styles/themes'
 import {
 	lineHeight,
 	breakpoint,
 	colGap,
 	pageGrid,
-	smallRow
+	smallRow,
+	smallRowPx
 } from '../styles/sizes'
-import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled(animated.header).attrs(props => ({
-	initialBgColor: themeContextColor('background'),
-	...props
-}))`
+const HeaderWrap = styled(animated.header).attrs(props => {
+	return {
+		...props,
+		style: {
+			backgroundColor: props.style.bgColor
+		}
+	}
+})`
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
-	background-color: ${props => props.initialBgColor};
-	
+
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
@@ -51,7 +55,9 @@ const HeaderWrap = styled(animated.header).attrs(props => ({
 	}
 
 	.navigation {
+		background-color: inherit;
 		font-size: 0.95rem;
+		height: ${smallRow};
 		display: flex;
 		box-sizing: border-box;
 		grid-area: header;
@@ -59,7 +65,6 @@ const HeaderWrap = styled(animated.header).attrs(props => ({
 		align-items: stretch;
 		justify-content: flex-end;
 		color: ${themeContextColor('purpleText')};
-		background-color: inherit;
 		${breakpoint.mobile} {
 			margin: 0 0 0 -${colGap};
 		}
@@ -71,11 +76,11 @@ const HeaderWrap = styled(animated.header).attrs(props => ({
 		}
 
 		.collapsible {
+			background-color: inherit;
 			order: 1;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			background-color: inherit;
 			.nav-menu {
 				background-color: inherit;
 				display: flex;
@@ -277,6 +282,7 @@ const HeaderWrap = styled(animated.header).attrs(props => ({
 `
 
 const Header = props => {
+	const theme = useContext(ThemeContext)
 	const headerRef = useRef(null)
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
@@ -284,9 +290,8 @@ const Header = props => {
 
 	const [style, api] = useSpring(() => ({
 		transform: 'translateY(0px)',
-		backgroundColor: themeContextColor('background'),
+		bgColor: theme['background'],
 		boxShadow: '0 -6rem 0 6rem black'
-
 	}))
 
 	const toggleCollapse = useCallback(
@@ -308,6 +313,7 @@ const Header = props => {
 		if (!fixHeader) {
 			if (typeof window !== 'undefined') {
 				let previousScrollPos = window.scrollY
+				const newScrollPos = () => window.scrollY
 
 				const sections = document.getElementsByClassName('full-width-section')
 
@@ -327,29 +333,37 @@ const Header = props => {
 						}
 					}
 				}
-				const changeBackgroundColor = newScrollPos => {
-					for (const [key, value] of Object.entries(sections)) {
-						if (
-							value.offsetTop <= newScrollPos &&
-							value.offsetTop + value.offsetHeight > newScrollPos
-						) {
-							const newBackgroundColor = window
-								.getComputedStyle(value)
-								.getPropertyValue('background-color')
-							api.start({ backgroundColor: newBackgroundColor })
+				const changeBackgroundColor = (newScrollPos, immediate) => {
+					if (sections.length > 0) {
+						for (const [key, value] of Object.entries(sections)) {
+							if (
+								value.offsetTop <= newScrollPos + smallRowPx &&
+								value.offsetTop + value.offsetHeight > newScrollPos
+							) {
+								const newColor = value.dataset.bgColor || 'background'
+
+								api.start({
+									bgColor: theme[newColor],
+									immediate: immediate !== null ? immediate: true
+								})
+							}
 						}
+					} else {
+						api.start({
+							bgColor: theme['background'],
+							immediate: true
+						})
 					}
 				}
+
+				changeBackgroundColor(newScrollPos(), true)
+				console.log(theme)
 
 				window.addEventListener(
 					'scroll',
 					() => {
-						const newScrollPos = window.scrollY
-						directionalCollapse(newScrollPos)
-						if (sections.length > 0) {
-							console.log(sections.length)
-							changeBackgroundColor(newScrollPos)
-						}
+						directionalCollapse(newScrollPos())
+						changeBackgroundColor(newScrollPos(), false)
 					},
 					{
 						passive: true
@@ -357,7 +371,7 @@ const Header = props => {
 				)
 			}
 		}
-	}, [headerRef, api, fixHeader, toggleCollapse])
+	}, [headerRef, api, fixHeader, toggleCollapse, theme])
 	return (
 		<HeaderWrap
 			ref={headerRef}

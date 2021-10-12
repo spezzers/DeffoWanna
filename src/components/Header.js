@@ -12,22 +12,20 @@ import {
 } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled(animated.header)`
+const HeaderWrap = styled(animated.header).attrs(props => ({
+	initialBgColor: themeContextColor('background'),
+	...props
+}))`
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
-	background-color: ${props => props.color || themeContextColor('background')};
-	box-shadow: 0 -6rem 0 6rem ${props => props.color || themeContextColor('background')};
-	#logo {
-		margin-top: -0.175rem;
-		grid-area: logo;
-		align-self: center;
-	}
+	background-color: ${props => props.initialBgColor};
+	
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		left: calc(${colGap} / 2);
-		right: calc(${colGap} / 2);
+		box-sizing: content-box;
+		padding: 0 calc(${colGap} / 2);
 		grid-template-areas: 'logo logo header';
 		#logo {
 			margin-left: calc(-0.5 * ${colGap});
@@ -46,6 +44,11 @@ const HeaderWrap = styled(animated.header)`
 		grid-template-areas:
 			'. . logo logo . header header header header';
 	}
+	#logo {
+		margin-top: -0.175rem;
+		grid-area: logo;
+		align-self: center;
+	}
 
 	.navigation {
 		font-size: 0.95rem;
@@ -56,6 +59,7 @@ const HeaderWrap = styled(animated.header)`
 		align-items: stretch;
 		justify-content: flex-end;
 		color: ${themeContextColor('purpleText')};
+		background-color: inherit;
 		${breakpoint.mobile} {
 			margin: 0 0 0 -${colGap};
 		}
@@ -71,16 +75,19 @@ const HeaderWrap = styled(animated.header)`
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			background-color: inherit;
 			.nav-menu {
+				background-color: inherit;
 				display: flex;
 				justify-content: flex-end;
 				.nav-links {
+					background-color: inherit;
 					max-width: 33rem;
 					flex-grow: 1;
 					justify-content: flex-end;
 
 					a {
-						background-color: ${props => props.color || themeContextColor('background')};
+						background-color: inherit;
 						--timing: 0.1s ease-in-out;
 						margin-right: 2em;
 						transition: padding var(--timing), margin var(--timing),
@@ -276,42 +283,72 @@ const Header = props => {
 	const fixHeader = props.fixHeader || false
 
 	const [style, api] = useSpring(() => ({
-		transform: 'translateY(0px)'
+		transform: 'translateY(0px)',
+		backgroundColor: themeContextColor('background'),
+		boxShadow: '0 -6rem 0 6rem black'
+
 	}))
 
-	const toggleCollapse = useCallback(bool => {
-		if (bool) {
-			return api.start({
-				transform: `translateY(-${smallRow})`
-			})
-		} else {
-			return api.start({
-				transform: 'translateY(0px)'
-			})
-		}
-	}, [api])
+	const toggleCollapse = useCallback(
+		bool => {
+			if (bool) {
+				return api.start({
+					transform: `translateY(-${smallRow})`
+				})
+			} else {
+				return api.start({
+					transform: 'translateY(0px)'
+				})
+			}
+		},
+		[api]
+	)
 
 	useLayoutEffect(() => {
 		if (!fixHeader) {
 			if (typeof window !== 'undefined') {
 				let previousScrollPos = window.scrollY
+
+				const sections = document.getElementsByClassName('full-width-section')
+
+				const directionalCollapse = newScrollPos => {
+					const threshold = headerRef?.current?.clientHeight || 60
+					if (newScrollPos >= 0) {
+						if (newScrollPos === 0) {
+							return toggleCollapse(false)
+						}
+						if (newScrollPos > previousScrollPos + threshold) {
+							previousScrollPos = newScrollPos
+							return toggleCollapse(true)
+						}
+						if (newScrollPos < previousScrollPos - threshold) {
+							previousScrollPos = newScrollPos
+							return toggleCollapse(false)
+						}
+					}
+				}
+				const changeBackgroundColor = newScrollPos => {
+					for (const [key, value] of Object.entries(sections)) {
+						if (
+							value.offsetTop <= newScrollPos &&
+							value.offsetTop + value.offsetHeight > newScrollPos
+						) {
+							const newBackgroundColor = window
+								.getComputedStyle(value)
+								.getPropertyValue('background-color')
+							api.start({ backgroundColor: newBackgroundColor })
+						}
+					}
+				}
+
 				window.addEventListener(
 					'scroll',
 					() => {
 						const newScrollPos = window.scrollY
-						const threshold = headerRef?.current?.clientHeight || 60
-						if (newScrollPos >= 0) {
-							if (newScrollPos === 0) {
-								return toggleCollapse(false)
-							}
-							if (newScrollPos > previousScrollPos + threshold) {
-								previousScrollPos = newScrollPos
-								return toggleCollapse(true)
-							}
-							if (newScrollPos < previousScrollPos - threshold) {
-								previousScrollPos = newScrollPos
-								return toggleCollapse(false)
-							}
+						directionalCollapse(newScrollPos)
+						if (sections.length > 0) {
+							console.log(sections.length)
+							changeBackgroundColor(newScrollPos)
 						}
 					},
 					{

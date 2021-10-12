@@ -1,6 +1,6 @@
 import React from 'react'
 import LandingSplash from '../components/LandingSplash'
-import Layout, { Section, PageGrid } from '../components/layout'
+import Layout, { Section } from '../components/layout'
 import { Helmet } from 'react-helmet'
 import { themeContextColor } from '../styles/themes'
 

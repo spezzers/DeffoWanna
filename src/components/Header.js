@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useCallback, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { animated, useSpring, config } from 'react-spring'
+import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
 import { themeContextColor } from '../styles/themes'
@@ -317,6 +317,8 @@ const Header = props => {
 
 				const sections = document.getElementsByClassName('full-width-section')
 
+				let section = 0
+
 				const directionalCollapse = newScrollPos => {
 					const threshold = headerRef?.current?.clientHeight || 60
 					if (newScrollPos >= 0) {
@@ -337,27 +339,30 @@ const Header = props => {
 					if (sections.length > 0) {
 						for (const [key, value] of Object.entries(sections)) {
 							if (
-								value.offsetTop <= newScrollPos + smallRowPx &&
+								value.offsetTop - smallRowPx <= newScrollPos &&
 								value.offsetTop + value.offsetHeight > newScrollPos
 							) {
-								const newColor = value.dataset.bgColor || 'background'
+								const n = parseInt(key)
+								if (n !== section) {
+									section = n
+									const newColor = value.dataset.bgColor || 'background'
 
-								api.start({
-									bgColor: theme[newColor],
-									immediate: immediate !== null ? immediate: true
-								})
+									return api.start({
+										bgColor: theme[newColor],
+										immediate: immediate !== null ? immediate : true
+									})
+								}
+								return
 							}
 						}
-					} else {
-						api.start({
-							bgColor: theme['background'],
-							immediate: true
-						})
 					}
+					api.start({
+						bgColor: theme['background'],
+						immediate: true
+					})
 				}
 
 				changeBackgroundColor(newScrollPos(), true)
-				console.log(theme)
 
 				window.addEventListener(
 					'scroll',

@@ -68,15 +68,6 @@ const PageGrid = styled.div`
 	}
 `
 
-const Overlay = styled.div`
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
-	background-color: blue;
-	opacity: 0.5;
-	inset: 0;
-	z-index: 250;
-`
 
 const Minimal = styled.div`
 	height: 100vh;

@@ -6,16 +6,35 @@ import { pageGrid, breakpoint, colGap, rowGap, smallRow } from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
+import { themeContextColor } from '../styles/themes'
 
-export const Section = styled.section`
-	background-color: ${props => props.backgroundColor};
+const FullWidthSection = props => {
+	return (
+		<section
+			className={`full-width-section ${props.className}`}
+			data-bg-color={props.bgColor ? props.bgColor : 'background'}
+		>
+			{props.children}
+		</section>
+	)
+}
+
+export const Section = styled(FullWidthSection)`
+	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
-	width: 100%;
+	width: 100vw;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
 	box-sizing: border-box;
 	:first-child {
 		min-height: calc(100vh - ${smallRow});
+	}
+	${breakpoint.mobile} {
+		box-sizing: border-box;
+		margin-left: calc(${colGap} / -2);
+		margin-right: calc(${colGap} / -2);
+		padding-left: calc(${colGap} / 2);
+		padding-right: calc(${colGap} / 2);
 	}
 `
 
@@ -32,8 +51,8 @@ const PageGrid = styled.div`
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		margin-left: calc(${colGap} / 2);
-		margin-right: calc(${colGap} / 2);
+		padding-left: calc(${colGap} / 2);
+		padding-right: calc(${colGap} / 2);
 		grid-template-areas: 'main main main';
 	}
 
@@ -48,6 +67,7 @@ const PageGrid = styled.div`
 			'. . main main main main main . .';
 	}
 `
+
 
 const Minimal = styled.div`
 	height: 100vh;
@@ -87,7 +107,6 @@ const Minimal = styled.div`
 
 const Layout = props => {
 	const theme = useTheme()
-	console.log(props)
 	if (!theme.current) {
 		return null
 	}
@@ -104,13 +123,14 @@ const Layout = props => {
 	}
 	return (
 		<ThemeProvider theme={theme.current}>
+			<GlobalStyle />
 			<Header
 				location={props.location}
 				fixHeader={props.fixHeader}
 				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
 			/>
 			<PageGrid>{props.children}</PageGrid>
-			<GlobalStyle />
+			{/* <Overlay /> */}
 		</ThemeProvider>
 	)
 }

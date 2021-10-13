@@ -36,7 +36,6 @@ const GlobalStyle = createGlobalStyle`
 				line-height: ${lineHeight};
 				em, strong {
 					color: ${themeContextColor('text')};
-					/* font-size: ${lineHeight}; */
 				}
 				em {
 					text-decoration: underline solid ${themeContextColor('purpleText')};

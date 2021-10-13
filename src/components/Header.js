@@ -1,33 +1,35 @@
-import React, { useLayoutEffect, useRef, useCallback } from 'react'
-import styled from 'styled-components'
+import React, { useLayoutEffect, useRef, useCallback, useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { Link } from 'gatsby'
 import Logo from '../components/Logo'
+import { themeContextColor } from '../styles/themes'
 import {
 	lineHeight,
 	breakpoint,
 	colGap,
 	pageGrid,
-	smallRow
+	smallRow,
+	smallRowPx
 } from '../styles/sizes'
-import { themeContextColor } from '../styles/themes'
 
-const HeaderWrap = styled(animated.header)`
+const HeaderWrap = styled(animated.header).attrs(props => {
+	return {
+		...props,
+		style: {
+			backgroundColor: props.style.bgColor
+		}
+	}
+})`
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
-	background-color: ${props => props.color || themeContextColor('background')};
-	box-shadow: 0 -6rem 0 6rem ${props => props.color || themeContextColor('background')};
-	#logo {
-		margin-top: -0.175rem;
-		grid-area: logo;
-		align-self: center;
-	}
+
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		left: calc(${colGap} / 2);
-		right: calc(${colGap} / 2);
+		box-sizing: content-box;
+		padding: 0 calc(${colGap} / 2);
 		grid-template-areas: 'logo logo header';
 		#logo {
 			margin-left: calc(-0.5 * ${colGap});
@@ -46,9 +48,16 @@ const HeaderWrap = styled(animated.header)`
 		grid-template-areas:
 			'. . logo logo . header header header header';
 	}
+	#logo {
+		margin-top: -0.175rem;
+		grid-area: logo;
+		align-self: center;
+	}
 
 	.navigation {
+		background-color: inherit;
 		font-size: 0.95rem;
+		height: ${smallRow};
 		display: flex;
 		box-sizing: border-box;
 		grid-area: header;
@@ -67,20 +76,23 @@ const HeaderWrap = styled(animated.header)`
 		}
 
 		.collapsible {
+			background-color: inherit;
 			order: 1;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			.nav-menu {
+				background-color: inherit;
 				display: flex;
 				justify-content: flex-end;
 				.nav-links {
+					background-color: inherit;
 					max-width: 33rem;
 					flex-grow: 1;
 					justify-content: flex-end;
 
 					a {
-						background-color: ${props => props.color || themeContextColor('background')};
+						background-color: inherit;
 						--timing: 0.1s ease-in-out;
 						margin-right: 2em;
 						transition: padding var(--timing), margin var(--timing),
@@ -270,49 +282,92 @@ const HeaderWrap = styled(animated.header)`
 `
 
 const Header = props => {
+	const theme = useContext(ThemeContext)
 	const headerRef = useRef(null)
 	const linkto = props.location?.pathname !== '/' ? '/' : null
 	const logoSize = 4
 	const fixHeader = props.fixHeader || false
 
 	const [style, api] = useSpring(() => ({
-		transform: 'translateY(0px)'
+		transform: 'translateY(0px)',
+		bgColor: theme['background'],
 	}))
 
-	const toggleCollapse = useCallback(bool => {
-		if (bool) {
-			return api.start({
-				transform: `translateY(-${smallRow})`
-			})
-		} else {
-			return api.start({
-				transform: 'translateY(0px)'
-			})
-		}
-	}, [api])
+	const toggleCollapse = useCallback(
+		bool => {
+			if (bool) {
+				return api.start({
+					transform: `translateY(-${smallRow})`
+				})
+			} else {
+				return api.start({
+					transform: 'translateY(0px)'
+				})
+			}
+		},
+		[api]
+	)
 
 	useLayoutEffect(() => {
 		if (!fixHeader) {
 			if (typeof window !== 'undefined') {
 				let previousScrollPos = window.scrollY
+				const newScrollPos = () => window.scrollY
+
+				const sections = document.getElementsByClassName('full-width-section')
+
+				let section
+
+				const directionalCollapse = newScrollPos => {
+					const threshold = headerRef?.current?.clientHeight || 60
+					if (newScrollPos >= 0) {
+						if (newScrollPos === 0) {
+							return toggleCollapse(false)
+						}
+						if (newScrollPos > previousScrollPos + threshold) {
+							previousScrollPos = newScrollPos
+							return toggleCollapse(true)
+						}
+						if (newScrollPos < previousScrollPos - threshold) {
+							previousScrollPos = newScrollPos
+							return toggleCollapse(false)
+						}
+					}
+				}
+				const changeBackgroundColor = (newScrollPos, immediate) => {
+					if (sections.length > 0) {
+						for (const [key, value] of Object.entries(sections)) {
+							if (
+								newScrollPos >= value.offsetTop - smallRowPx &&
+								newScrollPos < value.offsetTop + value.offsetHeight + smallRowPx
+							) {
+								const n = parseInt(key)
+								if (n !== section) {
+									section = n
+									const newColor = value.dataset.bgColor || 'background'
+
+									return api.start({
+										bgColor: theme[newColor],
+										immediate: immediate !== null ? immediate : true
+									})
+								}
+								return
+							}
+						}
+					}
+					api.start({
+						bgColor: theme['background'],
+						immediate: true
+					})
+				}
+
+				changeBackgroundColor(newScrollPos(), true)
+
 				window.addEventListener(
 					'scroll',
 					() => {
-						const newScrollPos = window.scrollY
-						const threshold = headerRef?.current?.clientHeight || 60
-						if (newScrollPos >= 0) {
-							if (newScrollPos === 0) {
-								return toggleCollapse(false)
-							}
-							if (newScrollPos > previousScrollPos + threshold) {
-								previousScrollPos = newScrollPos
-								return toggleCollapse(true)
-							}
-							if (newScrollPos < previousScrollPos - threshold) {
-								previousScrollPos = newScrollPos
-								return toggleCollapse(false)
-							}
-						}
+						directionalCollapse(newScrollPos())
+						changeBackgroundColor(newScrollPos(), false)
 					},
 					{
 						passive: true
@@ -320,7 +375,7 @@ const Header = props => {
 				)
 			}
 		}
-	}, [headerRef, api, fixHeader, toggleCollapse])
+	}, [headerRef, api, fixHeader, toggleCollapse, theme])
 	return (
 		<HeaderWrap
 			ref={headerRef}

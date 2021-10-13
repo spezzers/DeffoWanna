@@ -3,7 +3,7 @@ const fontSizePx = 19
 const lineHeightRatio = 1.263
 
 // calculated style values
-const lineHeightPx = fontSizePx * lineHeightRatio
+const lineHeightPx = Math.round(fontSizePx * lineHeightRatio)
 const colGapPx = ((fontSizePx * lineHeightRatio) / 5) * 8
 const colPx = colGapPx * 4
 const rowPx = lineHeightPx * 5

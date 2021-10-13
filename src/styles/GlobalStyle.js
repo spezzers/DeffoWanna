@@ -180,9 +180,11 @@ const GlobalStyle = createGlobalStyle`
 
 	/* Inline code */
 	:not(pre) > code[class*="language-"] {
-		padding: .1em .2em;
+		padding: 0.04em .2em;
+		font-size: 0.9em;
 		border-radius: .2em;
 		white-space: normal;
+		vertical-align: baseline;
 		background-color: ${themeContextColor('backgroundSecondary')};
 		color: ${themeContextColor('text')};
 	}

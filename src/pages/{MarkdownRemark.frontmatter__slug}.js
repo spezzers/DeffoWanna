@@ -20,23 +20,24 @@ const Footnotes = styled.section`
 	font-weight: 200;
 	font-size: 1rem;
 	color: ${themeContextColor('textStrong')};
-	border-top: 1px solid ${themeContextColor('text')}
+	border-top: 1px solid ${themeContextColor('text')};
 `
 
 const HeroImg = styled(GatsbyImage)`
 	grid-column: 1 / -1;
 	grid-row: 1;
 	position: relative;
-	z-index: -1;
+	z-index: 0;
 	width: 100%;
+	height: 100vh;
 	max-height: calc(100vh - ${smallRow});
-	margin-top: -${lineHeight};
 `
 
 const Template = ({ data }) => {
 	const { markdownRemark } = data
 	const { frontmatter, html } = markdownRemark
 	const heroImage = getImage(frontmatter.hero?.childImageSharp?.gatsbyImageData)
+	console.log(heroImage)
 	const hero = heroImage ? (
 		<HeroImg
 			image={heroImage}
@@ -101,7 +102,7 @@ export const pageQuery = graphql`
 				alt
 				hero {
 					childImageSharp {
-						gatsbyImageData
+						gatsbyImageData(layout: FULL_WIDTH)
 					}
 				}
 			}

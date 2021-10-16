@@ -14,6 +14,7 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
+	border-radius: 0 0 .5rem .5rem;
 
 	${pageGrid.defaults}
 	${breakpoint.mobile} {

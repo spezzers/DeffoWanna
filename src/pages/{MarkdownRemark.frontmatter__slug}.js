@@ -4,12 +4,12 @@ import Layout from '../components/layout'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import { lineHeight, smallRow } from '../styles/sizes'
+import { breakpoint, colGap, smallRow } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
 
 const BlogPost = styled.article`
 	grid-column: main-start / main-end;
-	grid-row: ${props => console.log(props.rowStart)};
+	grid-row: ${props => props.rowStart};
 	img {
 		max-width: 100%;
 	}
@@ -31,13 +31,18 @@ const HeroImg = styled(GatsbyImage)`
 	width: 100%;
 	height: 100vh;
 	max-height: calc(100vh - ${smallRow});
+	border-radius: 0 0 .5rem .5rem;
+	${breakpoint.mobile} {
+		margin-left: calc(${colGap} / -2);
+		margin-right: calc(${colGap} / -2);
+		width: 100vw;
+	}
 `
 
 const Template = ({ data }) => {
 	const { markdownRemark } = data
 	const { frontmatter, html } = markdownRemark
 	const heroImage = getImage(frontmatter.hero?.childImageSharp?.gatsbyImageData)
-	console.log(heroImage)
 	const hero = heroImage ? (
 		<HeroImg
 			image={heroImage}

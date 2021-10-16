@@ -1,6 +1,13 @@
 import { createGlobalStyle } from 'styled-components'
 import { themeContextColor } from './themes'
-import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
+import {
+	lineHeight,
+	breakpoint,
+	fontSize,
+	rowGap,
+	colGap,
+	smallRow
+} from './sizes'
 
 const GlobalStyle = createGlobalStyle`
 	html {
@@ -17,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
 		.footnotes {
 			font-weight: 200;
 			font-size: 1rem;
-			color: ${themeContextColor('textStrong')}
+			color: ${themeContextColor('textStrong')};
 		}
 		
 		blockquote {
@@ -59,6 +66,10 @@ const GlobalStyle = createGlobalStyle`
 				outline: none;
 			}
 		}
+		sup {
+			scroll-margin-top: ${smallRow};
+		}
+		
 		sup a, a.footnote-backref {
 			padding: .5rem;
 			margin: -.5rem;

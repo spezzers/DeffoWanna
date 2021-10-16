@@ -1,7 +1,14 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
 import { themeContextColor } from '../styles/themes'
-import { lineHeight, breakpoint, colGap, pageGrid, smallRow } from '../styles/sizes'
+import {
+	lineHeight,
+	breakpoint,
+	colGap,
+	pageGrid,
+	smallRow,
+	rowGap
+} from '../styles/sizes'
 
 const HeaderWrap = styled(animated.header).attrs(props => {
 	return {
@@ -14,7 +21,7 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
-	border-radius: 0 0 .5rem .5rem;
+	border-radius: 0 0 0.5rem 0.5rem;
 
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
@@ -184,29 +191,38 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 						display: flex;
 						flex-direction: column;
 						padding: calc(2 * ${lineHeight}) ${colGap};
-						text-align: right;
+						text-align: center;
 						right: 0;
 						top: 0;
 						height: 100vh;
 						width: calc(100vw - calc(${colGap} * 2));
 						box-sizing: border-box;
 						vertical-align: text-bottom;
+						justify-content: space-evenly;
 						background-color: ${themeContextColor('purpleBg')};
-						a {
+						a,
+						a:hover,
+						a:focus,
+						a:last-child:hover,
+						a:last-child:focus {
 							transition: none;
+							border-radius: unset;
 							background-color: unset;
+							border: unset;
+							margin: unset;
+							padding: 0.5em ${rowGap};
+							transform: unset;
+							left: 0;
+							right: 0;
+						}
+						a, a:last-child {
+							color: ${themeContextColor('purpleText')};
 							:hover,
 							:focus {
-								transform: unset;
-								border: unset;
-								margin: unset;
-								padding: unset;
-								overflow: visible;
-								border-radius: unset;
+								color: ${themeContextColor('purpleTextStrong')} !important;
 							}
-							color: ${themeContextColor('text')};
 							:visited {
-								color: ${themeContextColor('text')};
+								color: ${themeContextColor('purpleText')};
 							}
 						}
 					}

@@ -5,14 +5,19 @@ import { themeContextColor } from '../styles/themes'
 
 const StyledButton = styled.button.attrs(props => {
 	const color = (themeColor, append) => {
-		const validColors = ['purple', 'blue', 'teal', 'green', 'yellow', 'orange', 'red']
+		const validColors = [
+			'purple',
+			'blue',
+			'teal',
+			'green',
+			'yellow',
+			'orange',
+			'red'
+		]
 		const validAppends = ['Bg', 'Text', 'TextStrong']
-		if (
-			validColors.includes(themeColor) &&
-			validAppends.includes(append)
-		) {
+		if (validColors.includes(themeColor) && validAppends.includes(append)) {
 			return `${themeColor}${append}`
-		} 
+		}
 		return `purple${append}`
 	}
 
@@ -21,19 +26,18 @@ const StyledButton = styled.button.attrs(props => {
 	const newProps =
 		variant === 'primary'
 			? {
-					main: color(props.color, 'Text'),
-					bg: props.bgColor ? color(props.bgColor, 'Bg') : 'background',
-					black: 'black',
-					white: 'white',
-					contrast: 'contrast'
-			  }
-			: {
-					main: props.bgColor ? color(props.bgColor, 'Bg') : 'background',
-					bg: color(props.color, 'Text'),
-					black: color(props.color, 'Bg'),
-					white: color(props.color, 'Text'),
-					contrast: color(props.color, 'Text')
-			  }
+				main: color(props.color, 'Text'),
+				bg: props.bgColor ? color(props.bgColor, 'Bg') : 'background',
+				black: 'black',
+				white: 'white',
+				contrast: 'contrast'
+			} : {
+				main: props.bgColor ? color(props.bgColor, 'Bg') : 'background',
+				bg: color(props.color, 'Text'),
+				black: color(props.color, 'Bg'),
+				white: color(props.color, 'Text'),
+				contrast: color(props.color, 'Text')
+			}
 
 	return newProps
 })`
@@ -44,7 +48,7 @@ const StyledButton = styled.button.attrs(props => {
 	--white: ${props => themeContextColor(props.white)};
 	background-color: var(--main);
 	margin: calc(${lineHeight} / 2) calc(${colGap} / 2);
-	font-size: .9rem;
+	font-size: 0.9rem;
 	font-weight: 600;
 	font-family: IBM Plex Sans, sans-serif;
 	color: var(--bg);

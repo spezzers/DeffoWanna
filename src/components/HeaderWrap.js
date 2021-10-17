@@ -215,7 +215,8 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 							left: 0;
 							right: 0;
 						}
-						a, a:last-child {
+						a,
+						a:last-child {
 							color: ${themeContextColor('purpleText')};
 							:hover,
 							:focus {

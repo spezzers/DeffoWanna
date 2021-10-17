@@ -33,7 +33,7 @@ export default {
 				},
 				defaultValue: {
 					summary: 'purple',
-					detail: "theme.purple"
+					detail: 'theme.purple'
 				}
 			}
 		},
@@ -51,7 +51,7 @@ export default {
 				},
 				defaultValue: {
 					summary: 'background',
-					detail: "theme.background"
+					detail: 'theme.background'
 				}
 			}
 		},
@@ -66,6 +66,7 @@ export default {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 const Template = (args, { argTypes }) => (
 	<Button {...args}>{args.children}</Button>
 )

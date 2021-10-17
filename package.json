@@ -17,7 +17,8 @@
 		"clean-start": "gatsby clean && gatsby develop",
 		"deploy": "gatsby build && gh-pages -d public -b gh-pages",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"build-storybook": "build-storybook",
+		"lint": "eslint ."
 	},
 	"dependencies": {
 		"@mdx-js/mdx": "^1.6.22",
@@ -55,6 +56,8 @@
 		"@storybook/react": "^6.3.7",
 		"@storybook/theming": "^6.3.7",
 		"babel-loader": "^8.2.2",
+		"eslint": "^8.0.1",
+		"eslint-plugin-react": "^7.26.1",
 		"gh-pages": "^3.2.2",
 		"storybook-dark-mode": "^1.0.8"
 	},

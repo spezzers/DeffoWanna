@@ -33,8 +33,12 @@ const NotFoundPage = () => {
 			<Main>
 				<Custom404Svg />
 				<div className='message'>Oops! Can't find that page... (sorry!)</div>
-				<Button onClick={goHome} color='teal'>Take me home</Button>
-				<Button variant='secondary' color='teal' onClick={goHome}>start over</Button>
+				<Button onClick={goHome} color='teal'>
+					Take me home
+				</Button>
+				<Button variant='secondary' color='teal' onClick={goHome}>
+					start over
+				</Button>
 			</Main>
 		</Layout>
 	)

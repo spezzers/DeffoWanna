@@ -103,7 +103,8 @@ const Logo = props => {
 		const offsetY = (cursorPos.y - logoBox.top) * scale || 120
 		return { x: offsetX, y: offsetY }
 	}
-
+	
+	// eslint-disable-next-line no-unused-vars
 	const activate = cursorPos => {
 		api.start({
 			to: heavy,
@@ -120,6 +121,7 @@ const Logo = props => {
 			}
 		})
 	}
+	// eslint-disable-next-line no-unused-vars
 	const hoverInactive = cursorPos => {
 		api.start({
 			to: baloon,

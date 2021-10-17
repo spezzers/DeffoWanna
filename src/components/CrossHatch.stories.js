@@ -113,6 +113,7 @@ export default {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 const Template = (args, { argTypes }) => (
 	<CrossHatch {...args}>{args.children}</CrossHatch>
 )
@@ -186,5 +187,5 @@ StyledDiv.args = {
 	),
 	edgeSoftness: 0,
 	backgroundSize: '35px',
-	animate: true,
+	animate: true
 }

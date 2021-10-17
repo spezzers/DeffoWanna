@@ -22,7 +22,7 @@ const Main = styled.div`
 	grid-area: main;
 `
 
-const Grid = props => {
+const Grid = () => {
 	return (
 		<Layout>
 			<Helmet>

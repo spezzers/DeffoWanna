@@ -145,9 +145,9 @@ const GlobalStyle = createGlobalStyle`
 	}
 	img {
 		filter: ${props =>
-			props.theme.name === 'dark'
-				? 'contrast(0.95) brightness(0.8) saturate(0.96) '
-				: 'contrast(1) brightness(1) saturate(1)'}
+		props.theme.name === 'dark'
+			? 'contrast(0.95) brightness(0.8) saturate(0.96) '
+			: 'contrast(1) brightness(1) saturate(1)'}
 	}
 
 	code[class*="language-"],
@@ -181,8 +181,8 @@ const GlobalStyle = createGlobalStyle`
 		border-radius: 0.25em;
 		background: #272822;
 		background: ${themeContextColor(
-			'backgroundSecondary'
-		)} linear-gradient(110deg, ${themeContextColor(
+		'backgroundSecondary'
+	)} linear-gradient(110deg, ${themeContextColor(
 	'purpleBg'
 )}38, ${themeContextColor('orangeBg')}31);
 		box-shadow: inset 0 .05em .2em ${themeContextColor('black')}05;

@@ -16,8 +16,8 @@ const ThemeToggleButton = props => {
 			color: !hovering
 				? current?.purpleText || 'purple'
 				: current?.name === 'dark'
-				? current?.white || 'white'
-				: current?.orangeText || 'orange',
+					? current?.white || 'white'
+					: current?.orangeText || 'orange',
 			transform: `rotate(${hovering ? 60 : 25}) scale(${hovering ? 1.2 : 1})`,
 			config: config.default
 		}),
@@ -74,25 +74,25 @@ const ThemeToggleButton = props => {
 
 	const themeIconEvent = e => {
 		switch (e.type) {
-			case 'focus':
-			case 'mouseenter':
-				setHovering(true)
+		case 'focus':
+		case 'mouseenter':
+			setHovering(true)
+			break
+		case 'blur':
+		case 'mouseleave':
+			setHovering(false)
+			break
+		case 'keydown':
+			if (e.key !== 'Enter') {
 				break
-			case 'blur':
-			case 'mouseleave':
-				setHovering(false)
-				break
-			case 'keydown':
-				if (e.key !== 'Enter') {
-					break
-				}
-				toggleTheme()
-				break
-			case 'click':
-				toggleTheme()
-				break
-			default:
-				console.trace('unhandled mouse event:', e.type)
+			}
+			toggleTheme()
+			break
+		case 'click':
+			toggleTheme()
+			break
+		default:
+			console.trace('unhandled mouse event:', e.type)
 		}
 	}
 

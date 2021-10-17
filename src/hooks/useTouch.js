@@ -38,50 +38,50 @@ const useTouch = props => {
 		const type = e.type
 		devLogger(type, touches)
 		switch (type) {
-			case 'touchstart':
-				setTouches([type])
-				break
-			case 'touchmove':
-				if (touches[touches.length - 1] !== 'touchmove') {
-					setTouches([...touches, type])
-				}
-				break
-			case 'touchend':
+		case 'touchstart':
+			setTouches([type])
+			break
+		case 'touchmove':
+			if (touches[touches.length - 1] !== 'touchmove') {
 				setTouches([...touches, type])
+			}
+			break
+		case 'touchend':
+			setTouches([...touches, type])
+			break
+		case 'touchcancel':
+			setTouches([])
+			break
+		case 'keydown':
+			if (e.key !== 'Enter') {
 				break
-			case 'touchcancel':
-				setTouches([])
-				break
-			case 'keydown':
-				if (e.key !== 'Enter') {
-					break
-				}
-				e.preventDefault()
-				activated ? deactivate() : activate(e)
-				break
-			case 'click':
-				e.preventDefault()
-				activated ? deactivate() : activate(e)
-				break
-			case 'mouseleave':
-				deactivate()
-				setHovering(false)
-				setTouches([])
-				break
-			case 'mouseenter':
-				if (touches.length === 0) {
-					setHovering(true)
-				}
-				break
-			case 'focus':
+			}
+			e.preventDefault()
+			activated ? deactivate() : activate(e)
+			break
+		case 'click':
+			e.preventDefault()
+			activated ? deactivate() : activate(e)
+			break
+		case 'mouseleave':
+			deactivate()
+			setHovering(false)
+			setTouches([])
+			break
+		case 'mouseenter':
+			if (touches.length === 0) {
 				setHovering(true)
-				break
-			case 'blur':
-				setHovering(false)
-				break
-			default:
-				devLogger(type)
-				break
+			}
+			break
+		case 'focus':
+			setHovering(true)
+			break
+		case 'blur':
+			setHovering(false)
+			break
+		default:
+			devLogger(type)
+			break
 		}
 	}
 

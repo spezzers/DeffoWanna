@@ -13,7 +13,7 @@ export default {
 		fixHeader: {
 			name: 'fixHeader',
 			description: 'Prevent the header from collapsing on page page scroll',
-			control: {type: 'boolean'},
+			control: { type: 'boolean' },
 			table: {
 				type: {
 					summary: 'boolean',

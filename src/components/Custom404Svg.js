@@ -127,7 +127,7 @@ const Animated404SVG = styled.svg`
 	}
 `
 
-const Custom404Svg = props => {
+const Custom404Svg = () => {
 	return (
 		<Animated404SVG
 			role='img'

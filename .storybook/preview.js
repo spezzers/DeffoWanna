@@ -1,3 +1,4 @@
+import React from 'react'
 import themes from '../src/styles/themes'
 import { ThemeProvider } from 'styled-components'
 import '@storybook/addon-console'

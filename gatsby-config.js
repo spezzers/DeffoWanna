@@ -11,24 +11,24 @@ module.exports = {
 		'gatsby-plugin-image',
 		'gatsby-transformer-sharp',
 		{ 
-			resolve: `gatsby-plugin-sharp`,
+			resolve: 'gatsby-plugin-sharp',
 			options: {
 				defaultQuality: 65
 			}
 		},
 		{
-			resolve: `gatsby-transformer-remark`,
+			resolve: 'gatsby-transformer-remark',
 			options: {
 				plugins: [
 					{
-						resolve: `gatsby-remark-images`,
+						resolve: 'gatsby-remark-images',
 						options: {
 							maxWidth: 720,
 							quality: 65
 						}
 					},
 					{
-						resolve: `gatsby-remark-prismjs`,
+						resolve: 'gatsby-remark-prismjs',
 						options: {
 							classPrefix: 'language-',
 							inlineCodeMarker: null,

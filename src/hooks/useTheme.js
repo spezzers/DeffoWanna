@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import themes from '../styles/themes'
 
-
 const useTheme = () => {
 	const [current, setCurrent] = useState(null)
 
@@ -48,7 +47,6 @@ const useTheme = () => {
 	)
 
 	useEffect(() => {
-
 		if (!current) {
 			if (storageAvailable()) {
 				const getLocalPrefs = window.localStorage.getItem('theme')
@@ -107,7 +105,7 @@ const useTheme = () => {
 
 	return {
 		current,
-		setTheme,
+		setTheme
 	}
 }
 

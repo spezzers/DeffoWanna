@@ -11,6 +11,9 @@ const Main = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: 100%;
+	position: relative;
+	align-items: center;
+	top: 0;
 	.message {
 		text-align: center;
 		font-size: 1.5rem;
@@ -33,8 +36,12 @@ const NotFoundPage = () => {
 			<Main>
 				<Custom404Svg />
 				<div className='message'>Oops! Can't find that page... (sorry!)</div>
-				<Button onClick={goHome} color='teal'>Take me home</Button>
-				<Button variant='secondary' color='teal' onClick={goHome}>start over</Button>
+				<Button onClick={goHome} color='teal'>
+					Take me home
+				</Button>
+				<Button variant='secondary' color='teal' onClick={goHome}>
+					start over
+				</Button>
 			</Main>
 		</Layout>
 	)

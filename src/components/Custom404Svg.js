@@ -4,6 +4,8 @@ import { themeContextColor } from '../styles/themes'
 import custom404SvgPaths from './custom404SvgPaths'
 
 const Animated404SVG = styled.svg`
+	min-height: 10remx;
+	max-width: 20rem;
 	@keyframes t0 {
 		0% {
 			opacity: 1;
@@ -127,7 +129,7 @@ const Animated404SVG = styled.svg`
 	}
 `
 
-const Custom404Svg = props => {
+const Custom404Svg = () => {
 	return (
 		<Animated404SVG
 			role='img'

@@ -21,6 +21,19 @@ export default {
 				}
 			}
 		},
+		width: {
+			name: 'width',
+			description: 'Width of button',
+			control: {
+				type: 'text'
+			},
+			table: {
+				type: {
+					summary: 'string',
+					detail: 'any css <length> unit'
+				}
+			}
+		},
 		color: {
 			name: 'color',
 			description: 'Main color',
@@ -33,7 +46,7 @@ export default {
 				},
 				defaultValue: {
 					summary: 'purple',
-					detail: "theme.purple"
+					detail: 'theme.purple'
 				}
 			}
 		},
@@ -51,7 +64,7 @@ export default {
 				},
 				defaultValue: {
 					summary: 'background',
-					detail: "theme.background"
+					detail: 'theme.background'
 				}
 			}
 		},
@@ -66,6 +79,7 @@ export default {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 const Template = (args, { argTypes }) => (
 	<Button {...args}>{args.children}</Button>
 )

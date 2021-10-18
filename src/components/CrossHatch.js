@@ -38,24 +38,24 @@ const Hatching = styled.div.attrs(props => {
 			props.edgeSoftness > 0
 				? `${props.edgeSoftness}px`
 				: props.edgeSoftness === 0
-				? 0
-				: '15px',
+					? 0
+					: '15px',
 		themeFilters: isDark ? 'brightness(0.9)' : 'brightness(1.25)',
 		blacks: isDark
 			? themeContextColor(
-					props.blacks,
-					themeContextColor('background', 'white')
-			  )
+				props.blacks,
+				themeContextColor('background', 'white')
+			)
 			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
 		whites: isDark
 			? themeContextColor(
-					props.whites,
-					themeContextColor('purpleText', 'black')
-			  )
+				props.whites,
+				themeContextColor('purpleText', 'black')
+			)
 			: themeContextColor(
-					props.whites,
-					themeContextColor('background', 'white')
-			  ),
+				props.whites,
+				themeContextColor('background', 'white')
+			),
 		backgroundColor: !isDark ? 'white' : props.invertContent ? 'white' : 'black'
 	}
 	return newProps

@@ -1,5 +1,5 @@
-import React, {useContext} from 'react'
-import styled, {ThemeContext} from 'styled-components'
+import React, { useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
 
 const Color = props => {
 	return (
@@ -52,4 +52,4 @@ export default {
 	component: Colors
 }
 
-export const Theme = () => <Colors/>
+export const Theme = () => <Colors />

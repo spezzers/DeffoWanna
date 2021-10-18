@@ -8,7 +8,7 @@ const LogoTest = () => {
 	return (
 		<Layout>
 			<Helmet title='Logo Test' />
-			<CrossHatch preserveHatch edgeSoftness={30} backgroundSize='40px' animate >
+			<CrossHatch preserveHatch edgeSoftness={30} backgroundSize='40px' animate>
 				<video playsInline loop muted autoPlay>
 					<source src={ollieBall2} type='video/mp4' />
 				</video>

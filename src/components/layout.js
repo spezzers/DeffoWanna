@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { pageGrid, breakpoint, colGap, rowGap, smallRow } from '../styles/sizes'
+import { pageGrid, breakpoint, colGap, smallRow, lineHeight } from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
@@ -20,21 +20,33 @@ const FullWidthSection = props => {
 }
 
 export const Section = styled(FullWidthSection)`
+	${props => (props.grid ? pageGrid.defaults : null)}
 	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
-	width: 100vw;
+	position: relative;
+	left: 0;
+	right: 0;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
 	box-sizing: border-box;
+	padding-top: calc(${lineHeight} / 2);
+	padding-bottom: calc(${lineHeight} / 2);
 	:first-child {
 		min-height: calc(100vh - ${smallRow});
 	}
 	${breakpoint.mobile} {
-		box-sizing: border-box;
+		${props => (props.grid ? pageGrid.columns.mobile : null)}
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
+		width: 100vw;
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
+	}
+	${breakpoint.tablet} {
+		${props => (props.grid ? pageGrid.columns.tablet : null)}
+	}
+	${breakpoint.desktop} {
+		${props => (props.grid ? pageGrid.columns.desktop : null)}
 	}
 `
 
@@ -48,42 +60,32 @@ const PageGrid = styled.div`
 	column-gap: ${colGap};
 	grid-auto-rows: auto;
 	position: absolute;
+	z-index: 0;
+	box-sizing: border-box;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		padding-left: calc(${colGap} / 2);
-		padding-right: calc(${colGap} / 2);
-		grid-template-areas: 'main main main';
 	}
 
 	${breakpoint.tablet} {
 		${pageGrid.columns.tablet}
-		grid-template-areas:
-			'. main main main main .';
 	}
 	${breakpoint.desktop} {
 		${pageGrid.columns.desktop}
-		grid-template-areas:
-			'. . main main main main main . .';
 	}
 `
 
-
 const Minimal = styled.div`
-	height: 100vh;
+	min-height: 100vh;
 	width: 100vw;
 	padding-top: 1.5rem;
 	padding-bottom: 1rem;
 	box-sizing: border-box;
 	display: flex;
-	align-items: stretch;
-	justify-content: center;
-	@media (orientation: portrait) {
-		flex-direction: column;
-	}
-	@media (orientation: landscape) {
-		flex-direction: row;
-	}
+	align-items: center;
+	justify-content: space-between;
+	align-content: center;
+
 	${breakpoint.mobile} {
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
@@ -95,7 +97,7 @@ const Minimal = styled.div`
 	#theme-toggle-button {
 		position: fixed;
 		display: block;
-		top: calc(${rowGap} / 2);
+		top: calc(${lineHeight} / 2);
 		${breakpoint.mobile} {
 			right: calc(${colGap} / 2);
 		}

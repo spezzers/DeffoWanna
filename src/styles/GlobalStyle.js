@@ -1,6 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
 import { themeContextColor } from './themes'
-import { lineHeight, breakpoint, fontSize, rowGap, colGap } from './sizes'
+import {
+	lineHeight,
+	breakpoint,
+	fontSize,
+	colGap,
+	smallRow
+} from './sizes'
 
 const GlobalStyle = createGlobalStyle`
 	html {
@@ -12,13 +18,12 @@ const GlobalStyle = createGlobalStyle`
 		color: ${props => props.theme.text};
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
-		max-width: 1900px;
 		min-width: 246px;
 		
 		.footnotes {
 			font-weight: 200;
 			font-size: 1rem;
-			color: ${themeContextColor('textStrong')}
+			color: ${themeContextColor('textStrong')};
 		}
 		
 		blockquote {
@@ -60,6 +65,10 @@ const GlobalStyle = createGlobalStyle`
 				outline: none;
 			}
 		}
+		sup {
+			scroll-margin-top: ${smallRow};
+		}
+		
 		sup a, a.footnote-backref {
 			padding: .5rem;
 			margin: -.5rem;
@@ -135,9 +144,9 @@ const GlobalStyle = createGlobalStyle`
 	}
 	img {
 		filter: ${props =>
-			props.theme.name === 'dark'
-				? 'contrast(0.95) brightness(0.8) saturate(0.96) '
-				: 'contrast(1) brightness(1) saturate(1)'}
+		props.theme.name === 'dark'
+			? 'contrast(0.95) brightness(0.8) saturate(0.96) '
+			: 'contrast(1) brightness(1) saturate(1)'}
 	}
 
 	code[class*="language-"],
@@ -165,14 +174,14 @@ const GlobalStyle = createGlobalStyle`
 
 	/* Code blocks */
 	pre[class*="language-"] {
-		padding: ${rowGap} calc(${colGap} / 2);
+		padding: ${lineHeight} calc(${colGap} / 2);
 		margin: ${lineHeight} 0;
 		overflow: auto;
 		border-radius: 0.25em;
 		background: #272822;
 		background: ${themeContextColor(
-			'backgroundSecondary'
-		)} linear-gradient(110deg, ${themeContextColor(
+		'backgroundSecondary'
+	)} linear-gradient(110deg, ${themeContextColor(
 	'purpleBg'
 )}38, ${themeContextColor('orangeBg')}31);
 		box-shadow: inset 0 .05em .2em ${themeContextColor('black')}05;
@@ -180,9 +189,11 @@ const GlobalStyle = createGlobalStyle`
 
 	/* Inline code */
 	:not(pre) > code[class*="language-"] {
-		padding: .1em .2em;
+		padding: 0.04em .2em;
+		font-size: 0.9em;
 		border-radius: .2em;
 		white-space: normal;
+		vertical-align: baseline;
 		background-color: ${themeContextColor('backgroundSecondary')};
 		color: ${themeContextColor('text')};
 	}

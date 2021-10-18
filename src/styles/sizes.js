@@ -36,19 +36,19 @@ export const pageGrid = {
 		column-gap: ${colGap};
 		row-gap: ${rowGap};
 		box-sizing: border-box;
-	`,
+		`,
 	columns: {
 		mobile: `
-		width: calc(100%);
-		padding-left: calc(${colGap} / 2);
-		padding-right: calc(${colGap} / 2);
-		grid-template-columns:
+			width: calc(100%);
+			padding-left: calc(${colGap} / 2);
+			padding-right: calc(${colGap} / 2);
+			grid-template-columns:
 			[logo-start]
 			${colGap}
 			${colGap}
 			[logo-end]
 			minmax(0, 1fr);
-		grid-template-areas: 'main main main';
+			grid-template-areas: 'main main main';
 	`,
 		tablet: `
 		width: 100%;

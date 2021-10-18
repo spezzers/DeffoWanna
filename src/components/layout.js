@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { pageGrid, breakpoint, colGap, rowGap, smallRow } from '../styles/sizes'
+import { pageGrid, breakpoint, colGap, smallRow, lineHeight } from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
@@ -28,6 +28,8 @@ export const Section = styled(FullWidthSection)`
 	right: 0;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
+	padding-top: calc(${lineHeight} / 2);
+	padding-bottom: calc(${lineHeight} / 2);
 	:first-child {
 		min-height: calc(100vh - ${smallRow});
 	}
@@ -36,6 +38,7 @@ export const Section = styled(FullWidthSection)`
 		box-sizing: border-box;
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
+		width: 100vw;
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
 	}
@@ -62,8 +65,6 @@ const PageGrid = styled.div`
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		padding-left: calc(${colGap} / 2);
-		padding-right: calc(${colGap} / 2);
 	}
 
 	${breakpoint.tablet} {
@@ -96,7 +97,7 @@ const Minimal = styled.div`
 	#theme-toggle-button {
 		position: fixed;
 		display: block;
-		top: calc(${rowGap} / 2);
+		top: calc(${lineHeight} / 2);
 		${breakpoint.mobile} {
 			right: calc(${colGap} / 2);
 		}

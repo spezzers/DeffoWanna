@@ -6,8 +6,7 @@ import {
 	breakpoint,
 	colGap,
 	pageGrid,
-	smallRow,
-	rowGap
+	smallRow
 } from '../styles/sizes'
 
 const HeaderWrap = styled(animated.header).attrs(props => {
@@ -208,7 +207,7 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 							background-color: unset;
 							border: unset;
 							margin: unset;
-							padding: 0.5em ${rowGap};
+							padding: 0.5em ${lineHeight};
 							transform: unset;
 							left: 0;
 							right: 0;

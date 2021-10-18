@@ -4,7 +4,6 @@ import {
 	lineHeight,
 	breakpoint,
 	fontSize,
-	rowGap,
 	colGap,
 	smallRow
 } from './sizes'
@@ -175,7 +174,7 @@ const GlobalStyle = createGlobalStyle`
 
 	/* Code blocks */
 	pre[class*="language-"] {
-		padding: ${rowGap} calc(${colGap} / 2);
+		padding: ${lineHeight} calc(${colGap} / 2);
 		margin: ${lineHeight} 0;
 		overflow: auto;
 		border-radius: 0.25em;

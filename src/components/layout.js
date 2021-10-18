@@ -22,10 +22,11 @@ const FullWidthSection = props => {
 export const Section = styled(FullWidthSection)`
 	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
-	width: 100vw;
+	position: relative;
+	left: 0;
+	right: 0;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
-	box-sizing: border-box;
 	:first-child {
 		min-height: calc(100vh - ${smallRow});
 	}
@@ -78,7 +79,7 @@ const Minimal = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	align-content: center;
-	
+
 	${breakpoint.mobile} {
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);

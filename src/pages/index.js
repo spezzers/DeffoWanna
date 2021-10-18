@@ -12,7 +12,7 @@ const Index = props => {
 			<Section id='section1'>
 				<LandingSplash />
 			</Section>
-			<Section id='section2' height='2000px' bgColor='blueBg'>
+			<Section id='section2' grid height='2000px' bgColor='blueBg'>
 				<h1>Section 2</h1>
 			</Section>
 			<Section id='section3' bgColor='greenBg'>
@@ -21,8 +21,8 @@ const Index = props => {
 			<Section id='section4'>
 				<h1>Section 4</h1>
 			</Section>
-			<Section id='section5'>
-				<h1>Section 5</h1>
+			<Section id='section5' grid>
+				<h1 style={{gridArea: 'main'}} >Section 5</h1>
 			</Section>
 		</Layout>
 	)

@@ -27,7 +27,7 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	${pageGrid.defaults}
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
-		box-sizing: content-box;
+		box-sizing: border-box;
 		padding: 0 calc(${colGap} / 2);
 		grid-template-areas: 'logo logo header';
 		#logo {

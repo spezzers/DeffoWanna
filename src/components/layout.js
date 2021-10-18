@@ -13,7 +13,6 @@ const FullWidthSection = props => {
 		<section
 			className={`full-width-section ${props.className}`}
 			data-bg-color={props.bgColor ? props.bgColor : 'background'}
-			bgColor={props.bgColor ? props.bgColor : 'background'}
 		>
 			{props.children}
 		</section>
@@ -21,6 +20,7 @@ const FullWidthSection = props => {
 }
 
 export const Section = styled(FullWidthSection)`
+	${props => (props.grid ? pageGrid.defaults : null)}
 	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
 	position: relative;
@@ -32,11 +32,18 @@ export const Section = styled(FullWidthSection)`
 		min-height: calc(100vh - ${smallRow});
 	}
 	${breakpoint.mobile} {
+		${props => (props.grid ? pageGrid.columns.mobile : null)}
 		box-sizing: border-box;
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
+	}
+	${breakpoint.tablet} {
+		${props => (props.grid ? pageGrid.columns.tablet : null)}
+	}
+	${breakpoint.desktop} {
+		${props => (props.grid ? pageGrid.columns.desktop : null)}
 	}
 `
 
@@ -51,23 +58,19 @@ const PageGrid = styled.div`
 	grid-auto-rows: auto;
 	position: absolute;
 	z-index: 0;
+	box-sizing: border-box;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
-		grid-template-areas: 'main main main';
 	}
 
 	${breakpoint.tablet} {
 		${pageGrid.columns.tablet}
-		grid-template-areas:
-			'. main main main main .';
 	}
 	${breakpoint.desktop} {
 		${pageGrid.columns.desktop}
-		grid-template-areas:
-			'. . main main main main main . .';
 	}
 `
 

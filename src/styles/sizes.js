@@ -36,18 +36,19 @@ export const pageGrid = {
 		column-gap: ${colGap};
 		row-gap: ${rowGap};
 		box-sizing: border-box;
-	
 	`,
 	columns: {
 		mobile: `
-		width: calc(100% - ${colGap});
-		margin: 0 auto;
+		width: calc(100%);
+		padding-left: calc(${colGap} / 2);
+		padding-right: calc(${colGap} / 2);
 		grid-template-columns:
 			[logo-start]
 			${colGap}
 			${colGap}
 			[logo-end]
 			minmax(0, 1fr);
+		grid-template-areas: 'main main main';
 	`,
 		tablet: `
 		width: 100%;
@@ -59,6 +60,7 @@ export const pageGrid = {
 			minmax(${smallCol}, 2fr)
 			minmax(${col}, 4fr)
 			minmax(0, 3fr);
+			grid-template-areas: '. main main main main .';
 	`,
 		desktop: `
 		width: 100%;
@@ -73,6 +75,7 @@ export const pageGrid = {
 			${col}
 			${col}
 			minmax(0, 4fr);
+		grid-template-areas: '. . main main main main main . .';
 	`
 	}
 }

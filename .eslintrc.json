@@ -20,5 +20,10 @@
 		"semi": ["error", "never"],
 		"react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
 		"react/prop-types": 0
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }

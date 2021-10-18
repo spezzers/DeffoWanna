@@ -14,7 +14,8 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	return {
 		...props,
 		style: {
-			backgroundColor: props.style.bgColor
+			backgroundColor: props.style.bgColor ,
+			'--color': props.style.bgColor
 		}
 	}
 })`
@@ -53,7 +54,6 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	}
 
 	.navigation {
-		background-color: inherit;
 		font-size: 0.95rem;
 		height: ${smallRow};
 		display: flex;
@@ -74,17 +74,15 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 		}
 
 		.collapsible {
-			background-color: inherit;
 			order: 1;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			.nav-menu {
-				background-color: inherit;
 				display: flex;
 				justify-content: flex-end;
 				.nav-links {
-					background-color: inherit;
+					background-color: var(--color);
 					max-width: 33rem;
 					flex-grow: 1;
 					justify-content: flex-end;

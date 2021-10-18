@@ -13,6 +13,7 @@ const FullWidthSection = props => {
 		<section
 			className={`full-width-section ${props.className}`}
 			data-bg-color={props.bgColor ? props.bgColor : 'background'}
+			bgColor={props.bgColor ? props.bgColor : 'background'}
 		>
 			{props.children}
 		</section>
@@ -49,6 +50,7 @@ const PageGrid = styled.div`
 	column-gap: ${colGap};
 	grid-auto-rows: auto;
 	position: absolute;
+	z-index: 0;
 
 	${breakpoint.mobile} {
 		${pageGrid.columns.mobile}

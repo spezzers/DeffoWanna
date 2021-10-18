@@ -21,6 +21,19 @@ export default {
 				}
 			}
 		},
+		width: {
+			name: 'width',
+			description: 'Width of button',
+			control: {
+				type: 'text'
+			},
+			table: {
+				type: {
+					summary: 'string',
+					detail: 'any css <length> unit'
+				}
+			}
+		},
 		color: {
 			name: 'color',
 			description: 'Main color',

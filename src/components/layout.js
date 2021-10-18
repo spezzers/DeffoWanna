@@ -69,20 +69,16 @@ const PageGrid = styled.div`
 `
 
 const Minimal = styled.div`
-	height: 100vh;
+	min-height: 100vh;
 	width: 100vw;
 	padding-top: 1.5rem;
 	padding-bottom: 1rem;
 	box-sizing: border-box;
 	display: flex;
-	align-items: stretch;
-	justify-content: center;
-	@media (orientation: portrait) {
-		flex-direction: column;
-	}
-	@media (orientation: landscape) {
-		flex-direction: row;
-	}
+	align-items: center;
+	justify-content: space-between;
+	align-content: center;
+	
 	${breakpoint.mobile} {
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);

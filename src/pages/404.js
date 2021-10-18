@@ -11,6 +11,9 @@ const Main = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: 100%;
+	position: relative;
+	align-items: center;
+	top: 0;
 	.message {
 		text-align: center;
 		font-size: 1.5rem;

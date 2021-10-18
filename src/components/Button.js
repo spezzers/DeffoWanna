@@ -55,8 +55,12 @@ const StyledButton = styled.button.attrs(props => {
 	border-radius: 0.5em;
 	transform: translateY(-0.125em);
 	filter: none;
+	flex-grow: 0;
 	border: 0.1em solid var(--main);
 	text-align: center;
+	min-width: fit-content;
+	width: ${props => props.width || 'fit-content'};
+	height: fit-content;
 	line-height: ${lineHeight};
 	padding: calc(${lineHeight} / 2) calc(${colGap} / 2);
 	box-shadow: 0 0 0 0.1em var(--white), 0 0.2em 0 0.2em var(--black),

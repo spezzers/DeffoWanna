@@ -28,6 +28,7 @@ export const Section = styled(FullWidthSection)`
 	right: 0;
 	min-height: 100vh;
 	height: ${props => props.height || 'auto'};
+	box-sizing: border-box;
 	padding-top: calc(${lineHeight} / 2);
 	padding-bottom: calc(${lineHeight} / 2);
 	:first-child {
@@ -35,7 +36,6 @@ export const Section = styled(FullWidthSection)`
 	}
 	${breakpoint.mobile} {
 		${props => (props.grid ? pageGrid.columns.mobile : null)}
-		box-sizing: border-box;
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
 		width: 100vw;

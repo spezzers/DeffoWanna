@@ -21,7 +21,24 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 	position: fixed;
 	z-index: 10;
 	height: ${smallRow};
-	border-radius: 0 0 0.5rem 0.5rem;
+
+	:before, :after {
+		content: '';
+		width: inherit;
+		position: fixed;
+	}
+	:before {
+		backdrop-filter: blur(7vw);
+		height: 1px;
+		bottom: -1px;
+		opacity: .7;
+	}
+	:after {
+		opacity: .8;
+		backdrop-filter: blur(3px);
+		height: 2px;
+		bottom: -2px;
+	}
 
 	${pageGrid.defaults}
 	${breakpoint.mobile} {

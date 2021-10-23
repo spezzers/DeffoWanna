@@ -8,19 +8,24 @@ import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
 import { themeContextColor } from '../styles/themes'
 
-const FullWidthSection = props => {
+const FullWidthSection = ({children, className, bgColor}) => {
 	return (
 		<section
-			className={`full-width-section ${props.className}`}
-			data-bg-color={props.bgColor ? props.bgColor : 'background'}
+			className={`full-width-section ${className}`}
+			data-bg-color={bgColor ? bgColor : 'background'}
 		>
-			{props.children}
+			{children}
 		</section>
 	)
 }
 
 export const Section = styled(FullWidthSection)`
-	${props => (props.grid ? pageGrid.defaults : null)}
+	display: inherit;
+	column-gap: inherit;
+	row-gap: inherit;
+	grid-template-areas: inherit;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
 	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
 	position: relative;
@@ -35,18 +40,11 @@ export const Section = styled(FullWidthSection)`
 		min-height: calc(100vh - ${smallRow});
 	}
 	${breakpoint.mobile} {
-		${props => (props.grid ? pageGrid.columns.mobile : null)}
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
 		width: 100vw;
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
-	}
-	${breakpoint.tablet} {
-		${props => (props.grid ? pageGrid.columns.tablet : null)}
-	}
-	${breakpoint.desktop} {
-		${props => (props.grid ? pageGrid.columns.desktop : null)}
 	}
 `
 

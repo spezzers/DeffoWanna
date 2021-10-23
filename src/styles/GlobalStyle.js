@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import { themeContextColor } from './themes'
 import {
+	minPageWidth,
 	lineHeight,
 	breakpoint,
 	fontSize,
@@ -18,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
 		color: ${props => props.theme.text};
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
-		min-width: 246px;
+		min-width: ${minPageWidth};
 		
 		.footnotes {
 			font-weight: 200;

@@ -2,51 +2,59 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import useTheme from '../hooks/useTheme'
 import '../styles/layout.css'
-import { pageGrid, breakpoint, colGap, smallRow, lineHeight } from '../styles/sizes'
+import {
+	breakpoint,
+	colGap,
+	smallRow,
+	lineHeight,
+	smallCol,
+	col,
+	minPageWidth
+} from '../styles/sizes'
 import Header from './Header'
 import GlobalStyle from '../styles/GlobalStyle'
 import ThemeToggleButton from './ThemeToggleButton'
 import { themeContextColor } from '../styles/themes'
 
-const FullWidthSection = props => {
+const FullWidthSection = ({ children, className, bgColor }) => {
 	return (
 		<section
-			className={`full-width-section ${props.className}`}
-			data-bg-color={props.bgColor ? props.bgColor : 'background'}
+			className={`full-width-section ${className}`}
+			data-bg-color={bgColor ? bgColor : 'background'}
 		>
-			{props.children}
+			{children}
 		</section>
 	)
 }
 
 export const Section = styled(FullWidthSection)`
-	${props => (props.grid ? pageGrid.defaults : null)}
+	z-index: 0;
+	display: inherit;
+	column-gap: inherit;
+	row-gap: inherit;
+	grid-template-areas: inherit;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
 	background-color: ${props => themeContextColor(props.bgColor)};
 	grid-column: 1 / -1;
 	position: relative;
 	left: 0;
 	right: 0;
 	min-height: 100vh;
+	min-width: inherit;
 	height: ${props => props.height || 'auto'};
 	box-sizing: border-box;
 	padding-top: calc(${lineHeight} / 2);
 	padding-bottom: calc(${lineHeight} / 2);
-	:first-child {
+	:nth-child(2) {
 		min-height: calc(100vh - ${smallRow});
 	}
 	${breakpoint.mobile} {
-		${props => (props.grid ? pageGrid.columns.mobile : null)}
 		margin-left: calc(${colGap} / -2);
 		margin-right: calc(${colGap} / -2);
 		width: 100vw;
 		padding-left: calc(${colGap} / 2);
 		padding-right: calc(${colGap} / 2);
-	}
-	${breakpoint.tablet} {
-		${props => (props.grid ? pageGrid.columns.tablet : null)}
-	}
-	${breakpoint.desktop} {
-		${props => (props.grid ? pageGrid.columns.desktop : null)}
 	}
 `
 
@@ -55,6 +63,8 @@ const PageGrid = styled.div`
 	padding-top: ${smallRow};
 	display: grid;
 	justify-content: center;
+	min-width: ${minPageWidth};
+	min-height: 100vh;
 	width: 100%;
 	height: 100%;
 	column-gap: ${colGap};
@@ -64,14 +74,44 @@ const PageGrid = styled.div`
 	box-sizing: border-box;
 
 	${breakpoint.mobile} {
-		${pageGrid.columns.mobile}
+		width: calc(100%);
+		padding-left: calc(${colGap} / 2);
+		padding-right: calc(${colGap} / 2);
+		grid-template-columns:
+			[logo-start]
+			${colGap}
+			${colGap}
+			[logo-end]
+			minmax(0, 1fr);
+		grid-template-areas: 'main main main';
 	}
 
 	${breakpoint.tablet} {
-		${pageGrid.columns.tablet}
+		width: 100%;
+		margin: 0;
+		grid-template-columns:
+			minmax(0, 1.5fr)
+			${colGap}
+			${colGap}
+			minmax(${smallCol}, 2fr)
+			minmax(${col}, 4fr)
+			minmax(0, 3fr);
+		grid-template-areas: '. main main main main .';
 	}
 	${breakpoint.desktop} {
-		${pageGrid.columns.desktop}
+		width: 100%;
+		margin: 0;
+		grid-template-columns:
+			minmax(0, 3fr)
+			${smallCol}
+			${colGap}
+			${colGap}
+			${smallCol}
+			${col}
+			${col}
+			${col}
+			minmax(0, 4fr);
+		grid-template-areas: '. . main main main main main . .';
 	}
 `
 
@@ -126,13 +166,14 @@ const Layout = props => {
 	return (
 		<ThemeProvider theme={theme.current}>
 			<GlobalStyle />
-			<Header
-				location={props.location}
-				fixHeader={props.fixHeader}
-				themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
-			/>
-			<PageGrid>{props.children}</PageGrid>
-			{/* <Overlay /> */}
+			<PageGrid>
+				<Header
+					location={props.location}
+					fixHeader={props.fixHeader}
+					themetogglebutton={<ThemeToggleButton settheme={theme.setTheme} />}
+				/>
+				{props.children}
+			</PageGrid>
 		</ThemeProvider>
 	)
 }

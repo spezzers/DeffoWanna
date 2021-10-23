@@ -5,44 +5,33 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "pwa-chrome",
+			"name": "Firefox",
+			"type": "firefox",
 			"request": "launch",
-			"name": "PWA Chrome",
+			"url": "http://localhost:8000/",
+			"webRoot": "${workspaceFolder}",
+			"reAttach": true,
+			"reloadOnChange": {
+				"watch": [
+					"${workspaceFolder}/**/*.js",
+					"${workspaceFolder}/src/markdown-pages/**/*.md"
+				],
+				"ignore": "**/node_modules/**"
+			}
+		},
+		{
+			"name": "Chrome",
+			"type": "chrome",
+			"request": "launch",
 			"url": "http://localhost:8000",
 			"webRoot": "${workspaceFolder}"
 		},
 		{
-			"type": "chrome",
+			"name": "Edge",
 			"request": "launch",
-			"name": "Chrome",
-			"url": "http://localhost:8000/",
-			"webRoot": "${workspaceFolder}",
-			"address": "127.0.0.1"
-		},
-		{
-			"type": "firefox",
-			"request": "launch",
-			"name": "Firefox",
-			"url": "http://localhost:8000/",
-			"webRoot": "${workspaceFolder}",
-		},
-		{
-			"name": "Gatsby develop",
-			"type": "pwa-node",
-			"request": "launch",
-			"program": "${workspaceRoot}/node_modules/.bin/gatsby",
-			"args": ["develop"],
-			"runtimeArgs": ["--nolazy"],
-			"console": "integratedTerminal"
-		},
-		{
-			"name": "Gatsby build",
-			"type": "pwa-node",
-			"request": "launch",
-			"program": "${workspaceRoot}/node_modules/.bin/gatsby",
-			"args": ["build"],
-			"runtimeArgs": ["--nolazy"],
-			"console": "integratedTerminal"
+			"type": "pwa-msedge",
+			"url": "http://localhost:8000",
+			"webRoot": "${workspaceFolder}"
 		}
 	]
 }

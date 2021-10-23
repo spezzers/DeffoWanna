@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import { themeContextColor } from './themes'
 import {
+	minPageWidth,
 	lineHeight,
 	breakpoint,
 	fontSize,
@@ -18,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
 		color: ${props => props.theme.text};
 		font-family: 'IBM Plex Sans', sans-serif;
 		line-height: ${lineHeight};
-		min-width: 246px;
+		min-width: ${minPageWidth};
 		
 		.footnotes {
 			font-weight: 200;
@@ -101,6 +102,7 @@ const GlobalStyle = createGlobalStyle`
 			margin: ${lineHeight} 0;
 			color: ${themeContextColor('textStrong')};
 			line-height: 1.4em;
+			text-shadow: -0.03em 0.04em 2px ${themeContextColor('purpleText')}30;
 		}
 		h1, h2 {
 			margin: calc(2 * ${lineHeight}) 0;
@@ -124,22 +126,27 @@ const GlobalStyle = createGlobalStyle`
 		h2 {
 			font-size: 1.895rem;
 			letter-spacing: 0.01em;
+			word-spacing: 0.02em;
 		}
 		h3 {
 			font-size: 1.526rem;
 			letter-spacing: 0.023em;
+			word-spacing: 0.046em;
 		}
 		h4 {
 			font-size: 1.368rem;
 			letter-spacing: 0.05em;
+			word-spacing: 0.07em;
 		}
 		h5 {
 			font-size: 1.263rem;
 			letter-spacing: 0.06em;
+			word-spacing: 0.1em;
 		}
 		h6 {
 			font-size: 1.105rem;
 			letter-spacing: 0.07em;
+			word-spacing: 0.16em;
 		}
 	}
 	img {

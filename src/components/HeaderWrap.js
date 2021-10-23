@@ -1,31 +1,56 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
 import { themeContextColor } from '../styles/themes'
-import {
-	lineHeight,
-	breakpoint,
-	colGap,
-	pageGrid,
-	smallRow
-} from '../styles/sizes'
+import { lineHeight, breakpoint, colGap, smallRow } from '../styles/sizes'
 
 const HeaderWrap = styled(animated.header).attrs(props => {
 	return {
 		...props,
 		style: {
-			backgroundColor: props.style.bgColor ,
+			backgroundColor: props.style.bgColor,
 			'--color': props.style.bgColor
 		}
 	}
 })`
+	top: 0;
+	left: 0;
+	right: 0;
 	position: fixed;
-	z-index: 10;
+	z-index: 100;
 	height: ${smallRow};
-	border-radius: 0 0 0.5rem 0.5rem;
+	min-width: inherit;
 
-	${pageGrid.defaults}
+	width: inherit;
+	display: inherit;
+	box-sizing: inherit;
+
+	column-gap: inherit;
+	row-gap: inherit;
+	grid-template-columns: inherit;
+	grid-template-rows: inherit;
+	grid-template-areas: inherit;
+
+	:before,
+	:after {
+		width: inherit;
+		content: '';
+		width: inherit;
+		position: fixed;
+	}
+	:before {
+		backdrop-filter: blur(7vw);
+		height: 1px;
+		bottom: -1px;
+		opacity: 0.7;
+	}
+	:after {
+		opacity: 0.8;
+		backdrop-filter: blur(3px);
+		height: 2px;
+		bottom: -2px;
+	}
+
 	${breakpoint.mobile} {
-		${pageGrid.columns.mobile}
 		box-sizing: border-box;
 		padding: 0 calc(${colGap} / 2);
 		grid-template-areas: 'logo logo header';
@@ -34,17 +59,13 @@ const HeaderWrap = styled(animated.header).attrs(props => {
 		}
 	}
 	${breakpoint.tablet} {
-		${pageGrid.columns.tablet}
-		grid-template-areas:
-			'.  logo logo header header header';
+		grid-template-areas: '.  logo logo header header header';
 		#logo {
 			margin-left: -${colGap};
 		}
 	}
 	${breakpoint.desktop} {
-		${pageGrid.columns.desktop}
-		grid-template-areas:
-			'. . logo logo . header header header header';
+		grid-template-areas: '. . logo logo . header header header header';
 	}
 	#logo {
 		margin-top: -0.175rem;

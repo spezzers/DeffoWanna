@@ -46,7 +46,10 @@ const Hatching = styled.div.attrs(props => {
 				props.blacks,
 				themeContextColor('background', 'white')
 			)
-			: themeContextColor(props.blacks, themeContextColor('text', 'black')),
+			: themeContextColor(
+				props.blacks,
+				themeContextColor('text', 'black')
+			),
 		whites: isDark
 			? themeContextColor(
 				props.whites,
@@ -124,7 +127,7 @@ const Hatching = styled.div.attrs(props => {
 		h5,
 		h6 {
 			filter: invert(0);
-			color: black; //TODO customizable text color/intensity
+			color: black;
 			background-image: none;
 			background-color: white;
 		}
@@ -136,11 +139,6 @@ const Hatching = styled.div.attrs(props => {
 		filter: ${props => props.invertContent} contrast(0.5);
 		mix-blend-mode: hard-light;
 		margin: 0;
-		* {
-			/* background-color: unset; */
-			/* mix-blend-mode: normal; */
-			/* filter: none; */
-		}
 	}
 `
 

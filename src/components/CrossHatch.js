@@ -133,7 +133,7 @@ const Hatching = styled.div.attrs(props => {
 		display: block;
 		background-image: none;
 		background-color: ${props => props.backgroundColor};
-		filter: ${props => props.invertContent} contrast(0.475);
+		filter: ${props => props.invertContent} contrast(0.5);
 		mix-blend-mode: hard-light;
 		margin: 0;
 		* {

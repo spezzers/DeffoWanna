@@ -2,7 +2,11 @@ import React, { useState, useEffect, useMemo, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { useSpring, animated, config } from 'react-spring'
 
-const NonNavigatingButton = styled.div`
+const NonNavigatingButton = styled.button`
+	padding: 0;
+	margin: 0;
+	background: none;
+	border: none;
 	cursor: pointer;
 	outline: none;
 `
@@ -72,44 +76,18 @@ const ThemeToggleButton = props => {
 		api.start({ to: newIcon })
 	}
 
-	const themeIconEvent = e => {
-		switch (e.type) {
-		case 'focus':
-		case 'mouseenter':
-			setHovering(true)
-			break
-		case 'blur':
-		case 'mouseleave':
-			setHovering(false)
-			break
-		case 'keydown':
-			if (e.key !== 'Enter') {
-				break
-			}
-			toggleTheme()
-			break
-		case 'click':
-			toggleTheme()
-			break
-		default:
-			console.trace('unhandled mouse event:', e.type)
-		}
-	}
-
 	return (
 		<NonNavigatingButton
-			{...props}
-			style={{height: '26px', width: '26px'}}
+			style={{ height: '26px', width: '26px' }}
 			tabIndex='0'
 			aria-label='toggle dark mode'
 			id='theme-toggle-button'
 			role='button'
-			onKeyDown={e => themeIconEvent(e)}
-			onClick={e => themeIconEvent(e)}
-			onMouseLeave={e => themeIconEvent(e)}
-			onMouseEnter={e => themeIconEvent(e)}
-			onFocus={e => themeIconEvent(e)}
-			onBlur={e => themeIconEvent(e)}
+			onClick={toggleTheme}
+			onMouseEnter={() => setHovering(true)}
+			onFocus={() => setHovering(true)}
+			onMouseLeave={() => setHovering(false)}
+			onBlur={() => setHovering(false)}
 		>
 			<animated.svg
 				role='document'

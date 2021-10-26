@@ -80,7 +80,7 @@ const themes = {
 		red: '#8f6062',
 		redText: '#d4969a',
 		redTextStrong: '#ffabb9',
-		redBg: '#522629',
+		redBg: '#422E33',
 		warning: '#fab847',
 		warningText: '#d9ad3f',
 		error: '#ff4751',

@@ -49,7 +49,7 @@ const Logo = props => {
 		}, {})
 		return result
 	}
-	
+
 	const normal = {
 		scale: 1,
 		...getPaths('normal'),
@@ -103,7 +103,7 @@ const Logo = props => {
 		const offsetY = (cursorPos.y - logoBox.top) * scale || 120
 		return { x: offsetX, y: offsetY }
 	}
-	
+
 	// eslint-disable-next-line no-unused-vars
 	const activate = cursorPos => {
 		api.start({

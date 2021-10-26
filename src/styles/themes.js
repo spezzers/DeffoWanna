@@ -80,7 +80,7 @@ const themes = {
 		red: '#8f6062',
 		redText: '#d4969a',
 		redTextStrong: '#ffabb9',
-		redBg: '#422E33',
+		redBg: '#422e33',
 		warning: '#fab847',
 		warningText: '#d9ad3f',
 		error: '#ff4751',
@@ -91,7 +91,7 @@ const themes = {
 	}
 }
 
-export const themeContextColor = (color, fallback) => props => {
+export const themeContextColor = (color, fallback) => (props) => {
 	const fallbackColor = fallback ? fallback : 'initial'
 	return props.theme[color] || color || fallbackColor
 }

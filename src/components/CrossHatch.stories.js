@@ -2,8 +2,6 @@ import React from 'react'
 import CrossHatch from './CrossHatch'
 import pic from '../images/lowRes.jpg'
 import vid from '../images/odog.mp4'
-import Logo from './Logo'
-import styled from 'styled-components'
 
 const DemoSVG = () => {
 	return (
@@ -155,37 +153,4 @@ Text.args = {
 	),
 	invertContent: true,
 	edgeSoftness: 0
-}
-
-export const AnimatedLogo = Template.bind({})
-AnimatedLogo.args = {
-	children: (
-		<div>
-			<Logo color='black' />
-		</div>
-	),
-	invertContent: true
-}
-
-const Div = styled.div`
-	padding: 60px;
-	div {
-		width: 350px;
-		height: 200px;
-		box-shadow: 5px 8px 15px #00000066;
-		border-radius: 4rem;
-		border: 30px ridge black;
-	}
-`
-
-export const StyledDiv = Template.bind({})
-StyledDiv.args = {
-	children: (
-		<Div>
-			<div></div>
-		</Div>
-	),
-	edgeSoftness: 0,
-	backgroundSize: '35px',
-	animate: true
 }

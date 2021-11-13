@@ -36,7 +36,6 @@ const useTouch = props => {
 
 	const handleTouch = e => {
 		const type = e.type
-		devLogger(type, touches)
 		switch (type) {
 		case 'touchstart':
 			setTouches([type])

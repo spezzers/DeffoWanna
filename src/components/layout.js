@@ -125,6 +125,7 @@ const Minimal = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	align-content: center;
+	z-index: 0;
 
 	${breakpoint.mobile} {
 		padding-left: calc(${colGap} / 2);
@@ -137,6 +138,7 @@ const Minimal = styled.div`
 	#theme-toggle-button {
 		position: fixed;
 		display: block;
+		z-index: 100;
 		top: calc(${lineHeight} / 2);
 		${breakpoint.mobile} {
 			right: calc(${colGap} / 2);

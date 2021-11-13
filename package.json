@@ -8,7 +8,7 @@
 		"gatsby"
 	],
 	"scripts": {
-		"figma-tokens": "node FigmaTokens/importFigmaTokens.mjs && prettier --write src/styles/themes.js",
+		"figma-tokens": "node FigmaTokens/importFigmaTokens.mjs && echo LINTING ~ Tidying up formatting... && eslint src/styles/themes.js --fix",
 		"develop": "gatsby develop -H 0.0.0.0",
 		"start": "gatsby develop",
 		"build": "gatsby build",

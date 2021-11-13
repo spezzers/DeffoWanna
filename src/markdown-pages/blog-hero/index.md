@@ -4,6 +4,7 @@ date: 2021-09-09
 title: Blog Hero Image Test
 hero: hero2.jpg
 alt: Alternative text for hero image
+tags: ["two"]
 ---
 The above **title**, **date** and **hero image** should be *automatically* inserted from the **frontmatter** meta-data embedded at the top of the markdown file that this post is generated from.
 

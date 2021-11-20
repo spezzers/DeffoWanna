@@ -128,20 +128,13 @@ const Header = props => {
 							<path d='M3 12h18M3 6h18M3 18h18' />
 						</svg>
 						<nav className='nav-links' role='navigation'>
-							<Link
-								tabIndex='0'
-								to='/logo-test/'
-								activeClassName='current-page'
-							>
-								Portfolio
-							</Link>
-							<Link tabIndex='0' to='/blog/' activeClassName='current-page'>
+							<Link tabIndex='0' to='/blog' activeClassName='current-page'>
 								Blog
 							</Link>
-							<Link tabIndex='0' to='/grid/' activeClassName='current-page'>
-								About
+							<Link tabIndex='0' to='/lab' activeClassName='current-page'>
+								Lab
 							</Link>
-							<Link tabIndex='0' to='/contact/' activeClassName='current-page'>
+							<Link tabIndex='0' to='/contact' activeClassName='current-page'>
 								Contact
 							</Link>
 						</nav>

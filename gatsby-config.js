@@ -10,7 +10,7 @@ module.exports = {
 		'gatsby-plugin-mdx',
 		'gatsby-plugin-image',
 		'gatsby-transformer-sharp',
-		{ 
+		{
 			resolve: 'gatsby-plugin-sharp',
 			options: {
 				defaultQuality: 65

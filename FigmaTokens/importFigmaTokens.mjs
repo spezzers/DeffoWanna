@@ -1,58 +1,65 @@
+/* eslint-disable no-console */
 import { readFile, writeFile } from 'fs/promises'
 
 console.log('IMPORT >> Figma Tokens ~ started...')
 
 const dataFile = './tokens.json'
 
-try {
-	const data = JSON.parse(
-		await readFile(new URL(dataFile, import.meta.url))
-	)
+const convert = async () => {
+	try {
+		const data = JSON.parse(await readFile(new URL(dataFile, import.meta.url)))
 
-	let light = {}
-	let dark = {}
-	for (const [key, value] of Object.entries(data)) {
-		if (key === 'Light') {
-			light = value
+		let light = {}
+		let dark = {}
+		for (const [key, value] of Object.entries(data)) {
+			if (key === 'Light') {
+				light = value
+			}
+			if (key === 'Dark') {
+				dark = value
+			}
 		}
-		if (key === 'Dark') {
-			dark = value
+
+		let lightColorsArray = [['name', 'light']]
+		let darkColorsArray = [['name', 'dark']]
+
+		for (const [key, value] of Object.entries(light)) {
+			lightColorsArray.push([key, value.value])
 		}
-	}
+		for (const [key, value] of Object.entries(dark)) {
+			darkColorsArray.push([key, value.value])
+		}
 
-	let lightColorsArray = [['name', 'light']]
-	let darkColorsArray = [['name', 'dark']]
+		const themes = {
+			light: Object.fromEntries(lightColorsArray),
+			dark: Object.fromEntries(darkColorsArray)
+		}
 
-	for (const [key, value] of Object.entries(light)) {
-		lightColorsArray.push([key, value.value])
-	}
-	for (const [key, value] of Object.entries(dark)) {
-		darkColorsArray.push([key, value.value])
-	}
+		const outputFile = 'src/styles/themes.js'
 
-	const themes = {
-		light: Object.fromEntries(lightColorsArray),
-		dark: Object.fromEntries(darkColorsArray)
-	}
+		await writeFile(
+			outputFile,
+			`const themes = ${JSON.stringify(themes, null, 2)}
 
-	const outputFile = 'src/styles/themes.js'
-
-	await writeFile(
-		outputFile,
-		`const themes = ${JSON.stringify(themes, null, 2)}
-
-export const themeContextColor = (color, fallback) => props => {
+export const themeContextColor = (color, fallback) => (props) => {
 	const fallbackColor = fallback ? fallback : 'initial'
 	return props.theme[color] || color || fallbackColor
 }
 
 export default themes`
-	)
-	console.log('\x1b[32m%s\x1b[0m', 'success', `imported Figma Color Tokens to ${outputFile}`)
-} catch (error) {
-	if (error.errno === -4058) {
-		console.log('\x1b[31m%s\x1b[0m', 'error', `can't find ${dataFile}`)
-	} else {
-		console.log('\x1b[31m%s\x1b[0m', 'error', error.message)
+		)
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			'success',
+			`imported Figma Color Tokens to ${outputFile}`
+		)
+	} catch (error) {
+		if (error.errno === -4058) {
+			console.log('\x1b[31m%s\x1b[0m', 'error', `can't find ${dataFile}`)
+		} else {
+			console.log('\x1b[31m%s\x1b[0m', 'error', error.message)
+		}
 	}
 }
+
+convert()

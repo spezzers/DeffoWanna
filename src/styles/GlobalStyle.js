@@ -23,7 +23,8 @@ const GlobalStyle = createGlobalStyle`
 		
 		.footnotes {
 			font-weight: 200;
-			font-size: 1rem;
+			font-size: .95rem;
+			line-height: ${lineHeight};
 			color: ${themeContextColor('textStrong')};
 		}
 		

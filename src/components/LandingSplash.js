@@ -21,6 +21,7 @@ const CenterFlex = styled.div`
 	justify-content: center;
 	align-items: center;
 	user-select: none;
+	text-align: center;
 
 	h2 {
 		opacity: 0;
@@ -38,7 +39,7 @@ const LandingSplash = () => {
 	return (
 		<CenterFlex>
 			<CrossHatch invertContent backgroundSize='50px' animate>
-				<img src={logo} alt='deffo wanna logo animation' height='120px'/>
+				<img src={`${logo}?a=${Math.random()}`} alt='deffo wanna logo animation' height='120px'/>
 			</CrossHatch>
 			<h2>Design & Web Development</h2>
 			<p>(website coming soon!)</p>

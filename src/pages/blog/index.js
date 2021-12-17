@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Layout, { Section } from '../../components/layout'
 import { colGap, lineHeight } from '../../styles/sizes'
-import {GatsbyImage} from 'gatsby-plugin-image'
+import { GatsbyImage } from 'gatsby-plugin-image'
 
 import styled from 'styled-components'
 
@@ -56,15 +56,26 @@ const BlogIndex = ({ data }) => {
 		<Layout>
 			<Section bgColor='background'>
 				<BlogList>
-					{blogs.map(blog => (
-						<BlogItem
-							slug={blog.frontmatter.slug}
-							key={blog.frontmatter.slug}
-							title={blog.frontmatter.title}
-							date={blog.frontmatter.date}
-							hero={blog.frontmatter.hero?.childImageSharp.gatsbyImageData || null}
-						/>
-					))}
+					{blogs
+						.sort(
+							(a, b) =>
+								b.frontmatter.date.split('-').join('') -
+								a.frontmatter.date.split('-').join('')
+						)
+						.map(blog => {
+							return (
+								<BlogItem
+									slug={blog.frontmatter.slug}
+									key={blog.frontmatter.slug}
+									title={blog.frontmatter.title}
+									date={blog.frontmatter.date}
+									hero={
+										blog.frontmatter.hero?.childImageSharp.gatsbyImageData ||
+										null
+									}
+								/>
+							)
+						})}
 				</BlogList>
 			</Section>
 		</Layout>

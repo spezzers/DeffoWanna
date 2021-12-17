@@ -1,6 +1,6 @@
 ---
 slug: /blog/my-second-post
-date: 2021-08-19
+date: 2021-08-20
 title: My second blog post
 tags: ["one"]
 ---

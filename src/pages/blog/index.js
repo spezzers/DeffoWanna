@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Layout, { Section } from '../../components/layout'
 import { colGap, lineHeight } from '../../styles/sizes'
-import Img from 'gatsby-image'
+import {GatsbyImage} from 'gatsby-plugin-image'
 
 import styled from 'styled-components'
 
@@ -43,8 +43,8 @@ const BlogEntry = styled(Link)`
 `
 
 const BlogItem = ({ title, date, slug, hero, className }) => (
-	<BlogEntry to={slug} classNmae={`dave ${className}`}>
-		{hero ? <Img fluid={hero} alt={title} className='dave' /> : null}
+	<BlogEntry to={slug} {...className}>
+		{hero ? <GatsbyImage image={hero} alt={title} className='dave' /> : null}
 		<div className='blog-post-title'>{title}</div>
 		<div className='date'>{date}</div>
 	</BlogEntry>
@@ -62,7 +62,7 @@ const BlogIndex = ({ data }) => {
 							key={blog.frontmatter.slug}
 							title={blog.frontmatter.title}
 							date={blog.frontmatter.date}
-							hero={blog.frontmatter.hero?.childImageSharp.fixed || null}
+							hero={blog.frontmatter.hero?.childImageSharp.gatsbyImageData || null}
 						/>
 					))}
 				</BlogList>
@@ -83,13 +83,7 @@ export const query = graphql`
 					slug
 					hero {
 						childImageSharp {
-							fixed {
-								base64
-								aspectRatio
-								srcWebp
-								srcSetWebp
-								originalName
-							}
+							gatsbyImageData
 						}
 					}
 				}

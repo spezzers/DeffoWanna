@@ -1,15 +1,24 @@
 import React from 'react'
 import FlipCard from './FlipCard'
 
-
 export default {
-
 	title: 'Components/FlipCard',
-	component: FlipCard
+	component: FlipCard,
+	argTypes: {}
 }
 
-export const Primary = args => {
+const Template = (args, { argTypes }) => {
 	return (
-		<FlipCard {...args}></FlipCard>
+		<>
+			<FlipCard {...args} />
+			<FlipCard {...args} />
+		</>
 	)
+}
+
+export const Primary = Template.bind({})
+
+Primary.args = {
+	front: <h1>Front</h1>,
+	back: <h2>Back</h2>
 }

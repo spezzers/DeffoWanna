@@ -29,7 +29,7 @@ const FlipCard = props => {
 		scale: 1
 	}))
 
-	const hover = event => {
+	const focus = event => {
 		const maxRotation = 15
 		const y =
 			((event.pageY - event.target.offsetTop) / event.target.clientHeight -
@@ -45,9 +45,19 @@ const FlipCard = props => {
 			scale: 1.07
 		})
 	}
+	const blur = () => {
+		api.start({
+			rotateY: 0,
+			rotateX: 0,
+			scale: 1
+		})
+	}
 
 	return (
-		<StyledFlipCard  onMouseMove={event => hover(event)}>
+		<StyledFlipCard
+			onMouseMove={event => focus(event)}
+			onMouseLeave={blur}
+		>
 			<animated.div style={styles} className='card'>
 				<div className='Front'>{props.front}</div>
 				<div className='Back'>{props.back}</div>

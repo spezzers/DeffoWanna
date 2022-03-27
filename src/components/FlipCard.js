@@ -3,11 +3,14 @@ import styled from 'styled-components'
 import { useSpring, animated } from 'react-spring'
 
 const StyledFlipCard = styled(animated.div)`
-	--primary: ${props => props.theme.blue};
+	--primary: ${props => props.theme.blueBg};
 	perspective: 800px;
 	transform-style: preserve-3d;
 	width: 200px;
 	height: 300px;
+	:hover {
+		cursor: pointer;
+	}
 	.card {
 		padding: 10px;
 		box-sizing: border-box;
@@ -15,7 +18,6 @@ const StyledFlipCard = styled(animated.div)`
 		background-color: var(--primary);
 		width: 200px;
 		height: 300px;
-		
 	}
 	* {
 		pointer-events: none;

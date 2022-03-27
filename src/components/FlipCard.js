@@ -9,7 +9,8 @@ const StyledFlipCard = styled(animated.div)`
 	transform-style: preserve-3d;
 	height: ${props => props.height};
 	width: ${props => props.width};
-	filter: ${props => `drop-shadow(0 10px 15px ${props.theme.black || '#000000'}25)`};
+	filter: ${props =>
+		`drop-shadow(0 10px 15px ${props.theme.black || '#000000'}25)`};
 	:hover {
 		cursor: pointer;
 	}
@@ -45,24 +46,38 @@ const FlipCard = props => {
 	const width = props.width || '200px'
 	const height = props.height || '300px'
 
+	let flipped = 0
+	let x = 0
+	let y = 0
+
+	const flip = () => {
+		flipped = flipped !== 0 ? 0 : -180
+		api.start({
+			rotateY: x * maxRotation * -1 + flipped,
+			rotateX: y * maxRotation * (flipped ? -1 : 1)
+		})
+	}
+
 	const focus = event => {
-		const y =
+		y =
 			((event.pageY - event.target.offsetTop) / event.target.clientHeight -
 				0.5) *
 			2
-		const x =
+
+		x =
 			((event.pageX - event.target.offsetLeft) / event.target.clientWidth -
 				0.5) *
 			2
+
 		api.start({
-			rotateY: x * maxRotation * -1,
-			rotateX: y * maxRotation,
+			rotateY: x * maxRotation * -1 + flipped,
+			rotateX: y * maxRotation * (flipped ? -1 : 1),
 			scale: 1.07
 		})
 	}
 	const blur = () => {
 		api.start({
-			rotateY: 0,
+			rotateY: 0 + flipped,
 			rotateX: 0,
 			scale: 1
 		})
@@ -74,6 +89,7 @@ const FlipCard = props => {
 			height={height}
 			onMouseMove={event => focus(event)}
 			onMouseLeave={blur}
+			onClick={flip}
 		>
 			<animated.div style={styles} className='card'>
 				<div className='face front'>{props.front}</div>

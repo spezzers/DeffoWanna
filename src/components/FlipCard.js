@@ -4,17 +4,19 @@ import { useSpring, animated } from 'react-spring'
 
 const StyledFlipCard = styled(animated.div)`
 	--primary: ${props => props.theme.blueBg};
+	--black: ${props => props.theme.black};
 	perspective: 800px;
 	transform-style: preserve-3d;
-	height: ${props => props.height || '300px'};
-	width: ${props => props.width || '200px'};
+	height: ${props => props.height};
+	width: ${props => props.width};
+	filter: ${props => `drop-shadow(0 10px 15px ${props.theme.black || '#000000'}25)`};
 	:hover {
 		cursor: pointer;
 	}
 	.card {
 		transform-style: preserve-3d;
-		height: inherit;
 		width: inherit;
+		height: inherit;
 		.face {
 			box-sizing: border-box;
 			border-radius: 10px;
@@ -26,7 +28,6 @@ const StyledFlipCard = styled(animated.div)`
 		.face.back {
 			transform: rotateY(180deg) translateZ(0.1px);
 		}
-		
 	}
 	* {
 		pointer-events: none;
@@ -40,8 +41,11 @@ const FlipCard = props => {
 		scale: 1
 	}))
 
+	const maxRotation = 15
+	const width = props.width || '200px'
+	const height = props.height || '300px'
+
 	const focus = event => {
-		const maxRotation = 15
 		const y =
 			((event.pageY - event.target.offsetTop) / event.target.clientHeight -
 				0.5) *
@@ -66,6 +70,8 @@ const FlipCard = props => {
 
 	return (
 		<StyledFlipCard
+			width={width}
+			height={height}
 			onMouseMove={event => focus(event)}
 			onMouseLeave={blur}
 		>

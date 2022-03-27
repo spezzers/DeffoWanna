@@ -6,18 +6,27 @@ const StyledFlipCard = styled(animated.div)`
 	--primary: ${props => props.theme.blueBg};
 	perspective: 800px;
 	transform-style: preserve-3d;
-	width: 200px;
-	height: 300px;
+	height: ${props => props.height || '300px'};
+	width: ${props => props.width || '200px'};
 	:hover {
 		cursor: pointer;
 	}
 	.card {
-		padding: 10px;
-		box-sizing: border-box;
-		border-radius: 10px;
-		background-color: var(--primary);
-		width: 200px;
-		height: 300px;
+		transform-style: preserve-3d;
+		height: inherit;
+		width: inherit;
+		.face {
+			box-sizing: border-box;
+			border-radius: 10px;
+			height: inherit;
+			width: inherit;
+			background-color: var(--primary);
+			position: absolute;
+		}
+		.face.back {
+			transform: rotateY(180deg) translateZ(0.1px);
+		}
+		
 	}
 	* {
 		pointer-events: none;
@@ -61,8 +70,8 @@ const FlipCard = props => {
 			onMouseLeave={blur}
 		>
 			<animated.div style={styles} className='card'>
-				<div className='Front'>{props.front}</div>
-				<div className='Back'>{props.back}</div>
+				<div className='face front'>{props.front}</div>
+				<div className='face back'>{props.back}</div>
 			</animated.div>
 		</StyledFlipCard>
 	)

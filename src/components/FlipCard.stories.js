@@ -8,12 +8,7 @@ export default {
 }
 
 const Template = (args, { argTypes }) => {
-	return (
-		<>
-			<FlipCard {...args} />
-			<FlipCard {...args} />
-		</>
-	)
+	return <FlipCard {...args} />
 }
 
 export const Primary = Template.bind({})

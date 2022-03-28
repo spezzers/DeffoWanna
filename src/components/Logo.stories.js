@@ -37,12 +37,17 @@ export default {
 		lightIntensity: {
 			name: 'lightIntensity',
 			description: 'Intensity of light source when activated',
-			defaultValue: 1,
 			control: {
 				type: 'number',
 				min: 1,
 				max: 10,
 				step: 0.5
+			},
+			table: {
+				defaultValue: {
+					summary: 1,
+				},
+
 			}
 		}
 	}

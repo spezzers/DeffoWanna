@@ -43,11 +43,13 @@ const FlipCard = props => {
 		filter: 'brightness(1)'
 	}))
 
+	const { filter, ...card } = styles
+
 	const maxRotation = 15
 	const width = props.width || '200px'
 	const height = props.height || '300px'
 	const brighten = {
-		active: 1.04,
+		active: 1.08,
 		tilt: 0.08
 	}
 
@@ -102,12 +104,13 @@ const FlipCard = props => {
 			onMouseLeave={blur}
 			onClick={flip}
 		>
-			<animated.div style={styles} className='card'>
-				<div className='face front'>
+			<animated.div style={card} className='card'>
+				<animated.div style={{ filter: filter }} className='face front'>
 					{props.front}
-					{console.log(styles)}
-				</div>
-				<div className='face back'>{props.back}</div>
+				</animated.div>
+				<animated.div style={{ filter: filter }} className='face back'>
+					{props.back}
+				</animated.div>
 			</animated.div>
 		</StyledFlipCard>
 	)

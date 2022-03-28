@@ -52,23 +52,16 @@ const FlipCard = props => {
 	const [styles, setStyles] = useSpring(() => ({
 		rotateY: 0,
 		rotateX: 0,
-		scale: 1,
-		filter: 'brightness(1)'
+		scale: 1
 	}))
 
 	const maxRotation = 15
 	const width = props.width || '200px'
 	const height = props.height || '300px'
-	const brighten = {
-		active: 1.04,
-		tilt: 0.08
-	}
 
 	let flipped = 0
 	let x = 0
 	let y = 0
-
-	const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
 	const flip = () => {
 		flipped = flipped !== 0 ? 0 : -180
@@ -96,18 +89,14 @@ const FlipCard = props => {
 		setStyles.start({
 			rotateY: x * maxRotation * -1 + flipped,
 			rotateX: y * maxRotation * (flipped ? -1 : 1),
-			scale: 1.07,
-			filter: `brightness(${
-				brighten.active + clamp((y - x) / 2, -1, 1) * brighten.tilt
-			})`
+			scale: 1.07
 		})
 	}
 	const blur = () => {
 		setStyles.start({
 			rotateY: 0 + flipped,
 			rotateX: 0,
-			scale: 1,
-			filter: 'brightness(1)'
+			scale: 1
 		})
 	}
 
@@ -119,12 +108,10 @@ const FlipCard = props => {
 			onMouseLeave={blur}
 			onClick={flip}
 		>
-			<div>
-				<animated.div style={styles} className='card'>
-					<div className='face front'>{props.front}</div>
-					<div className='face back'>{props.back}</div>
-				</animated.div>
-			</div>
+			<animated.div style={styles} className='card'>
+				<div className='face front'>{props.front}</div>
+				<div className='face back'>{props.back}</div>
+			</animated.div>
 		</StyledFlipCard>
 	)
 }

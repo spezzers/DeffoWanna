@@ -62,24 +62,26 @@ const FlipCard = props => {
 	const flip = () => {
 		flipped = flipped !== 0 ? 0 : -180
 		api.start({
-			rotateY: x * maxRotation * -1 + flipped,
+			rotateY: x * maxRotation + flipped,
 			rotateX: y * maxRotation * (flipped ? -1 : 1)
 		})
 	}
 
 	const focus = event => {
-		y =
-			((event.pageY - event.target.offsetTop) / event.target.clientHeight -
-				0.5) *
-			2
+		const yA = event.pageY,
+			yB = event.target.offsetTop,
+			yC = (yA - yB) / event.target.clientHeight
 
-		x =
-			((event.pageX - event.target.offsetLeft) / event.target.clientWidth -
-				0.5) *
-			2
+		y = (yC - 0.5) * 2
+
+		const xA = event.pageX,
+			xB = event.target.offsetLeft,
+			xC = (xA - xB) / event.target.clientWidth
+
+		x = (xC - 0.5) * 2
 
 		api.start({
-			rotateY: x * maxRotation * -1 + flipped,
+			rotateY: x * maxRotation + flipped,
 			rotateX: y * maxRotation * (flipped ? -1 : 1),
 			scale: 1.07,
 			filter: `brightness(${
@@ -87,6 +89,7 @@ const FlipCard = props => {
 			})`
 		})
 	}
+
 	const blur = () => {
 		api.start({
 			rotateY: 0 + flipped,

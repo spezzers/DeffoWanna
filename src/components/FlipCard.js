@@ -49,7 +49,7 @@ const StyledFlipCard = styled(animated.div)`
 `
 
 const FlipCard = props => {
-	const [styles, api] = useSpring(() => ({
+	const [styles, setStyles] = useSpring(() => ({
 		rotateY: 0,
 		rotateX: 0,
 		scale: 1,
@@ -72,7 +72,7 @@ const FlipCard = props => {
 
 	const flip = () => {
 		flipped = flipped !== 0 ? 0 : -180
-		api.start({
+		setStyles.start({
 			rotateY: x * maxRotation * -1 + flipped,
 			rotateX: y * maxRotation * (flipped ? -1 : 1)
 		})
@@ -93,7 +93,7 @@ const FlipCard = props => {
 
 		x = (xC - 0.5) * 2
 
-		api.start({
+		setStyles.start({
 			rotateY: x * maxRotation * -1 + flipped,
 			rotateX: y * maxRotation * (flipped ? -1 : 1),
 			scale: 1.07,
@@ -103,7 +103,7 @@ const FlipCard = props => {
 		})
 	}
 	const blur = () => {
-		api.start({
+		setStyles.start({
 			rotateY: 0 + flipped,
 			rotateX: 0,
 			scale: 1,

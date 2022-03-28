@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useSpring, animated } from 'react-spring'
 
 const StyledFlipCard = styled(animated.div)`
-	--primary: ${props => props.theme.blueBg};
+	--primary: ${props => props.theme.backgroundSecondary};
 	--black: ${props => props.theme.black};
 	perspective: 800px;
 	transform-style: preserve-3d;
@@ -14,12 +14,16 @@ const StyledFlipCard = styled(animated.div)`
 	:hover {
 		cursor: pointer;
 	}
-	.card {
-		perspective: 800px;
-		transform-style: preserve-3d;
+	div {
 		width: inherit;
 		height: inherit;
-		.faces {
+		perspective: 800px;
+		transform-style: preserve-3d;
+		.card {
+			perspective: 800px;
+			transform-style: preserve-3d;
+			width: inherit;
+			height: inherit;
 			transform-style: preserve-3d;
 			height: inherit;
 			width: inherit;
@@ -31,6 +35,7 @@ const StyledFlipCard = styled(animated.div)`
 				position: absolute;
 			}
 			.face.back {
+				backface-visibility: hidden;
 				transform: rotateY(180deg) translateZ(0.1px);
 			}
 			.face.front {
@@ -74,15 +79,19 @@ const FlipCard = props => {
 	}
 
 	const focus = event => {
-		y =
-			((event.pageY - event.target.offsetTop) / event.target.clientHeight -
-				0.5) *
-			2
+		const
+			yA = event.pageY,
+			yB = event.target.offsetTop,
+			yC = (yA - yB) / event.target.clientHeight
 
-		x =
-			((event.pageX - event.target.offsetLeft) / event.target.clientWidth -
-				0.5) *
-			2
+		y = (yC - 0.5) * 2
+
+		const
+			xA = event.pageX,
+			xB = event.target.offsetLeft,
+			xC = (xA - xB) / event.target.clientWidth
+
+		x = (xC - 0.5) * 2
 
 		api.start({
 			rotateY: x * maxRotation * -1 + flipped,
@@ -110,12 +119,12 @@ const FlipCard = props => {
 			onMouseLeave={blur}
 			onClick={flip}
 		>
-			<animated.div style={styles} className='card'>
-				<div className='faces'>
+			<div>
+				<animated.div style={styles} className='card'>
 					<div className='face front'>{props.front}</div>
 					<div className='face back'>{props.back}</div>
-				</div>
-			</animated.div>
+				</animated.div>
+			</div>
 		</StyledFlipCard>
 	)
 }

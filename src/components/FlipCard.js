@@ -63,7 +63,7 @@ const FlipCard = props => {
 		flipped = flipped !== 0 ? 0 : -180
 		api.start({
 			rotateY: x * maxRotation + flipped,
-			rotateX: y * maxRotation * (flipped ? -1 : 1)
+			rotateX: y * maxRotation * (!flipped ? -1 : 1)
 		})
 	}
 
@@ -82,7 +82,7 @@ const FlipCard = props => {
 
 		api.start({
 			rotateY: x * maxRotation + flipped,
-			rotateX: y * maxRotation * (flipped ? -1 : 1),
+			rotateX: y * maxRotation * (!flipped ? -1 : 1),
 			scale: 1.07,
 			filter: `brightness(${
 				brighten.active + clamp((y - x) / 2, -1, 1) * brighten.tilt

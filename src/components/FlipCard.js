@@ -23,8 +23,9 @@ const StyledFlipCard = styled(animated.div)`
 			border-radius: 10px;
 			height: inherit;
 			width: inherit;
-			background-color: var(--primary);
 			position: absolute;
+			backface-visibility: hidden;
+			overflow: hidden;
 		}
 		.face.back {
 			transform: rotateY(180deg) translateZ(0.1px);

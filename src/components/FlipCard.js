@@ -15,19 +15,27 @@ const StyledFlipCard = styled(animated.div)`
 		cursor: pointer;
 	}
 	.card {
+		perspective: 800px;
 		transform-style: preserve-3d;
 		width: inherit;
 		height: inherit;
-		.face {
-			box-sizing: border-box;
-			border-radius: 10px;
+		.faces {
+			transform-style: preserve-3d;
 			height: inherit;
 			width: inherit;
-			background-color: var(--primary);
-			position: absolute;
-		}
-		.face.back {
-			transform: rotateY(180deg) translateZ(0.1px);
+			.face {
+				border-radius: 10px;
+				height: inherit;
+				width: inherit;
+				background-color: var(--primary);
+				position: absolute;
+			}
+			.face.back {
+				transform: rotateY(180deg) translateZ(0.1px);
+			}
+			.face.front {
+				transform: rotateY(0deg) translateZ(0.1px);
+			}
 		}
 	}
 	* {
@@ -103,11 +111,10 @@ const FlipCard = props => {
 			onClick={flip}
 		>
 			<animated.div style={styles} className='card'>
-				<div className='face front'>
-					{props.front}
-					{console.log(styles)}
+				<div className='faces'>
+					<div className='face front'>{props.front}</div>
+					<div className='face back'>{props.back}</div>
 				</div>
-				<div className='face back'>{props.back}</div>
 			</animated.div>
 		</StyledFlipCard>
 	)

@@ -43,7 +43,7 @@ const BlogEntry = styled(Link)`
 `
 
 const BlogItem = ({ title, date, slug, hero, className }) => (
-	<BlogEntry to={slug} {...className}>
+	<BlogEntry to={slug} className='blog-entry' {...className}>
 		{hero ? <GatsbyImage image={hero} alt={title} className='dave' /> : null}
 		<div className='blog-post-title'>{title}</div>
 		<div className='date'>{date}</div>

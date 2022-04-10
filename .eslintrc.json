@@ -4,7 +4,11 @@
 		"es2021": true,
 		"node": true
 	},
-	"extends": ["eslint:recommended", "plugin:react/recommended"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:cypress/recommended"
+	],
 	"parserOptions": {
 		"ecmaFeatures": {
 			"jsx": true
@@ -12,16 +16,46 @@
 		"ecmaVersion": 2020,
 		"sourceType": "module"
 	},
-	"plugins": ["react"],
+	"plugins": [
+		"react",
+		"cypress"
+	],
 	"rules": {
-		"quote-props": ["error", "as-needed"],
-		"no-trailing-spaces": ["error"],
-		"no-console": ["warn"],
-		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "windows"],
-		"quotes": ["error", "single"],
-		"semi": ["error", "never"],
-		"react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+		"quote-props": [
+			"error",
+			"as-needed"
+		],
+		"no-trailing-spaces": [
+			"error"
+		],
+		"no-console": [
+			"warn"
+		],
+		"indent": [
+			"error",
+			"tab"
+		],
+		"linebreak-style": [
+			"error",
+			"windows"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"semi": [
+			"error",
+			"never"
+		],
+		"react/no-unescaped-entities": [
+			"error",
+			{
+				"forbid": [
+					">",
+					"}"
+				]
+			}
+		],
 		"react/prop-types": 0
 	},
 	"settings": {

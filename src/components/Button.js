@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import styled from 'styled-components'
 import { colGap, lineHeight } from '../styles/sizes'
 import { themeContextColor } from '../styles/themes'
@@ -81,8 +81,10 @@ const StyledButton = styled.button.attrs(props => {
 `
 
 const Button = props => {
+	const buttonEl = useRef()
+	const blur = () => buttonEl.current.blur()
 	return (
-		<StyledButton {...props} type='button' label='Dude'>
+		<StyledButton ref={buttonEl} {...props} type='button' label='Dude' onMouseLeave={blur}>
 			{props.children}
 		</StyledButton>
 	)
